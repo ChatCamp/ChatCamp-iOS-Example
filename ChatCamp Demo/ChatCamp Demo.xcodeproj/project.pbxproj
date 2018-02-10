@@ -18,10 +18,13 @@
 		C03F7428202F00F300423969 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C03F7427202F00F300423969 /* Login.storyboard */; };
 		C03F742A202F017C00423969 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C03F7429202F017C00423969 /* Home.storyboard */; };
 		C03F742C202F1A5400423969 /* HomeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F742B202F1A5400423969 /* HomeTabBarController.swift */; };
+		C07B02D3202F48BE00F6C7D1 /* MessageContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07B02D2202F48BE00F6C7D1 /* MessageContent.swift */; };
 		C08D21EB202F1F2C00BD059D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D21EA202F1F2C00BD059D /* Constants.swift */; };
 		C08D21ED202F20F400BD059D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D21EC202F20F400BD059D /* LoginViewController.swift */; };
 		C08D21F0202F22DC00BD059D /* ChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C08D21EF202F22DC00BD059D /* ChatTableViewCell.xib */; };
 		C08D21F2202F259400BD059D /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D21F1202F259400BD059D /* ChatTableViewCell.swift */; };
+		C0B2666B202F453E008D33F3 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B2666A202F453E008D33F3 /* ChatViewController.swift */; };
+		C0B2666E202F4722008D33F3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B2666D202F4722008D33F3 /* Message.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,10 +43,13 @@
 		C03F7427202F00F300423969 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		C03F7429202F017C00423969 /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		C03F742B202F1A5400423969 /* HomeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarController.swift; sourceTree = "<group>"; };
+		C07B02D2202F48BE00F6C7D1 /* MessageContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageContent.swift; sourceTree = "<group>"; };
 		C08D21EA202F1F2C00BD059D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C08D21EC202F20F400BD059D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C08D21EF202F22DC00BD059D /* ChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTableViewCell.xib; sourceTree = "<group>"; };
 		C08D21F1202F259400BD059D /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
+		C0B2666A202F453E008D33F3 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		C0B2666D202F4722008D33F3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +102,7 @@
 		C03F7412202EFEBA00423969 /* ChatCamp Demo */ = {
 			isa = PBXGroup;
 			children = (
+				C0B2666C202F4715008D33F3 /* Models */,
 				C03D3031202F303D00E3A85A /* Extensions */,
 				C08D21EE202F22AF00BD059D /* Views */,
 				C08D21E9202F1F1F00BD059D /* Utilities */,
@@ -115,6 +122,7 @@
 				C03F742B202F1A5400423969 /* HomeTabBarController.swift */,
 				C08D21EC202F20F400BD059D /* LoginViewController.swift */,
 				C03D302F202F2EC200E3A85A /* OpenChannelsViewController.swift */,
+				C0B2666A202F453E008D33F3 /* ChatViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -144,6 +152,15 @@
 				C08D21F1202F259400BD059D /* ChatTableViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C0B2666C202F4715008D33F3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C0B2666D202F4722008D33F3 /* Message.swift */,
+				C07B02D2202F48BE00F6C7D1 /* MessageContent.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		C91ED45579292DB08BD776C2 /* Pods */ = {
@@ -286,9 +303,12 @@
 				C03D3035202F342300E3A85A /* NSObject+ChatCamp.swift in Sources */,
 				C08D21F2202F259400BD059D /* ChatTableViewCell.swift in Sources */,
 				C03D3030202F2EC200E3A85A /* OpenChannelsViewController.swift in Sources */,
+				C0B2666E202F4722008D33F3 /* Message.swift in Sources */,
 				C03D3033202F305100E3A85A /* UIView+ChatCamp.swift in Sources */,
 				C08D21ED202F20F400BD059D /* LoginViewController.swift in Sources */,
+				C0B2666B202F453E008D33F3 /* ChatViewController.swift in Sources */,
 				C08D21EB202F1F2C00BD059D /* Constants.swift in Sources */,
+				C07B02D3202F48BE00F6C7D1 /* MessageContent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

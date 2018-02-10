@@ -36,5 +36,10 @@ extension OpenChannelsViewController: UITableViewDataSource {
 
 // MARK:- UITableViewDelegate
 extension OpenChannelsViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let chatViewController = ChatViewController()
+        navigationController?.pushViewController(chatViewController, animated: true)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
