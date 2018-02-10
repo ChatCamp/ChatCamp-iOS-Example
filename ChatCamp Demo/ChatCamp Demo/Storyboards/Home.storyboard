@@ -32,7 +32,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FNv-a4-SMQ"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Group Channels" id="d7Z-TC-gOP"/>
+                    <tabBarItem key="tabBarItem" title="Group Channels" image="tab-group-selected" id="d7Z-TC-gOP"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="djQ-kc-K6M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -83,7 +83,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="s0K-0M-tBr"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" id="i0w-0j-4H0"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="tab-settings-selected" id="i0w-0j-4H0"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kl9-pm-9og" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -111,7 +111,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="seA-m7-prN"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Open Channels" id="X1V-ht-Hew"/>
+                    <tabBarItem key="tabBarItem" title="Open Channels" image="tab-home-selected" id="X1V-ht-Hew"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1m2-e1-vVa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -154,4 +154,9 @@
             <point key="canvasLocation" x="-415" y="175"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="tab-group-selected" width="24" height="24"/>
+        <image name="tab-home-selected" width="24" height="24"/>
+        <image name="tab-settings-selected" width="24" height="24"/>
+    </resources>
 </document>
