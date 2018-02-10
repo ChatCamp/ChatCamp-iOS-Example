@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C03D3030202F2EC200E3A85A /* OpenChannelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D302F202F2EC200E3A85A /* OpenChannelsViewController.swift */; };
+		C03D3033202F305100E3A85A /* UIView+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D3032202F305100E3A85A /* UIView+ChatCamp.swift */; };
+		C03D3035202F342300E3A85A /* NSObject+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D3034202F342300E3A85A /* NSObject+ChatCamp.swift */; };
 		C03F7414202EFEBA00423969 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F7413202EFEBA00423969 /* AppDelegate.swift */; };
 		C03F7416202EFEBA00423969 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F7415202EFEBA00423969 /* ViewController.swift */; };
 		C03F741B202EFEBA00423969 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C03F741A202EFEBA00423969 /* Assets.xcassets */; };
@@ -15,9 +18,15 @@
 		C03F742A202F017C00423969 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C03F7429202F017C00423969 /* Home.storyboard */; };
 		C03F742C202F1A5400423969 /* HomeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F742B202F1A5400423969 /* HomeTabBarController.swift */; };
 		C08D21EB202F1F2C00BD059D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D21EA202F1F2C00BD059D /* Constants.swift */; };
+		C08D21ED202F20F400BD059D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D21EC202F20F400BD059D /* LoginViewController.swift */; };
+		C08D21F0202F22DC00BD059D /* ChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C08D21EF202F22DC00BD059D /* ChatTableViewCell.xib */; };
+		C08D21F2202F259400BD059D /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D21F1202F259400BD059D /* ChatTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C03D302F202F2EC200E3A85A /* OpenChannelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelsViewController.swift; sourceTree = "<group>"; };
+		C03D3032202F305100E3A85A /* UIView+ChatCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ChatCamp.swift"; sourceTree = "<group>"; };
+		C03D3034202F342300E3A85A /* NSObject+ChatCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+ChatCamp.swift"; sourceTree = "<group>"; };
 		C03F7410202EFEBA00423969 /* ChatCamp Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChatCamp Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C03F7413202EFEBA00423969 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C03F7415202EFEBA00423969 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -28,6 +37,9 @@
 		C03F7429202F017C00423969 /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		C03F742B202F1A5400423969 /* HomeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarController.swift; sourceTree = "<group>"; };
 		C08D21EA202F1F2C00BD059D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C08D21EC202F20F400BD059D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		C08D21EF202F22DC00BD059D /* ChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTableViewCell.xib; sourceTree = "<group>"; };
+		C08D21F1202F259400BD059D /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +53,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C03D3031202F303D00E3A85A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C03D3032202F305100E3A85A /* UIView+ChatCamp.swift */,
+				C03D3034202F342300E3A85A /* NSObject+ChatCamp.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		C03F7407202EFEBA00423969 = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +81,8 @@
 		C03F7412202EFEBA00423969 /* ChatCamp Demo */ = {
 			isa = PBXGroup;
 			children = (
+				C03D3031202F303D00E3A85A /* Extensions */,
+				C08D21EE202F22AF00BD059D /* Views */,
 				C08D21E9202F1F1F00BD059D /* Utilities */,
 				C03F7425202F00D000423969 /* View Controllers */,
 				C03F7426202F00D900423969 /* Storyboards */,
@@ -75,6 +98,8 @@
 			isa = PBXGroup;
 			children = (
 				C03F742B202F1A5400423969 /* HomeTabBarController.swift */,
+				C08D21EC202F20F400BD059D /* LoginViewController.swift */,
+				C03D302F202F2EC200E3A85A /* OpenChannelsViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -95,6 +120,15 @@
 				C08D21EA202F1F2C00BD059D /* Constants.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		C08D21EE202F22AF00BD059D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C08D21EF202F22DC00BD059D /* ChatTableViewCell.xib */,
+				C08D21F1202F259400BD059D /* ChatTableViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,6 +192,7 @@
 			files = (
 				C03F741E202EFEBA00423969 /* LaunchScreen.storyboard in Resources */,
 				C03F741B202EFEBA00423969 /* Assets.xcassets in Resources */,
+				C08D21F0202F22DC00BD059D /* ChatTableViewCell.xib in Resources */,
 				C03F7428202F00F300423969 /* Login.storyboard in Resources */,
 				C03F742A202F017C00423969 /* Home.storyboard in Resources */,
 			);
@@ -173,6 +208,11 @@
 				C03F7416202EFEBA00423969 /* ViewController.swift in Sources */,
 				C03F7414202EFEBA00423969 /* AppDelegate.swift in Sources */,
 				C03F742C202F1A5400423969 /* HomeTabBarController.swift in Sources */,
+				C03D3035202F342300E3A85A /* NSObject+ChatCamp.swift in Sources */,
+				C08D21F2202F259400BD059D /* ChatTableViewCell.swift in Sources */,
+				C03D3030202F2EC200E3A85A /* OpenChannelsViewController.swift in Sources */,
+				C03D3033202F305100E3A85A /* UIView+ChatCamp.swift in Sources */,
+				C08D21ED202F20F400BD059D /* LoginViewController.swift in Sources */,
 				C08D21EB202F1F2C00BD059D /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

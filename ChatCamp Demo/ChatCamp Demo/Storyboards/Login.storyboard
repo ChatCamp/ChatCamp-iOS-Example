@@ -10,16 +10,64 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="iUI-jp-epR">
             <objects>
-                <viewController id="dZ9-rm-nBv" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="dZ9-rm-nBv" customClass="LoginViewController" customModule="ChatCamp_Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="twz-HP-K75">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eM4-td-Lrq">
+                                <rect key="frame" x="166" y="70" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MzW-45-UC1">
+                                <rect key="frame" x="87.5" y="141" width="200" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="70q-oj-y3Z"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0YJ-yB-PjV">
+                                <rect key="frame" x="87.5" y="201" width="200" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="vcR-cL-jbH"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwE-wY-l29">
+                                <rect key="frame" x="151" y="281" width="72" height="30"/>
+                                <state key="normal" title="CONNECT"/>
+                                <connections>
+                                    <action selector="didTapOnConnect:" destination="dZ9-rm-nBv" eventType="touchUpInside" id="VaU-5z-RAl"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cwE-wY-l29" firstAttribute="top" secondItem="0YJ-yB-PjV" secondAttribute="bottom" constant="50" id="0Xa-Lj-zgS"/>
+                            <constraint firstItem="eM4-td-Lrq" firstAttribute="top" secondItem="uFo-pv-sgr" secondAttribute="top" constant="50" id="3zS-cU-N8J"/>
+                            <constraint firstItem="MzW-45-UC1" firstAttribute="top" secondItem="eM4-td-Lrq" secondAttribute="bottom" constant="50" id="86N-iu-gqX"/>
+                            <constraint firstItem="eM4-td-Lrq" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="EIc-JS-ZwC"/>
+                            <constraint firstItem="MzW-45-UC1" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="VJx-kx-mWY"/>
+                            <constraint firstItem="0YJ-yB-PjV" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="l6Y-4H-dDl"/>
+                            <constraint firstItem="cwE-wY-l29" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="m7P-Q6-GY9"/>
+                            <constraint firstItem="0YJ-yB-PjV" firstAttribute="top" secondItem="MzW-45-UC1" secondAttribute="bottom" constant="30" id="n63-hM-X0A"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="uFo-pv-sgr"/>
                     </view>
+                    <connections>
+                        <outlet property="connectButton" destination="cwE-wY-l29" id="DQd-4l-kDI"/>
+                        <outlet property="userIDTextField" destination="MzW-45-UC1" id="KlE-2N-Xio"/>
+                        <outlet property="usernameTextField" destination="0YJ-yB-PjV" id="W1e-CT-YST"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IBm-wf-I7N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
