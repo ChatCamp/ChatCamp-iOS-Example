@@ -1,0 +1,6 @@
+framework module Pods_ChatCamp_Demo {
+  umbrella header "Pods-ChatCamp Demo-umbrella.h"
+
+  export *
+  module * { export * }
+}
