@@ -9,6 +9,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Futura.ttc">
+            <string>Futura-Bold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Login View Controller-->
         <scene sceneID="iUI-jp-epR">
@@ -19,51 +24,92 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eM4-td-Lrq">
-                                <rect key="frame" x="166" y="70" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="152.5" y="70" width="70" height="31.5"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MzW-45-UC1">
-                                <rect key="frame" x="87.5" y="141" width="200" height="30"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="User ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MzW-45-UC1">
+                                <rect key="frame" x="87.5" y="131.5" width="200" height="36"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="6Iz-3I-9hw"/>
                                     <constraint firstAttribute="width" constant="200" id="70q-oj-y3Z"/>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0YJ-yB-PjV">
-                                <rect key="frame" x="87.5" y="201" width="200" height="30"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0YJ-yB-PjV">
+                                <rect key="frame" x="87.5" y="197.5" width="200" height="36"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="5c1-Vr-sNd"/>
                                     <constraint firstAttribute="width" constant="200" id="vcR-cL-jbH"/>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwE-wY-l29">
-                                <rect key="frame" x="151" y="281" width="72" height="30"/>
-                                <state key="normal" title="CONNECT"/>
+                                <rect key="frame" x="122" y="283.5" width="130" height="46"/>
+                                <color key="backgroundColor" red="0.18823529410000001" green="0.2274509804" blue="0.64705882349999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="130" id="j2a-dN-iRF"/>
+                                    <constraint firstAttribute="height" constant="46" id="jmi-qL-ege"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <state key="normal" title="CONNECT">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="didTapOnConnect:" destination="dZ9-rm-nBv" eventType="touchUpInside" id="VaU-5z-RAl"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="g1d-zT-zg4">
+                                <rect key="frame" x="272" y="296.5" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chatcamp_icon" translatesAutoresizingMaskIntoConstraints="NO" id="k1V-Ac-8fX">
+                                <rect key="frame" x="147.5" y="547" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="Sg8-hk-rNZ"/>
+                                    <constraint firstAttribute="width" constant="80" id="yg2-cm-JDZ"/>
+                                </constraints>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F60-zA-xwr">
+                                <rect key="frame" x="123.5" y="624" width="128" height="33"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="www.ChatCamp.io">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="FuturaBT-Medium"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="cwE-wY-l29" firstAttribute="top" secondItem="0YJ-yB-PjV" secondAttribute="bottom" constant="50" id="0Xa-Lj-zgS"/>
+                            <constraint firstItem="uFo-pv-sgr" firstAttribute="bottom" secondItem="k1V-Ac-8fX" secondAttribute="bottom" constant="40" id="1kN-O6-k6Y"/>
                             <constraint firstItem="eM4-td-Lrq" firstAttribute="top" secondItem="uFo-pv-sgr" secondAttribute="top" constant="50" id="3zS-cU-N8J"/>
-                            <constraint firstItem="MzW-45-UC1" firstAttribute="top" secondItem="eM4-td-Lrq" secondAttribute="bottom" constant="50" id="86N-iu-gqX"/>
+                            <constraint firstItem="g1d-zT-zg4" firstAttribute="leading" secondItem="cwE-wY-l29" secondAttribute="trailing" constant="20" id="5Pg-U9-akl"/>
+                            <constraint firstItem="MzW-45-UC1" firstAttribute="top" secondItem="eM4-td-Lrq" secondAttribute="bottom" constant="30" id="86N-iu-gqX"/>
+                            <constraint firstAttribute="bottom" secondItem="F60-zA-xwr" secondAttribute="bottom" constant="10" id="DEg-4D-tll"/>
                             <constraint firstItem="eM4-td-Lrq" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="EIc-JS-ZwC"/>
+                            <constraint firstItem="g1d-zT-zg4" firstAttribute="centerY" secondItem="cwE-wY-l29" secondAttribute="centerY" id="PF9-Vs-ZaN"/>
                             <constraint firstItem="MzW-45-UC1" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="VJx-kx-mWY"/>
+                            <constraint firstItem="F60-zA-xwr" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="eJc-i2-IH9"/>
                             <constraint firstItem="0YJ-yB-PjV" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="l6Y-4H-dDl"/>
                             <constraint firstItem="cwE-wY-l29" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="m7P-Q6-GY9"/>
                             <constraint firstItem="0YJ-yB-PjV" firstAttribute="top" secondItem="MzW-45-UC1" secondAttribute="bottom" constant="30" id="n63-hM-X0A"/>
+                            <constraint firstItem="k1V-Ac-8fX" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="rqL-T2-2N1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="uFo-pv-sgr"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="g1d-zT-zg4" id="jpe-20-kNl"/>
                         <outlet property="connectButton" destination="cwE-wY-l29" id="DQd-4l-kDI"/>
                         <outlet property="userIDTextField" destination="MzW-45-UC1" id="KlE-2N-Xio"/>
                         <outlet property="usernameTextField" destination="0YJ-yB-PjV" id="W1e-CT-YST"/>
@@ -71,7 +117,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IBm-wf-I7N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="210" y="170"/>
+            <point key="canvasLocation" x="208.80000000000001" y="169.56521739130437"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="chatcamp_icon" width="1296" height="1296"/>
+    </resources>
 </document>
