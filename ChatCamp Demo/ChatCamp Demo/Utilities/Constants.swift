@@ -19,3 +19,5 @@ enum TabName: String {
     case groupChannels = "Group Channels"
     case settings = "Settings"
 }
+
+let DefaultAnimationDuration: TimeInterval = 0.3

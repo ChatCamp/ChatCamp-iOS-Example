@@ -13,7 +13,7 @@
         <!--Group Channels-->
         <scene sceneID="rUC-hU-6bu">
             <objects>
-                <viewController title="Group Channels" id="RPn-FG-z2X" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GroupChannelsViewController" title="Group Channels" id="RPn-FG-z2X" customClass="GroupChannelsViewController" customModule="ChatCamp_Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kAa-6T-D5g">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -33,6 +33,9 @@
                         <viewLayoutGuide key="safeArea" id="FNv-a4-SMQ"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Group Channels" image="tab-group-selected" id="d7Z-TC-gOP"/>
+                    <connections>
+                        <outlet property="tableView" destination="n2A-BJ-bBP" id="O4l-MN-4dW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="djQ-kc-K6M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -41,7 +44,7 @@
         <!--Settings-->
         <scene sceneID="p5N-eq-dwI">
             <objects>
-                <tableViewController id="RqO-Em-F6W" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SettingsViewController" id="RqO-Em-F6W" customClass="SettingsViewController" customModule="ChatCamp_Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="aVA-bo-i16">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -135,7 +138,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Uc2-hv-AWw">
             <objects>
-                <navigationController id="KEk-Ef-CV8" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="UINavigationController" id="KEk-Ef-CV8" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XHc-bs-1Hc">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

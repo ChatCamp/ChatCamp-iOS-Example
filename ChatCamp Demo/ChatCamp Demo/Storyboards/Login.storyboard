@@ -49,13 +49,18 @@
                                     <action selector="didTapOnConnect:" destination="dZ9-rm-nBv" eventType="touchUpInside" id="VaU-5z-RAl"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="g1d-zT-zg4">
+                                <rect key="frame" x="243" y="286" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="cwE-wY-l29" firstAttribute="top" secondItem="0YJ-yB-PjV" secondAttribute="bottom" constant="50" id="0Xa-Lj-zgS"/>
                             <constraint firstItem="eM4-td-Lrq" firstAttribute="top" secondItem="uFo-pv-sgr" secondAttribute="top" constant="50" id="3zS-cU-N8J"/>
+                            <constraint firstItem="g1d-zT-zg4" firstAttribute="leading" secondItem="cwE-wY-l29" secondAttribute="trailing" constant="20" id="5Pg-U9-akl"/>
                             <constraint firstItem="MzW-45-UC1" firstAttribute="top" secondItem="eM4-td-Lrq" secondAttribute="bottom" constant="50" id="86N-iu-gqX"/>
                             <constraint firstItem="eM4-td-Lrq" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="EIc-JS-ZwC"/>
+                            <constraint firstItem="g1d-zT-zg4" firstAttribute="centerY" secondItem="cwE-wY-l29" secondAttribute="centerY" id="PF9-Vs-ZaN"/>
                             <constraint firstItem="MzW-45-UC1" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="VJx-kx-mWY"/>
                             <constraint firstItem="0YJ-yB-PjV" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="l6Y-4H-dDl"/>
                             <constraint firstItem="cwE-wY-l29" firstAttribute="centerX" secondItem="twz-HP-K75" secondAttribute="centerX" id="m7P-Q6-GY9"/>
@@ -64,6 +69,7 @@
                         <viewLayoutGuide key="safeArea" id="uFo-pv-sgr"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="g1d-zT-zg4" id="jpe-20-kNl"/>
                         <outlet property="connectButton" destination="cwE-wY-l29" id="DQd-4l-kDI"/>
                         <outlet property="userIDTextField" destination="MzW-45-UC1" id="KlE-2N-Xio"/>
                         <outlet property="usernameTextField" destination="0YJ-yB-PjV" id="W1e-CT-YST"/>

@@ -1,15 +1,15 @@
 PODS:
-  - ChatCamp (0.0.1)
+  - ChatCamp (0.0.2)
   - MessageKit (0.9.0)
 
 DEPENDENCIES:
   - ChatCamp
-  - MessageKit
+  - MessageKit (= 0.9.0)
 
 SPEC CHECKSUMS:
-  ChatCamp: 660c9f02ef25d1b9b13a98f4475599e2755eaeb5
+  ChatCamp: 44f7f6d1a785f1e00ade19d62ff027824c9f8af8
   MessageKit: c996c72247fac52098fd283e53e442e86a1995e8
 
-PODFILE CHECKSUM: 6b3cd9140d4e50519dc3c3ea88da478e24ff8675
+PODFILE CHECKSUM: 0568aad8f58c817b6cfb03b48370e2dd7913cc60
 
 COCOAPODS: 1.4.0

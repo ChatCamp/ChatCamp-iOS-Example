@@ -7,15 +7,17 @@
 //
 
 import UIKit
+import ChatCamp
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        setupChatCampSDK()
+        
+        WindowManager.shared.prepareWindow(isLoggedIn: false)
+        
         return true
     }
 
@@ -42,5 +44,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+}
+
+// MARK - Setup
+extension AppDelegate {
+    fileprivate func setupChatCampSDK() {
+        CCPClient.initApp(appId: "6346990561630613504")
+    }
 }
 

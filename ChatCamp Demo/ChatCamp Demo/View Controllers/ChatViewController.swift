@@ -81,7 +81,7 @@ class ChatViewController: MessagesViewController {
         title = friendSender.displayName
         
         messagesCollectionView.messagesDataSource = self
-        messagesCollectionView.messagesLayoutDelegate = self
+//        messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
     }
 }
@@ -102,9 +102,9 @@ extension ChatViewController: MessagesDataSource {
 }
 
 // MARK:- MessagesLayoutDelegate
-extension ChatViewController: MessagesLayoutDelegate {
-    
-}
+//extension ChatViewController: MessagesLayoutDelegate {
+//
+//}
 
 // MARK:- MessagesDisplayDelegate
 extension ChatViewController: MessagesDisplayDelegate {
