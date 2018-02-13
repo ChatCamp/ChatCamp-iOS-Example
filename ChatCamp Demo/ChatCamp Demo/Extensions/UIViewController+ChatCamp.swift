@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MessageKit
+import ChatCamp
 
 extension UIViewController {
     static func loginViewController() -> LoginViewController {
@@ -15,6 +17,10 @@ extension UIViewController {
     
     static func homeTabBarNavigationController() -> UINavigationController {
         return UIStoryboard.home().instantiateViewController(withIdentifier: UINavigationController.string()) as! UINavigationController
+    }
+    
+    static func chatViewController(channel: CCPGroupChannel, sender: Sender) -> ChatViewController {
+        return ChatViewController(channel:channel, sender: sender)
     }
 }
 

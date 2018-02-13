@@ -31,6 +31,7 @@
 		C0AD50782032D4FC003CE2E8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AD50772032D4FC003CE2E8 /* SettingsViewController.swift */; };
 		C0B2666B202F453E008D33F3 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B2666A202F453E008D33F3 /* ChatViewController.swift */; };
 		C0B2666E202F4722008D33F3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B2666D202F4722008D33F3 /* Message.swift */; };
+		C0EC055D203318D1003DE23F /* UserDefaults+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EC055C203318D1003DE23F /* UserDefaults+ChatCamp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		C0AD50772032D4FC003CE2E8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C0B2666A202F453E008D33F3 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		C0B2666D202F4722008D33F3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		C0EC055C203318D1003DE23F /* UserDefaults+ChatCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+ChatCamp.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				C0AD506C2032CD55003CE2E8 /* String+ChatCamp.swift */,
 				C0AD50712032D069003CE2E8 /* UIStoryboard+ChatCamp.swift */,
 				C0AD50732032D0B6003CE2E8 /* UIViewController+ChatCamp.swift */,
+				C0EC055C203318D1003DE23F /* UserDefaults+ChatCamp.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				C03F742C202F1A5400423969 /* HomeTabBarController.swift in Sources */,
 				C03D3035202F342300E3A85A /* NSObject+ChatCamp.swift in Sources */,
 				C08D21F2202F259400BD059D /* ChatTableViewCell.swift in Sources */,
+				C0EC055D203318D1003DE23F /* UserDefaults+ChatCamp.swift in Sources */,
 				C03D3030202F2EC200E3A85A /* OpenChannelsViewController.swift in Sources */,
 				C0B2666E202F4722008D33F3 /* Message.swift in Sources */,
 				C03D3033202F305100E3A85A /* UIView+ChatCamp.swift in Sources */,

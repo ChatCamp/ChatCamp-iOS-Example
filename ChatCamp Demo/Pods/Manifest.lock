@@ -1,5 +1,5 @@
 PODS:
-  - ChatCamp (0.0.2)
+  - ChatCamp (0.0.3)
   - MessageKit (0.9.0)
 
 DEPENDENCIES:
@@ -7,7 +7,7 @@ DEPENDENCIES:
   - MessageKit (= 0.9.0)
 
 SPEC CHECKSUMS:
-  ChatCamp: 44f7f6d1a785f1e00ade19d62ff027824c9f8af8
+  ChatCamp: fb391804b1f759f7598e1d84d503deac3ce248f1
   MessageKit: c996c72247fac52098fd283e53e442e86a1995e8
 
 PODFILE CHECKSUM: 0568aad8f58c817b6cfb03b48370e2dd7913cc60

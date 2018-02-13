@@ -29,6 +29,11 @@ extension LoginViewController {
             return
         }
         
+        guard let username = usernameTextField.text, !username.isEmpty else {
+            showAlert(title: "No Username", message: "Please enter a valid Username.", actionText: "Ok")
+            return
+        }
+        
         activityIndicator.startAnimating()
         CCPClient.connect(uid: "1") { (user, error) in
             DispatchQueue.main.async {
@@ -44,6 +49,9 @@ extension LoginViewController {
                     self.present(alertController, animated: true, completion: nil)
                     return
                 } else {
+                    UserDefaults.standard.setUserID(userID: userID)
+                    UserDefaults.standard.setUsername(username: username)
+                    
                     WindowManager.shared.showHomeWithAnimation()
                 }
             }

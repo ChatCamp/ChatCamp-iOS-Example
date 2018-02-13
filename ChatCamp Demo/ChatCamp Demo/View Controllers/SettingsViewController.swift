@@ -14,6 +14,9 @@ class SettingsViewController: UITableViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { (action) in
+            UserDefaults.standard.setUserID(userID: nil)
+            UserDefaults.standard.setUsername(username: nil)
+            
             WindowManager.shared.showLoginWithAnimation()
         }
         alertController.addAction(cancelAction)

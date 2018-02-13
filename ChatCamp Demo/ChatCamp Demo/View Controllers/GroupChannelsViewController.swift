@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageKit
 import ChatCamp
 
 class GroupChannelsViewController: UIViewController {
@@ -61,7 +62,14 @@ extension GroupChannelsViewController: UITableViewDataSource {
 // MARK:- UITableViewDelegate
 extension GroupChannelsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let chatViewController = ChatViewController()
+        guard
+            let userID = UserDefaults.standard.userID(),
+            let username = UserDefaults.standard.username()
+            else { return }
+        
+        let sender = Sender(id: userID, displayName: username)
+        
+        let chatViewController = ChatViewController(channel: channels[indexPath.row], sender: sender)
         navigationController?.pushViewController(chatViewController, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)
