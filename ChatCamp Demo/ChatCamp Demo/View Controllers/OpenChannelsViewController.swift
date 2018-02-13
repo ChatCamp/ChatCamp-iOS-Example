@@ -37,6 +37,7 @@ extension OpenChannelsViewController: UITableViewDataSource {
 // MARK:- UITableViewDelegate
 extension OpenChannelsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let createChannelViewController = UIViewController.createChannelViewController()
+        present(createChannelViewController, animated: true, completion: nil)
     }
 }

@@ -25,10 +25,12 @@
 		C08D21F2202F259400BD059D /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D21F1202F259400BD059D /* ChatTableViewCell.swift */; };
 		C0AD506D2032CD55003CE2E8 /* String+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AD506C2032CD55003CE2E8 /* String+ChatCamp.swift */; };
 		C0AD50702032CF4B003CE2E8 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AD506F2032CF4B003CE2E8 /* WindowManager.swift */; };
-		C0AD50722032D069003CE2E8 /* UIStoryboard+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AD50712032D069003CE2E8 /* UIStoryboard+ChatCamp.swift */; };
+		C08F0BFF2030254C001821D8 /* UIStoryboard+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08F0BFE2030254C001821D8 /* UIStoryboard+ChatCamp.swift */; };
 		C0AD50742032D0B6003CE2E8 /* UIViewController+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AD50732032D0B6003CE2E8 /* UIViewController+ChatCamp.swift */; };
 		C0AD50762032D4DC003CE2E8 /* GroupChannelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AD50752032D4DC003CE2E8 /* GroupChannelsViewController.swift */; };
 		C0AD50782032D4FC003CE2E8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AD50772032D4FC003CE2E8 /* SettingsViewController.swift */; };
+		C08F0BFB2030180E001821D8 /* CreateChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08F0BFA2030180E001821D8 /* CreateChannelViewController.swift */; };
+		C08F0BFD20301849001821D8 /* CreateChannel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C08F0BFC20301849001821D8 /* CreateChannel.storyboard */; };
 		C0B2666B202F453E008D33F3 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B2666A202F453E008D33F3 /* ChatViewController.swift */; };
 		C0B2666E202F4722008D33F3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B2666D202F4722008D33F3 /* Message.swift */; };
 		C0EC055D203318D1003DE23F /* UserDefaults+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EC055C203318D1003DE23F /* UserDefaults+ChatCamp.swift */; };
@@ -57,10 +59,12 @@
 		C08D21F1202F259400BD059D /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		C0AD506C2032CD55003CE2E8 /* String+ChatCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+ChatCamp.swift"; sourceTree = "<group>"; };
 		C0AD506F2032CF4B003CE2E8 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
-		C0AD50712032D069003CE2E8 /* UIStoryboard+ChatCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+ChatCamp.swift"; sourceTree = "<group>"; };
+		C08F0BFE2030254C001821D8 /* UIStoryboard+ChatCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+ChatCamp.swift"; sourceTree = "<group>"; };
 		C0AD50732032D0B6003CE2E8 /* UIViewController+ChatCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ChatCamp.swift"; sourceTree = "<group>"; };
 		C0AD50752032D4DC003CE2E8 /* GroupChannelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelsViewController.swift; sourceTree = "<group>"; };
 		C0AD50772032D4FC003CE2E8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		C08F0BFA2030180E001821D8 /* CreateChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelViewController.swift; sourceTree = "<group>"; };
+		C08F0BFC20301849001821D8 /* CreateChannel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CreateChannel.storyboard; sourceTree = "<group>"; };
 		C0B2666A202F453E008D33F3 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		C0B2666D202F4722008D33F3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		C0EC055C203318D1003DE23F /* UserDefaults+ChatCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+ChatCamp.swift"; sourceTree = "<group>"; };
@@ -92,7 +96,7 @@
 				C03D3032202F305100E3A85A /* UIView+ChatCamp.swift */,
 				C03D3034202F342300E3A85A /* NSObject+ChatCamp.swift */,
 				C0AD506C2032CD55003CE2E8 /* String+ChatCamp.swift */,
-				C0AD50712032D069003CE2E8 /* UIStoryboard+ChatCamp.swift */,
+				C08F0BFE2030254C001821D8 /* UIStoryboard+ChatCamp.swift */,
 				C0AD50732032D0B6003CE2E8 /* UIViewController+ChatCamp.swift */,
 				C0EC055C203318D1003DE23F /* UserDefaults+ChatCamp.swift */,
 			);
@@ -144,6 +148,7 @@
 				C0AD50752032D4DC003CE2E8 /* GroupChannelsViewController.swift */,
 				C0AD50772032D4FC003CE2E8 /* SettingsViewController.swift */,
 				C0B2666A202F453E008D33F3 /* ChatViewController.swift */,
+				C08F0BFA2030180E001821D8 /* CreateChannelViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -154,6 +159,7 @@
 				C03F741C202EFEBA00423969 /* LaunchScreen.storyboard */,
 				C03F7427202F00F300423969 /* Login.storyboard */,
 				C03F7429202F017C00423969 /* Home.storyboard */,
+				C08F0BFC20301849001821D8 /* CreateChannel.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -265,6 +271,7 @@
 			files = (
 				C03F741E202EFEBA00423969 /* LaunchScreen.storyboard in Resources */,
 				C03F741B202EFEBA00423969 /* Assets.xcassets in Resources */,
+				C08F0BFD20301849001821D8 /* CreateChannel.storyboard in Resources */,
 				C08D21F0202F22DC00BD059D /* ChatTableViewCell.xib in Resources */,
 				C03F7428202F00F300423969 /* Login.storyboard in Resources */,
 				C03F742A202F017C00423969 /* Home.storyboard in Resources */,
@@ -336,11 +343,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0AD50722032D069003CE2E8 /* UIStoryboard+ChatCamp.swift in Sources */,
+				C08F0BFF2030254C001821D8 /* UIStoryboard+ChatCamp.swift in Sources */,
 				C03F7416202EFEBA00423969 /* ViewController.swift in Sources */,
 				C03F7414202EFEBA00423969 /* AppDelegate.swift in Sources */,
 				C0AD50762032D4DC003CE2E8 /* GroupChannelsViewController.swift in Sources */,
 				C0AD50742032D0B6003CE2E8 /* UIViewController+ChatCamp.swift in Sources */,
+				C08F0BFB2030180E001821D8 /* CreateChannelViewController.swift in Sources */,
 				C03F742C202F1A5400423969 /* HomeTabBarController.swift in Sources */,
 				C03D3035202F342300E3A85A /* NSObject+ChatCamp.swift in Sources */,
 				C08D21F2202F259400BD059D /* ChatTableViewCell.swift in Sources */,
