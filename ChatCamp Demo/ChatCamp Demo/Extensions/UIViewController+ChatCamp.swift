@@ -22,6 +22,10 @@ extension UIViewController {
     static func chatViewController(channel: CCPGroupChannel, sender: Sender) -> ChatViewController {
         return ChatViewController(channel:channel, sender: sender)
     }
+    
+    static func createChannelViewController() -> UINavigationController {
+        return UIStoryboard.createChannel().instantiateViewController(withIdentifier: UINavigationController.string()) as! UINavigationController
+    }
 }
 
 // MARK:- Alerts

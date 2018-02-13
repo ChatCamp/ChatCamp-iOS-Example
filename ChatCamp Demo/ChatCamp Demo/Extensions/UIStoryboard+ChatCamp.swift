@@ -2,7 +2,7 @@
 //  UIStoryboard+ChatCamp.swift
 //  ChatCamp Demo
 //
-//  Created by Tanmay Khandelwal on 13/02/18.
+//  Created by Tanmay Khandelwal on 11/02/18.
 //  Copyright © 2018 iFlyLabs Inc. All rights reserved.
 //
 
@@ -15,5 +15,9 @@ extension UIStoryboard {
     
     static func home() -> UIStoryboard {
         return UIStoryboard(name: "Home", bundle: nil)
+    }
+    
+    static func createChannel() -> UIStoryboard {
+        return UIStoryboard(name: "CreateChannel", bundle: nil)
     }
 }
