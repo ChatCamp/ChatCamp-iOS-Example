@@ -12,7 +12,12 @@ import ChatCamp
 class LoginViewController: UIViewController {
     @IBOutlet weak var userIDTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var connectButton: UIButton!
+    @IBOutlet weak var connectButton: UIButton! {
+        didSet {
+            connectButton.layer.cornerRadius = 23
+            connectButton.layer.masksToBounds = true
+        }
+    }
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 }
 
