@@ -1,7 +1,7 @@
 /*
  MIT License
  
- Copyright (c) 2017 MessageKit
+ Copyright (c) 2017-2018 MessageKit
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +24,20 @@
 
 import Foundation
 
+/// An object that groups the metadata of a messages sender.
 public struct Sender {
 
+    /// MARK: - Properties
+
+    /// The unique String identifier for the sender.
+    ///
+    /// Note: This value must be unique across all senders.
     public let id: String
 
+    /// The display name of a sender.
     public let displayName: String
+
+    // MARK: - Intializers
 
     public init(id: String, displayName: String) {
         self.id = id
@@ -39,7 +48,10 @@ public struct Sender {
 // MARK: - Equatable Conformance
 
 extension Sender: Equatable {
-    static public func == (left: Sender, right: Sender) -> Bool {
+
+    /// Two senders are considered equal if they have the same id.
+    public static func == (left: Sender, right: Sender) -> Bool {
         return left.id == right.id
     }
+
 }

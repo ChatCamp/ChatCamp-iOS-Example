@@ -1,7 +1,7 @@
 /*
  MIT License
  
- Copyright (c) 2017 MessageKit
+ Copyright (c) 2017-2018 MessageKit
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,23 @@
 
 import Foundation
 
+/// A standard protocol representing a message. Use this protocol to create
+/// your own message object to be used by MessageKit.
 public protocol MessageType {
 
+    /// The sender of the message.
     var sender: Sender { get }
 
+    /// The unique identifier for the message.
+    ///
+    /// NOTE: This value must be unique for all messages as it is
+    /// used to cache layout information.
     var messageId: String { get }
 
+    /// The date the message was sent.
     var sentDate: Date { get }
 
+    /// The kind of message and its underlying data.
     var data: MessageData { get }
+
 }

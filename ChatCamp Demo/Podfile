@@ -1,6 +1,6 @@
 target 'ChatCamp Demo' do
     use_frameworks!
 
-    pod 'MessageKit', '0.9.0'
+    pod 'MessageKit'
     pod 'ChatCamp'
 end

@@ -1,7 +1,7 @@
 /*
  MIT License
  
- Copyright (c) 2017 MessageKit
+ Copyright (c) 2017-2018 MessageKit
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -39,6 +39,29 @@ extension UIView {
     	    bottomAnchor.constraint(equalTo: superview.bottomAnchor)
     	    ]
 	    NSLayoutConstraint.activate(constraints)
+    }
+
+    func centerInSuperview() {
+        guard let superview = self.superview else {
+            return
+        }
+        translatesAutoresizingMaskIntoConstraints = false
+        let constraints: [NSLayoutConstraint] = [
+            centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+            centerYAnchor.constraint(equalTo: superview.centerYAnchor)
+        ]
+        NSLayoutConstraint.activate(constraints)
+    }
+    
+    func constraint(equalTo size: CGSize) {
+        guard superview != nil else { return }
+        translatesAutoresizingMaskIntoConstraints = false
+        let constraints: [NSLayoutConstraint] = [
+            widthAnchor.constraint(equalToConstant: size.width),
+            heightAnchor.constraint(equalToConstant: size.height)
+        ]
+        NSLayoutConstraint.activate(constraints)
+        
     }
 
     @discardableResult

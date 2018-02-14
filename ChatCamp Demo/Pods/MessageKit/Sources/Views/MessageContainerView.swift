@@ -1,7 +1,7 @@
 /*
  MIT License
 
- Copyright (c) 2017 MessageKit
+ Copyright (c) 2017-2018 MessageKit
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -30,38 +30,49 @@ open class MessageContainerView: UIImageView {
 
     private let imageMask = UIImageView()
 
-    open override var frame: CGRect {
-        didSet {
-            applyMessageStyle()
-        }
-    }
-
     open var style: MessageStyle = .none {
         didSet {
             applyMessageStyle()
         }
     }
 
+    open override var frame: CGRect {
+        didSet {
+            sizeMaskToView()
+        }
+    }
+
     // MARK: - Methods
+
+    private func sizeMaskToView() {
+        switch style {
+        case .none, .custom:
+            break
+        case .bubble, .bubbleTail:
+            imageMask.frame = bounds
+        case .bubbleOutline, .bubbleTailOutline:
+            imageMask.frame = bounds.insetBy(dx: 1.0, dy: 1.0)
+        }
+    }
 
     private func applyMessageStyle() {
         switch style {
         case .bubble, .bubbleTail:
             imageMask.image = style.image
-            imageMask.frame = bounds
+            sizeMaskToView()
             mask = imageMask
             image = nil
         case .bubbleOutline(let color):
             let bubbleStyle: MessageStyle = .bubble
             imageMask.image = bubbleStyle.image
-            imageMask.frame = bounds.insetBy(dx: 1.0, dy: 1.0)
+            sizeMaskToView()
             mask = imageMask
             image = style.image
             tintColor = color
         case .bubbleTailOutline(let color, let tail, let corner):
             let bubbleStyle: MessageStyle = .bubbleTailOutline(.white, tail, corner)
             imageMask.image = bubbleStyle.image
-            imageMask.frame = bounds.insetBy(dx: 1.0, dy: 1.0)
+            sizeMaskToView()
             mask = imageMask
             image = style.image
             tintColor = color
@@ -76,5 +87,4 @@ open class MessageContainerView: UIImageView {
             configurationClosure(self)
         }
     }
-
 }

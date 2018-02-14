@@ -22,18 +22,47 @@
  SOFTWARE.
  */
 
-import Foundation
+import UIKit
 
-extension UIColor {
-
-    static let incomingGray = UIColor(red: 230/255, green: 230/255, blue: 235/255, alpha: 1.0)
-
-    static let outgoingGreen = UIColor(red: 69/255, green: 214/255, blue: 93/255, alpha: 1.0)
-
-    static let inputBarGray = UIColor(red: 247/255, green: 247/255, blue: 247/255, alpha: 1.0)
-
-    static let playButtonLightGray = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1.0)
-
-    static let sendButtonBlue = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
-
+/**
+ A UIView thats intrinsicContentSize is overrided so an exact height can be specified
+ 
+ ## Important Notes ##
+ 1. Default height is 1.0
+ 2. Default backgroundColor is UIColor.lightGray
+ 3. Intended to be used in an `InputStackView`
+ */
+open class SeparatorLine: UIView {
+    
+    // MARK: - Properties
+    
+    /// The height of the line
+    open var height: CGFloat = 1.0 {
+        didSet {
+            invalidateIntrinsicContentSize()
+        }
+    }
+    
+    open override var intrinsicContentSize: CGSize {
+        return CGSize(width: super.intrinsicContentSize.width, height: height)
+    }
+    
+    // MARK: - Initialization
+    
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    /// Sets up the default properties
+    open func setup() {
+        backgroundColor = .lightGray
+        translatesAutoresizingMaskIntoConstraints = false
+        setContentHuggingPriority(.defaultHigh, for: .vertical)
+    }
 }

@@ -1,7 +1,7 @@
 /*
  MIT License
  
- Copyright (c) 2017 MessageKit
+ Copyright (c) 2017-2018 MessageKit
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -23,16 +23,32 @@
  */
 
 import Foundation
-import UIKit
 
-public protocol MessageInputBarDelegate: class {
+/// MessageInputBarDelegate is a protocol that can recieve notifications from the MessageInputBar
+public protocol MessageInputBarDelegate: AnyObject {
     
+    /// Called when the default send button has been selected
+    ///
+    /// - Parameters:
+    ///   - inputBar: The MessageInputBar
+    ///   - text: The current text in the MessageInputBar's InputTextView
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String)
     
+    /// Called when the instrinsicContentSize of the MessageInputBar has changed. Can be used for adjusting content insets
+    /// on other views to make sure the MessageInputBar does not cover up any other view
+    ///
+    /// - Parameters:
+    ///   - inputBar: The MessageInputBar
+    ///   - size: The new instrinsicContentSize
     func messageInputBar(_ inputBar: MessageInputBar, didChangeIntrinsicContentTo size: CGSize)
     
+    /// Called when the MessageInputBar's InputTextView's text has changed. Useful for adding your own logic without the
+    /// need of assigning a delegate or notification
+    ///
+    /// - Parameters:
+    ///   - inputBar: The MessageInputBar
+    ///   - text: The current text in the MessageInputBar's InputTextView
     func messageInputBar(_ inputBar: MessageInputBar, textViewTextDidChangeTo text: String)
-
 }
 
 public extension MessageInputBarDelegate {
@@ -42,5 +58,4 @@ public extension MessageInputBarDelegate {
     func messageInputBar(_ inputBar: MessageInputBar, didChangeIntrinsicContentTo size: CGSize) {}
     
     func messageInputBar(_ inputBar: MessageInputBar, textViewTextDidChangeTo text: String) {}
-
 }

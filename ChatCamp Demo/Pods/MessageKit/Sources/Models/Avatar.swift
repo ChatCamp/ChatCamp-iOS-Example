@@ -1,7 +1,7 @@
 /*
  MIT License
 
- Copyright (c) 2017 MessageKit
+ Copyright (c) 2017-2018 MessageKit
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +24,24 @@
 
 import Foundation
 
+/// An object used to group the information to be used by an `AvatarView`.
 public struct Avatar {
     
-    public let image: UIImage?
-    public var initals: String = "?"
+    // MARK: - Properties
     
-    public init(image: UIImage? = nil, initals: String = "?") {
+    /// The image to be used for an `AvatarView`.
+    public let image: UIImage?
+    
+    /// The placeholder initials to be used in the case where no image is provided.
+    ///
+    /// The default value of this property is "?".
+    public var initials: String = "?"
+    
+    // MARK: - Initializer
+    
+    public init(image: UIImage? = nil, initials: String = "?") {
         self.image = image
-        self.initals = initals
+        self.initials = initials
     }
     
 }

@@ -1,18 +1,18 @@
 /*
  MIT License
-
- Copyright (c) 2017 MessageKit
-
+ 
+ Copyright (c) 2017-2018 MessageKit
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in all
  copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,164 +24,98 @@
 
 import Foundation
 
-// MARK: - MessagesDisplayDataSource
+// MARK: - Deprecated Protocols
 
-@available(*, deprecated: 0.7.0, message: "Removed in MessageKit 0.7.0. Please use MessagesDisplayDelegate.")
-public protocol MessagesDisplayDataSource {}
+@available(*, deprecated: 0.11.0, message: "LocationMessageDisplayDelegate has been deprecated in favor of MessagesDisplayDelegate")
+typealias LocationMessageDisplayDelegate = MessagesDisplayDelegate
 
-// MARK: - MessagesCollectionView
+@available(*, deprecated: 0.11.0, message: "TextMessageDisplayDelegate has been deprecated in favor of MessagesDisplayDelegate")
+typealias TextMessageDisplayDelegate = MessagesDisplayDelegate
 
-public extension MessagesCollectionView {
+@available(*, deprecated: 0.11.0, message: "LocationMessageLayoutDelegate has been deprecated in favor of MessagesDisplayDelegate")
+typealias LocationMessageLayoutDelegate = MessagesLayoutDelegate
 
-    @available(*, deprecated: 0.7.0, message: "Removed in MessageKit 0.7.0. Please use messageCellDelegate.")
-    public weak var messageLabelDelegate: MessageLabelDelegate? {
-        return nil
+@available(*, deprecated: 0.11.0, message: "MediaMessageLayoutDelegate has been deprecated in favor of MessagesDisplayDelegate")
+typealias MediaMessageLayoutDelegate = MessagesLayoutDelegate
+
+// MARK: - AvatarAlignment
+
+@available(*, deprecated: 0.11.0, message: "Removed in MessageKit 0.11.0. Please use AvatarPosition instead.")
+public enum AvatarAlignment {}
+
+// MARK: - MessagesLayoutDelegate
+
+extension MessagesLayoutDelegate {
+    
+    /// Specifies the vertical alignment for the `AvatarView` in a `MessageCollectionViewCell`.
+    ///
+    /// - Parameters:
+    ///   - message: The `MessageType` that will be displayed by this cell.
+    ///   - indexPath: The `IndexPath` of the cell.
+    ///   - messagesCollectionView: The `MessagesCollectionView` in which this cell will be displayed.
+    ///
+    /// The default value returned by this method is `AvatarAlignment.cellBottom`.
+    @available(*, deprecated: 0.11.0, message: "Removed in MessageKit 0.11.0. Please use avatarPosition(for:at:in:) instead.")
+    public func avatarAlignment(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> AvatarAlignment {
+        fatalError("Please use avatarPosition(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> AvatarPosition instead.")
     }
-
-    @available(*, deprecated: 0.9.0, message: "Removed in MessageKit 0.9.0. Please use dequeueReusableHeaderView")
-    public func dequeueMessageHeaderView(withReuseIdentifier identifier: String = "MessageHeaderView", for indexPath: IndexPath) -> MessageHeaderView {
-        return dequeueReusableHeaderView(MessageHeaderView.self, for: indexPath)
-    }
-
-    @available(*, deprecated: 0.9.0, message: "Removed in MessageKit 0.9.0. Please use dequeueReusableFooterView")
-    public func dequeueMessageFooterView(withReuseIdentifier identifier: String = "MessageFooterView", for indexPath: IndexPath) -> MessageFooterView {
-        return dequeueReusableFooterView(MessageFooterView.self, for: indexPath)
-    }
-
+    
 }
 
 // MARK: - MessagesCollectionViewFlowLayout
 
-public extension MessagesCollectionViewFlowLayout {
-
-    @available(*, deprecated: 0.7.0, message: "Removed in MessageKit 0.7.0. Please use avatarSize(for:indexPath:messagesCollectionView)")
-    public var incomingAvatarSize: CGSize {
-        return .zero
+extension MessagesCollectionViewFlowLayout {
+    
+    /// A Boolean value that determines if the `AvatarView` is always on the leading
+    /// side of a MessageCollectionViewCell.
+    ///
+    /// Setting this property to `true` causes `avatarAlwaysTrailing` to be set to `false`.
+    ///
+    /// The default value of this property is `false`.
+    @available(*, deprecated: 0.11.0, message: "Removed in MessageKit 0.11.0. Please use the avatarPosition(for:at:in) delegate method.")
+    public var avatarAlwaysLeading: Bool {
+        fatalError("Fatal Error: avatarAlwaysLeading is no longer supported")
     }
-
-    @available(*, deprecated: 0.7.0, message: "Removed in MessageKit 0.7.0. Please use avatarSize(for:indexPath:messagesCollectionView)")
-    public var outgoingAvatarSize: CGSize {
-        return .zero
+    
+    /// A Boolean value that determines if the `AvatarView` is always on the trailing
+    /// side of a `MessageCollectionViewCell`.
+    ///
+    /// Setting this property to `true` causes `avatarAlwaysLeading` to be set to `false`.
+    ///
+    /// The default value of this property is `false`.
+    @available(*, deprecated: 0.11.0, message: "Removed in MessageKit 0.11.0. Please use the avatarPosition(for:at:in) delegate method instead.")
+    public var avatarAlwaysTrailing: Bool {
+        fatalError("Fatal Error: avatarAlwaysTrailing is no longer supported")
     }
-
-    @available(*, deprecated: 0.7.0, message: "Removed in MessageKit 0.7.0. Please use cellTopLabelPosition(for:indexPath:messagesCollectionView)")
-    public var topLabelExtendsPastAvatar: Bool {
-        return false
-    }
-
-    @available(*, deprecated: 0.7.0, message: "Removed in MessageKit 0.7.0. Please use cellBottomLabelPosition(for:indexPath:messagesCollectionView)")
-    public var bottomLabelExtendsPastAvatar: Bool {
-        return false
-    }
-
-    @available(*, deprecated: 0.9.0, message: "Removed in MessageKit 0.9.0. Please use messageLabelInsets(for:indexPath:messagesCollectionView)")
-    public var messageLabelInsets: UIEdgeInsets {
-        return UIEdgeInsets(top: 7, left: 14, bottom: 7, right: 14)
-    }
-
-    @available(*, deprecated: 0.9.0, message: "Removed in MessageKit 0.9.0. Please use associated value of LabelAlignment")
-    public var cellTopLabelInsets: UIEdgeInsets {
-        return .zero
-    }
-    @available(*, deprecated: 0.9.0, message: "Removed in MessageKit 0.9.0. Please use associated value of LabelAlignment")
-    public var cellBottomLabelInsets: UIEdgeInsets {
-        return .zero
-    }
-
-    @available(*, deprecated: 0.9.0, message: "Removed in MessageKit 0.9.0. Please use messagePadding(for:at:in) method of MessagesLayoutDelegate")
-    public var messageToViewEdgePadding: CGFloat {
-        return 30
-    }
-
+    
 }
 
-// MARK: - CellLabelPosition
+// MARK: - MessagesDataSource
 
-@available(*, deprecated: 0.7.0, message: "Renamed to LabelAlignment in MessageKit 0.7.0")
-public enum CellLabelPosition {
-
-    case cellTrailing
-    case cellLeading
-    case cellCenter
-    case messageTrailing
-    case messageLeading
-
+extension MessagesDataSource {
+    /// The `Avatar` information to be used by the `AvatarView`.
+    ///
+    /// - Parameters:
+    ///   - message: The `MessageType` that will be displayed by this cell.
+    ///   - indexPath: The `IndexPath` of the cell.
+    ///   - messagesCollectionView: The `MessagesCollectionView` in which this cell will be displayed.
+    ///
+    /// The default value returned by this method is `Avatar()`.
+    @available(*, deprecated: 0.12.1, message: "Removed in MessageKit 0.12.1.")
+    func avatar(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> Avatar {
+        fatalError("Fatal Error: avatar(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) is no longer supported")
+    }
 }
 
-// MARK: - Avatar Position
+// MARK: - MessagesViewController
 
-@available(*, deprecated: 0.7.0, message: "Renamed to AvatarAlignment in MessageKit 0.7.0")
-public enum AvatarPosition {
-
-    case cellTop
-    case messageTop
-    case messageCenter
-    case messageBottom
-    case cellBottom
-
-}
-
-// MARK: - MessagesLayoutDelegate
-
-public extension MessagesLayoutDelegate {
-
-    @available(*, deprecated: 0.7.0, message: "Removed in MessageKit 0.7.0. Please use avatarAlignment(for:indexPath:messagesCollectionView)")
-    func avatarPosition(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> AvatarPosition {
-        return .cellBottom
+extension MessagesViewController {
+    /// A Boolean value that determines whether the `MessagesCollectionView` scrolls to the
+    /// bottom on the view's first layout.
+    ///
+    /// The default value of this property is `false`.
+    @available(*, deprecated: 0.11.1, message: "Removed in MessageKit 0.11.1.")
+    open var scrollsToBottomOnFirstLayout: Bool {
+        fatalError("Fatal Error: scrollsToBottomOnFirstLayout is no longer supported")
     }
-
-    @available(*, deprecated: 0.7.0, message: "Removed in MessageKit 0.7.0. Please use cellTopLabelAlignment(for:indexPath:messagesCollectionView)")
-    func cellTopLabelPosition(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellLabelPosition {
-        return .cellLeading
-    }
-
-    @available(*, deprecated: 0.7.0, message: "Removed in MessageKit 0.7.0. Please use cellBottomLabelAlignment(for:indexPath:messagesCollectionView)")
-    func cellBottomLabelPosition(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellLabelPosition {
-        return .cellLeading
-    }
-
-}
-
-// MARK: - MessageContainerView
-
-public extension MessageContainerView {
-
-    @available(*, deprecated: 0.8.0, message: "Removed in MessageKit 0.8.0. Please use backgroundColor instead.")
-    var messageColor: UIColor {
-        get {
-            return .white
-        }
-        set {
-            backgroundColor = messageColor
-        }
-    }
-
-}
-
-// MARK: - MessageCollectionViewCell
-
-public extension MessageCollectionViewCell where ContentView == MessageLabel {
-
-    @available(*, deprecated: 0.8.0, message: "messageLabel has been deprecated. Please use the messageContentView property instead.")
-    public var messageLabel: MessageLabel {
-        get { return messageContentView }
-        set { messageContentView = newValue }
-    }
-
-}
-
-// MARK: - AvatarView
-
-public extension AvatarView {
-
-    @available(*, deprecated: 0.8.0, message: "setBackground(_:) has been deprecated. Please use the backgroundColor property instead.")
-    public func setBackground(color: UIColor) {
-        backgroundColor = color
-    }
-
-    @available(*, deprecated: 0.8.0, message: "getImage() has been deprecated. Please use the image property instead.")
-    public func getImage() -> UIImage? {
-        return imageView.image
-    }
-
 }

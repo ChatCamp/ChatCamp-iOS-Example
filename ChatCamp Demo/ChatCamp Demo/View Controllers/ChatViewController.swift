@@ -58,6 +58,7 @@ extension ChatViewController {
                 
                 DispatchQueue.main.async {
                     self.messagesCollectionView.reloadData()
+                    self.messagesCollectionView.scrollToBottom(animated: false)
                 }
             }
         }
@@ -98,18 +99,58 @@ extension ChatViewController: MessagesDataSource {
     }
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
+        print("indexPath.section - \(indexPath.section)")
         return mkMessages[indexPath.section]
     }
 }
 
 // MARK:- MessagesLayoutDelegate
 extension ChatViewController: MessagesLayoutDelegate {
-
+    func heightForLocation(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return 0
+    }
+    
+    func widthForMedia(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return view.bounds.width / 2
+    }
+    
+    func heightForMedia(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return view.bounds.width / 2
+    }
 }
 
 // MARK:- MessagesDisplayDelegate
 extension ChatViewController: MessagesDisplayDelegate {
-    
+    func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
+        let message = mkMessages[indexPath.section]
+        
+        switch message.data {
+        case .photo(let image):
+            let configurationClosure = { (containerView: UIImageView) in
+                let imageMask = UIImageView()
+                imageMask.image = MessageStyle.bubble.image
+                imageMask.frame = containerView.bounds
+                containerView.mask = imageMask
+                containerView.contentMode = .scaleAspectFill
+                
+//                containerView.kf.indicatorType = .activity
+                
+                guard
+                    let url = URL(string: self.messages[indexPath.section].getAttachment()!.getUrl())
+                    else {
+                        print("Could not convert message into a readable Message format")
+                        return
+                }
+                
+                print("Setting image to \(url.absoluteString)")
+                
+//                containerView.kf.setImage(with: url)
+            }
+            return .custom(configurationClosure)
+        default:
+            return .bubble
+        }
+    }
 }
 
 
