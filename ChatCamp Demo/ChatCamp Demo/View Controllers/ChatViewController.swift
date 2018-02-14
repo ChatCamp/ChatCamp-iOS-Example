@@ -32,6 +32,8 @@ class ChatViewController: MessagesViewController {
         
         title = channel.getName()
         
+        setupSendButton()
+        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
@@ -51,7 +53,7 @@ class ChatViewController: MessagesViewController {
     }
 }
 
-// MARK:-
+// MARK:- MessageImageDelegate
 extension ChatViewController: MessageImageDelegate {
     func messageDidUpdateWithImage(message: Message) {
         if let index = mkMessages.index(of: message) {
@@ -108,6 +110,11 @@ extension ChatViewController {
                 }
             }
         }
+    }
+    
+    fileprivate func setupSendButton() {
+        messageInputBar.sendButton.setTitle(nil, for: .normal)
+        messageInputBar.sendButton.setImage(#imageLiteral(resourceName: "chat_send_button"), for: .normal)
     }
 }
 
