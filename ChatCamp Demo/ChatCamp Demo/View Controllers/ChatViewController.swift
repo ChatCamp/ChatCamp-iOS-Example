@@ -159,7 +159,15 @@ extension ChatViewController: MessagesLayoutDelegate {
     }
     
     func heightForMedia(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return view.bounds.width / 2
+        
+        switch message.data {
+        case .photo(let image):
+            let height = image.size.height * view.bounds.width / (2 * image.size.width)
+            
+            return height
+        default:
+            return view.bounds.width / 2
+        }
     }
 }
 
