@@ -52,6 +52,19 @@ class ChatViewController: MessagesViewController {
 }
 
 // MARK:-
+extension ChatViewController: MessageImageDelegate {
+    func messageDidUpdateWithImage(message: Message) {
+        if let index = mkMessages.index(of: message) {
+            let indexPath = IndexPath(row: 0, section: index)
+            
+            if messagesCollectionView.indexPathsForVisibleItems.contains(indexPath) {
+                messagesCollectionView.reloadItems(at: [indexPath])
+            }
+        }
+    }
+}
+
+// MARK:- CCPChannelDelegate
 extension ChatViewController: CCPChannelDelegate {
     func channelDidChangeTypingStatus(channel: CCPBaseChannel) {
         // TODO: add typing status
@@ -59,8 +72,11 @@ extension ChatViewController: CCPChannelDelegate {
     }
     
     func channelDidReceiveMessage(channel: CCPBaseChannel, message: CCPMessage) {
+        let mkMessage = Message(fromCCPMessage: message)
+        mkMessages.append(mkMessage)
         messages.append(message)
-        mkMessages.append(Message(fromCCPMessage: message))
+        
+        mkMessage.delegate = self
         
         messagesCollectionView.insertSections(IndexSet([mkMessages.count - 1]))
         messagesCollectionView.scrollToBottom(animated: true)
@@ -81,6 +97,10 @@ extension ChatViewController {
                 
                 self.messages = reverseChronologicalMessages
                 self.mkMessages = Message.array(withCCPMessages: reverseChronologicalMessages)
+                
+                for message in self.mkMessages {
+                    message.delegate = self
+                }
                 
                 DispatchQueue.main.async {
                     self.messagesCollectionView.reloadData()
@@ -142,26 +162,13 @@ extension ChatViewController: MessagesDisplayDelegate {
         let message = mkMessages[indexPath.section]
         
         switch message.data {
-        case .photo(let image):
+        case .photo(_):
             let configurationClosure = { (containerView: UIImageView) in
                 let imageMask = UIImageView()
                 imageMask.image = MessageStyle.bubble.image
                 imageMask.frame = containerView.bounds
                 containerView.mask = imageMask
                 containerView.contentMode = .scaleAspectFill
-                
-//                containerView.kf.indicatorType = .activity
-                
-                guard
-                    let url = URL(string: self.messages[indexPath.section].getAttachment()!.getUrl())
-                    else {
-                        print("Could not convert message into a readable Message format")
-                        return
-                }
-                
-                print("Setting image to \(url.absoluteString)")
-                
-//                containerView.kf.setImage(with: url)
             }
             return .custom(configurationClosure)
         default:
