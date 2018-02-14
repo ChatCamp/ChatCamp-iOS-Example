@@ -18,6 +18,12 @@ class GroupChannelsViewController: UIViewController {
             tableView.register(ChatTableViewCell.nib(), forCellReuseIdentifier: ChatTableViewCell.string())
         }
     }
+    @IBOutlet weak var addChannelFAB: UIButton! {
+        didSet {
+            addChannelFAB.layer.cornerRadius = 30
+            addChannelFAB.layer.masksToBounds = true
+        }
+    }
     
     var channels: [CCPGroupChannel] = []
     
@@ -38,6 +44,14 @@ class GroupChannelsViewController: UIViewController {
                 }
             }
         }
+    }
+}
+
+// MARK:- Actions
+extension GroupChannelsViewController {
+    @IBAction func didTapOnAddChannelFAB(_ sender: UIButton) {
+        let createChannelViewController = UIViewController.createChannelViewController()
+        present(createChannelViewController, animated: true, completion: nil)
     }
 }
 
@@ -62,10 +76,8 @@ extension GroupChannelsViewController: UITableViewDataSource {
 // MARK:- UITableViewDelegate
 extension GroupChannelsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard
-            let userID = UserDefaults.standard.userID(),
-            let username = UserDefaults.standard.username()
-            else { return }
+        let userID = CCPClient.getCurrentUser().getId()
+        let username = CCPClient.getCurrentUser().getDisplayName()
         
         let sender = Sender(id: userID, displayName: username)
         

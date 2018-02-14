@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KEk-Ef-CV8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KEk-Ef-CV8">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,18 +22,34 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aXR-Fj-iya">
+                                <rect key="frame" x="295" y="538" width="60" height="60"/>
+                                <color key="backgroundColor" red="0.18823529410000001" green="0.2274509804" blue="0.64705882349999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="Sge-AR-HMg"/>
+                                    <constraint firstAttribute="height" constant="60" id="Tm0-6C-TBf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="36"/>
+                                <state key="normal" image="fab_add"/>
+                                <connections>
+                                    <action selector="didTapOnAddChannelFAB:" destination="RPn-FG-z2X" eventType="touchUpInside" id="OEF-oX-Ce9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="n2A-BJ-bBP" firstAttribute="bottom" secondItem="FNv-a4-SMQ" secondAttribute="bottom" id="5K2-Hf-fGN"/>
                             <constraint firstItem="n2A-BJ-bBP" firstAttribute="trailing" secondItem="FNv-a4-SMQ" secondAttribute="trailing" id="FdZ-27-Phw"/>
+                            <constraint firstItem="FNv-a4-SMQ" firstAttribute="trailing" secondItem="aXR-Fj-iya" secondAttribute="trailing" constant="20" id="U8s-zh-9hf"/>
                             <constraint firstItem="n2A-BJ-bBP" firstAttribute="top" secondItem="FNv-a4-SMQ" secondAttribute="top" id="ihR-hD-kLW"/>
+                            <constraint firstItem="FNv-a4-SMQ" firstAttribute="bottom" secondItem="aXR-Fj-iya" secondAttribute="bottom" constant="20" id="ixU-tz-8Ms"/>
                             <constraint firstItem="n2A-BJ-bBP" firstAttribute="leading" secondItem="FNv-a4-SMQ" secondAttribute="leading" id="s3B-ZM-wjX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FNv-a4-SMQ"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Group Channels" image="tab-group-selected" id="d7Z-TC-gOP"/>
                     <connections>
+                        <outlet property="addChannelFAB" destination="aXR-Fj-iya" id="faz-D4-YZx"/>
                         <outlet property="tableView" destination="n2A-BJ-bBP" id="O4l-MN-4dW"/>
                     </connections>
                 </viewController>
@@ -153,6 +169,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="fab_add" width="24" height="24"/>
         <image name="tab-group-selected" width="24" height="24"/>
         <image name="tab-home-selected" width="24" height="24"/>
         <image name="tab-settings-selected" width="24" height="24"/>
