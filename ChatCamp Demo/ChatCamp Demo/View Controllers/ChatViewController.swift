@@ -39,6 +39,32 @@ class ChatViewController: MessagesViewController {
         
         loadMessages(count: 50)
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        CCPClient.addChannelDelegate(channelDelegate: self, identifier: ChatViewController.string())
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        CCPClient.removeChannelDelegate(identifier: ChatViewController.string())
+    }
+}
+
+// MARK:-
+extension ChatViewController: CCPChannelDelegate {
+    func channelDidChangeTypingStatus(channel: CCPBaseChannel) {
+        // TODO: add typing status
+        print("do nothing")
+    }
+    
+    func channelDidReceiveMessage(channel: CCPBaseChannel, message: CCPMessage) {
+        messages.append(message)
+        mkMessages.append(Message(fromCCPMessage: message))
+        
+        messagesCollectionView.insertSections(IndexSet([mkMessages.count - 1]))
+        messagesCollectionView.scrollToBottom(animated: true)
+    }
 }
 
 // MARK:- Helpers
@@ -73,16 +99,8 @@ extension ChatViewController: MessageInputBarDelegate {
                 DispatchQueue.main.async {
                     self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
                 }
-            } else if let sentMessage = message {
+            } else if let _ = message {
                 inputBar.inputTextView.text = ""
-                
-                self.messages.append(sentMessage)
-                self.mkMessages.append(Message(fromCCPMessage: sentMessage))
-                
-                DispatchQueue.main.async {
-                    self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToBottom(animated: true)
-                }
             }
         }
     }
@@ -99,7 +117,6 @@ extension ChatViewController: MessagesDataSource {
     }
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
-        print("indexPath.section - \(indexPath.section)")
         return mkMessages[indexPath.section]
     }
 }
