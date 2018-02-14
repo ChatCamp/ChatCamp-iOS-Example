@@ -13,7 +13,8 @@ class HomeTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
-        title = TabName.openChannels.rawValue
+        title = TabName.groupChannels.rawValue
+        selectedIndex = Tab.groupChannels.rawValue
     }
 }
 
