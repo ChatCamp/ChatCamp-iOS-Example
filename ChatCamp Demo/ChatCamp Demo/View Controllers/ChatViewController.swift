@@ -175,6 +175,14 @@ extension ChatViewController: MessagesDisplayDelegate {
             return .bubble
         }
     }
+    
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        
+        let ccpMessage = self.messages[indexPath.section]
+        
+        avatarView.initials = String(CCPClient.getCurrentUser().getDisplayName().first!)
+//        avatarView.downloadedFrom(link: ccpMessage.getUser().getAvatarUrl())
+    }
 }
 
 
