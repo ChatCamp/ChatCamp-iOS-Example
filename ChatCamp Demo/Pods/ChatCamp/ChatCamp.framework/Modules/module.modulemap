@@ -1,0 +1,11 @@
+framework module ChatCamp {
+  umbrella header "ChatCamp.h"
+
+  export *
+  module * { export * }
+}
+
+module ChatCamp.Swift {
+    header "ChatCamp-Swift.h"
+    requires objc
+}
