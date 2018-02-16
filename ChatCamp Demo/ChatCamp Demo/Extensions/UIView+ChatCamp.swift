@@ -13,4 +13,9 @@ extension UIView {
     class func nib() -> UINib {
         return UINib(nibName: String(describing: self), bundle: nil)
     }
+    
+    class func loadFromNib() -> UIView {
+        let bundle = Bundle(identifier: self.string())!
+        return bundle.loadNibNamed(self.string(), owner: nil, options: nil)![0] as! UIView
+    }
 }

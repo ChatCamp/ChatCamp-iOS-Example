@@ -72,6 +72,8 @@
 		C052C01F2036DB3A00ADED74 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C052BFEA2036DB3A00ADED74 /* Info.plist */; };
 		C052C0202036DB3A00ADED74 /* MessageKit+Availability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C052BFEB2036DB3A00ADED74 /* MessageKit+Availability.swift */; };
 		C052C0222036DC4000ADED74 /* MessageKitAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C052C0212036DC4000ADED74 /* MessageKitAssets.bundle */; };
+		C052C0242036E04F00ADED74 /* CustomMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C052C0232036E04F00ADED74 /* CustomMessageCell.swift */; };
+		C052C0262036E25300ADED74 /* CustomMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C052C0252036E25300ADED74 /* CustomMessageCell.xib */; };
 		C07B02D3202F48BE00F6C7D1 /* MessageContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07B02D2202F48BE00F6C7D1 /* MessageContent.swift */; };
 		C08D21EB202F1F2C00BD059D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D21EA202F1F2C00BD059D /* Constants.swift */; };
 		C08D21ED202F20F400BD059D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D21EC202F20F400BD059D /* LoginViewController.swift */; };
@@ -161,6 +163,8 @@
 		C052BFEB2036DB3A00ADED74 /* MessageKit+Availability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MessageKit+Availability.swift"; sourceTree = "<group>"; };
 		C052BFEC2036DB3A00ADED74 /* MessageKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageKit.h; sourceTree = "<group>"; };
 		C052C0212036DC4000ADED74 /* MessageKitAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MessageKitAssets.bundle; sourceTree = "<group>"; };
+		C052C0232036E04F00ADED74 /* CustomMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessageCell.swift; sourceTree = "<group>"; };
+		C052C0252036E25300ADED74 /* CustomMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomMessageCell.xib; sourceTree = "<group>"; };
 		C07B02D2202F48BE00F6C7D1 /* MessageContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageContent.swift; sourceTree = "<group>"; };
 		C08D21EA202F1F2C00BD059D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C08D21EC202F20F400BD059D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -392,6 +396,8 @@
 				C052BFD92036DB3A00ADED74 /* MediaMessageCell.swift */,
 				C052BFDA2036DB3A00ADED74 /* MessageCollectionViewCell.swift */,
 				C052BFDB2036DB3A00ADED74 /* TextMessageCell.swift */,
+				C052C0232036E04F00ADED74 /* CustomMessageCell.swift */,
+				C052C0252036E25300ADED74 /* CustomMessageCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -526,6 +532,7 @@
 				C08F0BFD20301849001821D8 /* CreateChannel.storyboard in Resources */,
 				C08D21F0202F22DC00BD059D /* ChatTableViewCell.xib in Resources */,
 				C03F7428202F00F300423969 /* Login.storyboard in Resources */,
+				C052C0262036E25300ADED74 /* CustomMessageCell.xib in Resources */,
 				C03F742A202F017C00423969 /* Home.storyboard in Resources */,
 				C052C01F2036DB3A00ADED74 /* Info.plist in Resources */,
 				C052C0222036DC4000ADED74 /* MessageKitAssets.bundle in Resources */,
@@ -607,6 +614,7 @@
 				C052C0062036DB3A00ADED74 /* UICollectionView+Extensions.swift in Sources */,
 				C052C0192036DB3A00ADED74 /* MessageContainerView.swift in Sources */,
 				C052BFF72036DB3A00ADED74 /* Avatar.swift in Sources */,
+				C052C0242036E04F00ADED74 /* CustomMessageCell.swift in Sources */,
 				C052C01D2036DB3A00ADED74 /* PlayButtonView.swift in Sources */,
 				C052C0182036DB3A00ADED74 /* InputTextView.swift in Sources */,
 				C052C0162036DB3A00ADED74 /* InputBarItem.swift in Sources */,

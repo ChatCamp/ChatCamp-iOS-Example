@@ -59,7 +59,7 @@ public enum MessageData {
 //
 //    case system(String)
 //    
-    case custom([String: String])
+    case custom([String: Any])
 //
 //    case placeholder
 

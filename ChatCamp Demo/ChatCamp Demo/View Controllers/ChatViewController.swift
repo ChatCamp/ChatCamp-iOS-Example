@@ -160,6 +160,14 @@ extension ChatViewController: MessagesLayoutDelegate {
     func heightForMedia(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return view.bounds.width / 2
     }
+    
+    func widthForImageInCustom(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return view.bounds.width / 2
+    }
+    
+    func heightForImageInCustom(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return view.bounds.width / 2
+    }
 }
 
 // MARK:- MessagesDisplayDelegate
