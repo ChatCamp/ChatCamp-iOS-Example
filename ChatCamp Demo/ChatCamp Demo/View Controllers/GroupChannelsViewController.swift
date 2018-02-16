@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MessageKit
 import ChatCamp
 
 class GroupChannelsViewController: UIViewController {

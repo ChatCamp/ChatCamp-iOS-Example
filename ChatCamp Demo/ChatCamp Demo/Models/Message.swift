@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import MessageKit
 import ChatCamp
 
 protocol MessageImageDelegate: NSObjectProtocol {
@@ -56,6 +55,14 @@ class Message: NSObject, MessageType {
                     self.delegate?.messageDidUpdateWithImage(message: self)
                 }
             }
+        } else if ccpMessage.getType() == "action_link" {
+//            let customAction = ccpMessage.getCustomType()
+            let metaData = ccpMessage.getMetadata()
+            
+            let link = metaData["link"]
+            let text = metaData["text"]
+            let imageURL = metaData["imageURL"]
+            
         }
     }
     
