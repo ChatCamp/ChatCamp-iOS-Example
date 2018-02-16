@@ -8,6 +8,8 @@
 
 import UIKit
 import ChatCamp
+import WebKit
+import SafariServices
 
 class ChatViewController: MessagesViewController {
     fileprivate var channel: CCPGroupChannel
@@ -36,9 +38,10 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+        messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
         
-        loadMessages(count: 50)
+        loadMessages(count: 30)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -132,6 +135,23 @@ extension ChatViewController: MessageInputBarDelegate {
     }
 }
 
+// MARK:- UICollectionViewDelegate
+extension ChatViewController: MessageCellDelegate {
+    func didTapMessage(in cell: MessageCollectionViewCell) {
+        let indexPath = messagesCollectionView.indexPath(for: cell)!
+        let message = mkMessages[indexPath.section]
+        
+        switch message.data {
+        case .custom(let metadata):
+            let link = metadata["ImageURL"] as! String
+            let safariViewController = SFSafariViewController(url: URL(string: link)!)
+            present(safariViewController, animated: true, completion: nil)
+        default:
+            break
+        }
+    }
+}
+
 // MARK:- MessagesDataSource
 extension ChatViewController: MessagesDataSource {
     func currentSender() -> Sender {
@@ -174,7 +194,15 @@ extension ChatViewController: MessagesLayoutDelegate {
     }
     
     func heightForImageInCustom(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return view.bounds.width / 2
+        switch message.data {
+        case .custom(let metadata):
+            let image = metadata["Image"] as! UIImage
+            let height = image.size.height * view.bounds.width / (2 * image.size.width)
+            
+            return height
+        default:
+            return view.bounds.width / 2
+        }
     }
 }
 
@@ -195,11 +223,22 @@ extension ChatViewController: MessagesDisplayDelegate {
             return .custom(configurationClosure)
         case .custom(let metadata):
             let configurationClosure = { (containerView: UIImageView) in
-                let imageMask = UIImageView()
-                imageMask.image = MessageStyle.bubble.image
-                imageMask.frame = containerView.bounds
-                containerView.mask = imageMask
-                containerView.contentMode = .scaleAspectFill
+                
+                containerView.layer.cornerRadius = 4
+                containerView.layer.masksToBounds = true
+                containerView.layer.borderWidth = 1
+                containerView.layer.borderColor = UIColor.lightGray.cgColor
+                
+                let customView = CustomMessageContentView().loadFromNib() as! CustomMessageContentView
+                
+                customView.nameLabel.text = metadata["Name"] as? String
+                customView.codeLabel.text = metadata["Code"] as? String
+                customView.descriptionLabel.text = metadata["ShortDescription"] as? String
+                customView.shippingLabel.text = metadata["ShippingCost"] as? String
+                customView.imageView.image = metadata["Image"] as? UIImage
+                
+                containerView.addSubview(customView)
+                customView.fillSuperview()
             }
             return .custom(configurationClosure)
         default:

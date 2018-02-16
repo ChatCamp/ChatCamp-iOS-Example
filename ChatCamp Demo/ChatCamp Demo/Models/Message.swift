@@ -42,7 +42,7 @@ class Message: NSObject, MessageType {
         
         super.init()
         
-        if ccpMessage.getType() == "text" {
+        if ccpMessage.getType() == "text" && ccpMessage.getCustomType() != "action_link" {
             data = MessageData.text(ccpMessage.getText())
         } else if ccpMessage.getType() == "attachment" {
             data = MessageData.photo(#imageLiteral(resourceName: "chat_image_placeholder"))
@@ -55,46 +55,50 @@ class Message: NSObject, MessageType {
                     self.delegate?.messageDidUpdateWithImage(message: self)
                 }
             }
-        } else if ccpMessage.getType() == "action_link" {
+        } else if ccpMessage.getType() == "text" && ccpMessage.getCustomType() == "action_link" {
 //            let customAction = ccpMessage.getCustomType()
             let metadata = ccpMessage.getMetadata()
             
             let metadata1: [String: Any] = ["product":[
-                "image_url": ["http://streaklabs.in/UserImages/FitBit.jpg"],
-                "name": "Fitbit",
-                "code": "SP0129",
-                "short_description": "Fitbit logs your health data",
-                "shipping_cost": 20
+                "ImageURL": ["http://streaklabs.in/UserImages/FitBit.jpg"],
+                "Name": "Fitbit",
+                "Code": "SP0129",
+                "ShortDescription": "Fitbit logs your health data",
+                "ShippingCost": 20
                 ]]
             
             let product: [String: Any] = metadata1["product"] as! [String: Any]
             
-            let link = (product["image_url"] as! [String])[0]
-            let title = product["name"] as! String
-            let code = "Code: \((product["code"] as! String))"
-            let shortDescription = product["short_description"] as! String
-            let shippingCost = "₹ \(product["shipping_cost"] as! String) shipping cost"
+            let link = (product["ImageURL"] as! [String])[0]
+            let title = product["Name"] as! String
+            let code = "Code: \((product["Code"] as! String))"
+            let shortDescription = product["ShortDescription"] as! String
+            let shippingCost = "₹ \(product["ShippingCost"] as! Int) shipping cost"
             
             var messageDataDictionary: [String: Any] = [
-                "link": link,
-                "name": title,
-                "code": code,
-                "shortDescription": shortDescription,
-                "shippingCost": shippingCost,
-                "image": #imageLiteral(resourceName: "chat_image_placeholder")
+                "ImageURL": link,
+                "Name": title,
+                "Code": code,
+                "ShortDescription": shortDescription,
+                "ShippingCost": shippingCost,
+                "Image": #imageLiteral(resourceName: "chat_image_placeholder")
             ]
             
             data = MessageData.custom(messageDataDictionary)
             
-            DispatchQueue.global().async {
-                let imageData = try? Data(contentsOf: URL(string: link)!)
-                
+            URLSession.shared.dataTask(with: URL(string: link)!) { data, response, error in
+                guard
+                    let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                    let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                    let data = data, error == nil,
+                    let image = UIImage(data: data)
+                    else { return }
                 DispatchQueue.main.async {
-                    messageDataDictionary["image"] = UIImage(data: imageData!)!
+                    messageDataDictionary["Image"] = image
                     self.data = MessageData.custom(messageDataDictionary)
                     self.delegate?.messageDidUpdateWithImage(message: self)
                 }
-            }
+                }.resume()
         }
     }
     

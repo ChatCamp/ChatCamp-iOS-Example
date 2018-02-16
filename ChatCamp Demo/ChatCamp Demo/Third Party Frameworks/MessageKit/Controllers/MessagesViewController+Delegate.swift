@@ -69,7 +69,7 @@ extension MessagesViewController: UICollectionViewDelegateFlowLayout {
         let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
 
         switch message.data {
-        case .text, .attributedText, .emoji, .photo:
+        case .text, .attributedText, .emoji, .photo, .custom:
             selectedIndexPathForMenu = indexPath
             return true
         default:
