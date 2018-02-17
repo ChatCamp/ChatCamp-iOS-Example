@@ -128,6 +128,9 @@ extension ChatViewController {
             
             photoGalleryViewController.didSelectAssets = { (assets: [DKAsset]) in
                 // TODO: UPLOAD IMAGE, GET A URL IN RETURN, AND SEND THAT URL AS MESSAGE
+                ImageManager.shared.uploadAttachment()
+                // THE ABOVE LINE OF CODE DOESN'T WORK
+                
                 self.channel.sendMessage(text: "photo is sent", completionHandler: { (message, error) in
                     if error != nil {
                         DispatchQueue.main.async {

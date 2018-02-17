@@ -3,4 +3,5 @@ target 'ChatCamp Demo' do
 
     pod 'ChatCamp'
     pod 'DKImagePickerController', '4.0.0-beta', :subspecs => ['PhotoGallery']
+    pod 'Alamofire'
 end
