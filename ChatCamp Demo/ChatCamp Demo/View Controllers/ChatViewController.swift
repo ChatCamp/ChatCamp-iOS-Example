@@ -8,8 +8,8 @@
 
 import UIKit
 import ChatCamp
-import WebKit
 import SafariServices
+import DKImagePickerController
 
 class ChatViewController: MessagesViewController {
     fileprivate var channel: CCPGroupChannel
@@ -33,7 +33,7 @@ class ChatViewController: MessagesViewController {
         
         title = channel.getName()
         
-        setupSendButton()
+        setupMessageInputBar()
         
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
@@ -114,9 +114,36 @@ extension ChatViewController {
         }
     }
     
-    fileprivate func setupSendButton() {
+    fileprivate func setupMessageInputBar() {
         messageInputBar.sendButton.setTitle(nil, for: .normal)
         messageInputBar.sendButton.setImage(#imageLiteral(resourceName: "chat_send_button"), for: .normal)
+        
+        let attachmentButton = InputBarButtonItem(frame: CGRect(x: 3, y: 2, width: 30, height: 30))
+        attachmentButton.setImage(#imageLiteral(resourceName: "chat_image_button"), for: .normal)
+        
+        attachmentButton.onTouchUpInside { (attachmentButton) in
+            let photoGalleryViewController = DKImagePickerController()
+            photoGalleryViewController.singleSelect = true
+            photoGalleryViewController.sourceType = .photo
+            
+            photoGalleryViewController.didSelectAssets = { (assets: [DKAsset]) in
+                // TODO: UPLOAD IMAGE, GET A URL IN RETURN, AND SEND THAT URL AS MESSAGE
+                self.channel.sendMessage(text: "photo is sent", completionHandler: { (message, error) in
+                    if error != nil {
+                        DispatchQueue.main.async {
+                            self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                        }
+                    } else if let _ = message {
+                        self.messageInputBar.inputTextView.text = ""
+                    }
+                })
+            }
+            
+            self.present(photoGalleryViewController, animated: true, completion: nil)
+        }
+        
+        messageInputBar.setLeftStackViewWidthConstant(to: 50, animated: false)
+        messageInputBar.leftStackView.addSubview(attachmentButton)
     }
 }
 
