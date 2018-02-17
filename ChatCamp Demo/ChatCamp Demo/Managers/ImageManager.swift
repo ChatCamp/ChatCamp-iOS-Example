@@ -29,7 +29,7 @@ extension ImageManager {
         Alamofire.upload(multipartFormData: { (multipartFormData) in
             
             let userIDData = CCPClient.getCurrentUser().getId().data(using: .utf8)!
-            let appIDData = "6359014142933725184".data(using: .utf8)!
+            let appIDData = "6346990561630613504".data(using: .utf8)!
             let channelTypeData = "group_channels".data(using: .utf8)!
             let channelIDData = channelID.data(using: .utf8)!
             
@@ -38,7 +38,7 @@ extension ImageManager {
             multipartFormData.append(channelTypeData, withName: "channel_type")
             multipartFormData.append(channelIDData, withName: "channel_id")
             
-            multipartFormData.append(imageData, withName: "image1", mimeType: "image/png")
+            multipartFormData.append(imageData, withName: "attachment", fileName: "\(Date().timeIntervalSince1970)", mimeType: "image/jpeg")
             
         }, to: url) { (encodingResult) in
             
@@ -52,13 +52,12 @@ extension ImageManager {
                     let percent = (Float(totalBytesWritten) / Float(totalBytesToWrite)) * 100
                     print("uploaded: \(percent)")
                 })
-                upload.validate()
                 upload.responseString { response in
 
                     switch response.result {
                     case .success(let value):
 
-                        print("image uploaded")
+                        print("image uploaded + \(response.result.debugDescription)")
                         
                         if let data = value.data(using: .utf8) {
                             do {
