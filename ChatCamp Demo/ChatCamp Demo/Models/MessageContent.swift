@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import MessageKit
 
 //class MessageContent: MessageData {
 //    case text(String)

@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import MessageKit
 import ChatCamp
+import WebKit
+import SafariServices
 
 class ChatViewController: MessagesViewController {
     fileprivate var channel: CCPGroupChannel
@@ -37,9 +38,10 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+        messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
         
-        loadMessages(count: 50)
+        loadMessages(count: 30)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -133,6 +135,23 @@ extension ChatViewController: MessageInputBarDelegate {
     }
 }
 
+// MARK:- UICollectionViewDelegate
+extension ChatViewController: MessageCellDelegate {
+    func didTapMessage(in cell: MessageCollectionViewCell) {
+        let indexPath = messagesCollectionView.indexPath(for: cell)!
+        let message = mkMessages[indexPath.section]
+        
+        switch message.data {
+        case .custom(let metadata):
+            let link = metadata["ImageURL"] as! String
+            let safariViewController = SFSafariViewController(url: URL(string: link)!)
+            present(safariViewController, animated: true, completion: nil)
+        default:
+            break
+        }
+    }
+}
+
 // MARK:- MessagesDataSource
 extension ChatViewController: MessagesDataSource {
     func currentSender() -> Sender {
@@ -169,6 +188,22 @@ extension ChatViewController: MessagesLayoutDelegate {
             return view.bounds.width / 2
         }
     }
+    
+    func widthForImageInCustom(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return view.bounds.width / 2
+    }
+    
+    func heightForImageInCustom(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        switch message.data {
+        case .custom(let metadata):
+            let image = metadata["Image"] as! UIImage
+            let height = image.size.height * view.bounds.width / (2 * image.size.width)
+            
+            return height
+        default:
+            return view.bounds.width / 2
+        }
+    }
 }
 
 // MARK:- MessagesDisplayDelegate
@@ -186,6 +221,26 @@ extension ChatViewController: MessagesDisplayDelegate {
                 containerView.contentMode = .scaleAspectFill
             }
             return .custom(configurationClosure)
+        case .custom(let metadata):
+            let configurationClosure = { (containerView: UIImageView) in
+                
+                containerView.layer.cornerRadius = 4
+                containerView.layer.masksToBounds = true
+                containerView.layer.borderWidth = 1
+                containerView.layer.borderColor = UIColor.lightGray.cgColor
+                
+                let customView = CustomMessageContentView().loadFromNib() as! CustomMessageContentView
+                
+                customView.nameLabel.text = metadata["Name"] as? String
+                customView.codeLabel.text = metadata["Code"] as? String
+                customView.descriptionLabel.text = metadata["ShortDescription"] as? String
+                customView.shippingLabel.text = metadata["ShippingCost"] as? String
+                customView.imageView.image = metadata["Image"] as? UIImage
+                
+                containerView.addSubview(customView)
+                customView.fillSuperview()
+            }
+            return .custom(configurationClosure)
         default:
             return .bubble
         }
@@ -199,70 +254,3 @@ extension ChatViewController: MessagesDisplayDelegate {
 //        avatarView.downloadedFrom(link: ccpMessage.getUser().getAvatarUrl())
     }
 }
-
-
-// TODO:- REMOVE CODE BELOW
-
-//let sender = Sender(id: "any_unique_id", displayName: "Steven")
-//let friendSender = Sender(id: "friend_id", displayName: "Kate")
- /*
-let messages: [Message] = [
-    Message(senderOfMessage: sender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.text("Hey, how are you?")),
-    Message(senderOfMessage: friendSender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.text("I'm good. What about you?")),
-    Message(senderOfMessage: sender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.text("Great here as well. We are planning for a day trip, you in?")),
-    Message(senderOfMessage: friendSender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.text("Absolutely!")),
-    Message(senderOfMessage: friendSender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.photo(UIImage(named: "user_placeholder")!)),
-    Message(senderOfMessage: friendSender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.emoji("Check this image.👆")),
-    Message(senderOfMessage: sender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.photo(#imageLiteral(resourceName: "sunset_image"))),
-    Message(senderOfMessage: sender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.text("Seems like image are not appearing.")),
-    Message(senderOfMessage: friendSender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.text("Yeah, strange.")),
-    Message(senderOfMessage: sender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.text("But MessageKit's documentation says that you can render images as well.")),
-    Message(senderOfMessage: friendSender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.text("Not sure what is happening. You have to debug I think.")),
-    Message(senderOfMessage: friendSender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.text("Yeah, seem like it.")),
-    Message(senderOfMessage: friendSender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.emoji("😏😏😏")),
-    Message(senderOfMessage: sender,
-            IDOfMessage: "\(Date().timeIntervalSince1970)",
-        sentDate: Date(),
-        messageData: MessageData.emoji("😤"))
-]
-*/
-// TODO:- REMOVE CODE ABOVE
