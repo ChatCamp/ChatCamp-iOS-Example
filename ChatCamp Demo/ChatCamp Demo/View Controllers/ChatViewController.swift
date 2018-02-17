@@ -10,6 +10,7 @@ import UIKit
 import ChatCamp
 import SafariServices
 import DKImagePickerController
+import Photos
 
 class ChatViewController: MessagesViewController {
     fileprivate var channel: CCPGroupChannel
@@ -127,17 +128,41 @@ extension ChatViewController {
             photoGalleryViewController.sourceType = .photo
             
             photoGalleryViewController.didSelectAssets = { (assets: [DKAsset]) in
-                // TODO: UPLOAD IMAGE, GET A URL IN RETURN, AND SEND THAT URL AS MESSAGE
-                ImageManager.shared.uploadAttachment()
-                // THE ABOVE LINE OF CODE DOESN'T WORK
+                guard assets[0].type == .photo else { return }
                 
-                self.channel.sendMessage(text: "photo is sent", completionHandler: { (message, error) in
-                    if error != nil {
-                        DispatchQueue.main.async {
-                            self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                let pickedAsset = assets[0].originalAsset!
+                let requestOptions = PHImageRequestOptions()
+                requestOptions.version = .original
+                PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { (data, string, orientation, info) in
+                    if let originalData = data {
+                        ImageManager.shared.uploadAttachment(imageData: originalData, channelID: self.channel.getId())
+                        { (successful, imageURL, imageName, imageType) in
+                            
+                            if successful,
+                                let urlString = imageURL,
+                                let name = imageName,
+                                let type = imageType {
+                                
+                                self.channel.sendAttachmentRaw(url: urlString, name: name, type: type, completionHandler: { (message, error) in
+                                    if error != nil {
+                                        DispatchQueue.main.async {
+                                            self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                                        }
+                                    } else if let _ = message {
+                                        self.messageInputBar.inputTextView.text = ""
+                                    }
+                                })
+                                
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                                }
+                            }
                         }
-                    } else if let _ = message {
-                        self.messageInputBar.inputTextView.text = ""
+                    } else {
+                        DispatchQueue.main.async {
+                            self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
+                        }
                     }
                 })
             }

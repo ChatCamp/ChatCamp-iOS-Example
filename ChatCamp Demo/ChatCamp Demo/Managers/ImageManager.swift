@@ -19,31 +19,26 @@ class ImageManager {
         
         return Singleton.instance
     }
-    
-    
 }
 
 // MARK:- Helpers
 extension ImageManager {
-    func uploadAttachment() {
-        let path = Bundle.main.path(forResource: "image1", ofType: "png")!
+    func uploadAttachment(imageData: Data, channelID: String, completionHandler: @escaping (Bool, String?, String?, String?) -> Void) {
         let url = "https://api.chatcamp.io/api/1.0/attachment_upload/"
-        let img = UIImage(contentsOfFile: path)!
-        let data: Data = UIImageJPEGRepresentation(img, 1)!
         
         Alamofire.upload(multipartFormData: { (multipartFormData) in
             
-            let userIDData = "1".data(using: .utf8)!
+            let userIDData = CCPClient.getCurrentUser().getId().data(using: .utf8)!
             let appIDData = "6359014142933725184".data(using: .utf8)!
             let channelTypeData = "group_channels".data(using: .utf8)!
-            let channelIDData = "123".data(using: .utf8)!
+            let channelIDData = channelID.data(using: .utf8)!
             
             multipartFormData.append(userIDData, withName: "user_id")
             multipartFormData.append(appIDData, withName: "app_id")
             multipartFormData.append(channelTypeData, withName: "channel_type")
             multipartFormData.append(channelIDData, withName: "channel_id")
             
-            multipartFormData.append(data, withName: "image1", mimeType: "image/png")
+            multipartFormData.append(imageData, withName: "image1", mimeType: "image/png")
             
         }, to: url) { (encodingResult) in
             
@@ -58,21 +53,46 @@ extension ImageManager {
                     print("uploaded: \(percent)")
                 })
                 upload.validate()
-                upload.responseJSON { response in
+                upload.responseString { response in
 
                     switch response.result {
-                    case .success(_):
+                    case .success(let value):
 
                         print("image uploaded")
+                        
+                        if let data = value.data(using: .utf8) {
+                            do {
+                                let data = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                            
+                                if let jsonData = data,
+                                    let attachment = jsonData["attachment"] as? [String: String],
+                                    let imageURL = attachment["url"],
+                                    let imageType = attachment["type"],
+                                    let imageName = attachment["name"] {
+                                    
+                                    completionHandler(true, imageURL, imageName, imageType)
+                                    
+                                } else {
+                                    completionHandler(false, nil, nil, nil)
+                                }
+
+                            } catch {
+                                print(error.localizedDescription)
+                                completionHandler(false, nil, nil, nil)
+                            }
+                        }
 
                     case .failure(let error):
-                        print(response.response?.statusCode)
+                        print("image didn't upload")
+                        print(response.response!.statusCode)
                         print(error)
+                        completionHandler(false, nil, nil, nil)
                     }
 
                 }
             case .failure(let encodingError):
                 print(encodingError)
+                completionHandler(false, nil, nil, nil)
             }
         }
     }
