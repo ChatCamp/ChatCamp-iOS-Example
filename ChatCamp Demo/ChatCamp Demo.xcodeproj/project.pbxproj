@@ -90,6 +90,9 @@
 		C0AD50782032D4FC003CE2E8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AD50772032D4FC003CE2E8 /* SettingsViewController.swift */; };
 		C0B2666B202F453E008D33F3 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B2666A202F453E008D33F3 /* ChatViewController.swift */; };
 		C0B2666E202F4722008D33F3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B2666D202F4722008D33F3 /* Message.swift */; };
+		C0D8F986203834C00051ED77 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D8F985203834C00051ED77 /* ImageManager.swift */; };
+		C0D8F98820383D8A0051ED77 /* Data+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D8F98720383D8A0051ED77 /* Data+ChatCamp.swift */; };
+		C0D8F98C203843020051ED77 /* image1.png in Resources */ = {isa = PBXBuildFile; fileRef = C0D8F98B203843020051ED77 /* image1.png */; };
 		C0EC055D203318D1003DE23F /* UserDefaults+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EC055C203318D1003DE23F /* UserDefaults+ChatCamp.swift */; };
 /* End PBXBuildFile section */
 
@@ -182,6 +185,9 @@
 		C0AD50772032D4FC003CE2E8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C0B2666A202F453E008D33F3 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		C0B2666D202F4722008D33F3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		C0D8F985203834C00051ED77 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
+		C0D8F98720383D8A0051ED77 /* Data+ChatCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+ChatCamp.swift"; sourceTree = "<group>"; };
+		C0D8F98B203843020051ED77 /* image1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image1.png; path = Assets.xcassets/AppIcon.appiconset/image1.png; sourceTree = "<group>"; };
 		C0EC055C203318D1003DE23F /* UserDefaults+ChatCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+ChatCamp.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -215,6 +221,7 @@
 				C0AD50732032D0B6003CE2E8 /* UIViewController+ChatCamp.swift */,
 				C0EC055C203318D1003DE23F /* UserDefaults+ChatCamp.swift */,
 				C0328C5B20346B5A00BA4029 /* UIImageView+ChatCamp.swift */,
+				C0D8F98720383D8A0051ED77 /* Data+ChatCamp.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -240,6 +247,7 @@
 		C03F7412202EFEBA00423969 /* ChatCamp Demo */ = {
 			isa = PBXGroup;
 			children = (
+				C0D8F98B203843020051ED77 /* image1.png */,
 				C052BFAD2036DB1000ADED74 /* Third Party Frameworks */,
 				C0AD506E2032CF40003CE2E8 /* Managers */,
 				C0B2666C202F4715008D33F3 /* Models */,
@@ -446,6 +454,7 @@
 			isa = PBXGroup;
 			children = (
 				C0AD506F2032CF4B003CE2E8 /* WindowManager.swift */,
+				C0D8F985203834C00051ED77 /* ImageManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -539,6 +548,7 @@
 				C03F742A202F017C00423969 /* Home.storyboard in Resources */,
 				C052C01F2036DB3A00ADED74 /* Info.plist in Resources */,
 				C052C0222036DC4000ADED74 /* MessageKitAssets.bundle in Resources */,
+				C0D8F98C203843020051ED77 /* image1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,13 +595,23 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${PODS_ROOT}/ChatCamp/ChatCamp.framework",
 				"${PODS_ROOT}/ChatCamp/ChatCamp.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/DKImagePickerController/DKImagePickerController.framework",
+				"${BUILT_PRODUCTS_DIR}/DKPhotoGallery/DKPhotoGallery.framework",
+				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChatCamp.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/ChatCamp.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKImagePickerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKPhotoGallery.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -626,6 +646,7 @@
 				C052BFF02036DB3A00ADED74 /* MessageCellDelegate.swift in Sources */,
 				C052C00D2036DB3A00ADED74 /* MessagesViewController.swift in Sources */,
 				C0AD50742032D0B6003CE2E8 /* UIViewController+ChatCamp.swift in Sources */,
+				C0D8F986203834C00051ED77 /* ImageManager.swift in Sources */,
 				C052C0172036DB3A00ADED74 /* InputStackView.swift in Sources */,
 				C052BFFF2036DB3A00ADED74 /* MessageStyle.swift in Sources */,
 				C052C01C2036DB3A00ADED74 /* MessagesCollectionView.swift in Sources */,
@@ -656,6 +677,7 @@
 				C0B2666E202F4722008D33F3 /* Message.swift in Sources */,
 				C03D3033202F305100E3A85A /* UIView+ChatCamp.swift in Sources */,
 				C08D21ED202F20F400BD059D /* LoginViewController.swift in Sources */,
+				C0D8F98820383D8A0051ED77 /* Data+ChatCamp.swift in Sources */,
 				C052BFF42036DB3A00ADED74 /* MessagesDisplayDelegate.swift in Sources */,
 				C0AD50702032CF4B003CE2E8 /* WindowManager.swift in Sources */,
 				C0B2666B202F453E008D33F3 /* ChatViewController.swift in Sources */,

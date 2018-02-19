@@ -8,8 +8,9 @@
 
 import UIKit
 import ChatCamp
-import WebKit
 import SafariServices
+import DKImagePickerController
+import Photos
 
 class ChatViewController: MessagesViewController {
     fileprivate var channel: CCPGroupChannel
@@ -33,7 +34,7 @@ class ChatViewController: MessagesViewController {
         
         title = channel.getName()
         
-        setupSendButton()
+        setupMessageInputBar()
         
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
@@ -114,9 +115,63 @@ extension ChatViewController {
         }
     }
     
-    fileprivate func setupSendButton() {
+    fileprivate func setupMessageInputBar() {
         messageInputBar.sendButton.setTitle(nil, for: .normal)
         messageInputBar.sendButton.setImage(#imageLiteral(resourceName: "chat_send_button"), for: .normal)
+        
+        let attachmentButton = InputBarButtonItem(frame: CGRect(x: 3, y: 2, width: 30, height: 30))
+        attachmentButton.setImage(#imageLiteral(resourceName: "chat_image_button"), for: .normal)
+        
+        attachmentButton.onTouchUpInside { (attachmentButton) in
+            let photoGalleryViewController = DKImagePickerController()
+            photoGalleryViewController.singleSelect = true
+            photoGalleryViewController.sourceType = .photo
+            
+            photoGalleryViewController.didSelectAssets = { (assets: [DKAsset]) in
+                guard assets[0].type == .photo else { return }
+                
+                let pickedAsset = assets[0].originalAsset!
+                let requestOptions = PHImageRequestOptions()
+                requestOptions.version = .original
+                PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { (data, string, orientation, info) in
+                    if let originalData = data {
+                        ImageManager.shared.uploadAttachment(imageData: originalData, channelID: self.channel.getId())
+                        { (successful, imageURL, imageName, imageType) in
+                            
+                            if successful,
+                                let urlString = imageURL,
+                                let name = imageName,
+                                let type = imageType {
+                                
+                                self.channel.sendAttachmentRaw(url: urlString, name: name, type: type, completionHandler: { (message, error) in
+                                    if error != nil {
+                                        DispatchQueue.main.async {
+                                            self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                                        }
+                                    } else if let _ = message {
+                                        self.messageInputBar.inputTextView.text = ""
+                                    }
+                                })
+                                
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                                }
+                            }
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
+                        }
+                    }
+                })
+            }
+            
+            self.present(photoGalleryViewController, animated: true, completion: nil)
+        }
+        
+        messageInputBar.setLeftStackViewWidthConstant(to: 50, animated: false)
+        messageInputBar.leftStackView.addSubview(attachmentButton)
     }
 }
 
