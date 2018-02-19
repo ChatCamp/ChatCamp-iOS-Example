@@ -1,15 +1,51 @@
 PODS:
-  - ChatCamp (0.0.6)
-  - MessageKit (0.13.1)
+  - Alamofire (4.6.0)
+  - ChatCamp (0.0.7)
+  - DKImagePickerController/Core (4.0.0-beta):
+    - DKImagePickerController/ImageDataManager
+    - DKImagePickerController/Resource
+  - DKImagePickerController/ImageDataManager (4.0.0-beta)
+  - DKImagePickerController/PhotoGallery (4.0.0-beta):
+    - DKImagePickerController/Core
+    - DKPhotoGallery
+  - DKImagePickerController/Resource (4.0.0-beta)
+  - DKPhotoGallery (0.0.3):
+    - DKPhotoGallery/Core (= 0.0.3)
+    - DKPhotoGallery/Model (= 0.0.3)
+    - DKPhotoGallery/Preview (= 0.0.3)
+    - DKPhotoGallery/Resource (= 0.0.3)
+    - SDWebImage/GIF (~> 4.0)
+  - DKPhotoGallery/Core (0.0.3):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Preview
+    - SDWebImage/GIF (~> 4.0)
+  - DKPhotoGallery/Model (0.0.3):
+    - SDWebImage/GIF (~> 4.0)
+  - DKPhotoGallery/Preview (0.0.3):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Resource
+    - SDWebImage/GIF (~> 4.0)
+  - DKPhotoGallery/Resource (0.0.3):
+    - SDWebImage/GIF (~> 4.0)
+  - FLAnimatedImage (1.0.12)
+  - SDWebImage/Core (4.3.0)
+  - SDWebImage/GIF (4.3.0):
+    - FLAnimatedImage (~> 1.0)
+    - SDWebImage/Core
 
 DEPENDENCIES:
+  - Alamofire
   - ChatCamp
-  - MessageKit
+  - DKImagePickerController/PhotoGallery (= 4.0.0-beta)
 
 SPEC CHECKSUMS:
-  ChatCamp: 56f2816d6fa6b7d13cf03502f918da973a27a204
-  MessageKit: fc74d71d9b05385138d47b3a4b7beef5c687daf1
+  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  ChatCamp: 1e343345517d1dca6aceab0ea18ed7b453df2bd8
+  DKImagePickerController: 8abb5370913beced68cac281a0e2eee82000e832
+  DKPhotoGallery: 1c3a7fbd0b246861586bb63f422331b6c21dbdf8
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  SDWebImage: 6da6c8bca115addc4de8613362e1b15f66333825
 
-PODFILE CHECKSUM: 6b3cd9140d4e50519dc3c3ea88da478e24ff8675
+PODFILE CHECKSUM: 72b576aafb08c00088fcc0c46be8c4e554e4c3a5
 
 COCOAPODS: 1.4.0
