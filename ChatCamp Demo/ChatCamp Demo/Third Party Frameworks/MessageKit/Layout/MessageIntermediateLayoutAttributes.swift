@@ -43,33 +43,33 @@ final class MessageIntermediateLayoutAttributes {
     
     lazy var avatarFrame: CGRect = {
         
-        guard avatarSize != .zero else { return .zero }
+        guard self.avatarSize != .zero else { return .zero }
         
         var origin = CGPoint.zero
         
-        switch avatarPosition.horizontal {
+        switch self.avatarPosition.horizontal {
         case .cellLeading:
             break
         case .cellTrailing:
-            origin.x = cellFrame.width - avatarSize.width
+            origin.x = self.cellFrame.width - self.avatarSize.width
         case .natural:
             fatalError(MessageKitError.avatarPositionUnresolved)
         }
         
-        switch avatarPosition.vertical {
+        switch self.avatarPosition.vertical {
         case .cellTop:
             break
         case .cellBottom:
-            origin.y = cellFrame.height - avatarSize.height
+            origin.y = self.cellFrame.height - self.avatarSize.height
         case .messageTop:
-            origin.y = messageContainerFrame.minY
+            origin.y = self.messageContainerFrame.minY
         case .messageBottom:
-            origin.y = messageContainerFrame.maxY - avatarSize.height
+            origin.y = self.messageContainerFrame.maxY - self.avatarSize.height
         case .messageCenter:
-            origin.y = messageContainerFrame.midY - (avatarSize.height/2)
+            origin.y = self.messageContainerFrame.midY - (self.avatarSize.height/2)
         }
         
-        return CGRect(origin: origin, size: avatarSize)
+        return CGRect(origin: origin, size: self.avatarSize)
         
     }()
 
@@ -81,21 +81,21 @@ final class MessageIntermediateLayoutAttributes {
     
     lazy var messageContainerFrame: CGRect = {
         
-        guard messageContainerSize != .zero else { return .zero }
+        guard self.messageContainerSize != .zero else { return .zero }
         
         var origin: CGPoint = .zero
-        origin.y = topLabelSize.height + messageContainerPadding.top + topLabelVerticalPadding
+        origin.y = self.topLabelSize.height + self.messageContainerPadding.top + self.topLabelVerticalPadding
         
-        switch avatarPosition.horizontal {
+        switch self.avatarPosition.horizontal {
         case .cellLeading:
-            origin.x = avatarSize.width + messageContainerPadding.left
+            origin.x = self.avatarSize.width + self.messageContainerPadding.left
         case .cellTrailing:
-            origin.x = cellFrame.width - avatarSize.width - messageContainerSize.width - messageContainerPadding.right
+            origin.x = self.cellFrame.width - self.avatarSize.width - self.messageContainerSize.width - self.messageContainerPadding.right
         case .natural:
             fatalError(MessageKitError.avatarPositionUnresolved)
         }
         
-        return CGRect(origin: origin, size: messageContainerSize)
+        return CGRect(origin: origin, size: self.messageContainerSize)
         
     }()
     
@@ -106,26 +106,26 @@ final class MessageIntermediateLayoutAttributes {
     
     lazy var topLabelFrame: CGRect = {
         
-        guard topLabelSize != .zero else { return .zero }
+        guard self.topLabelSize != .zero else { return .zero }
         
         var origin = CGPoint.zero
         
-        origin.y = topLabelPadding.top
+        origin.y = self.topLabelPadding.top
         
-        switch topLabelAlignment {
+        switch self.topLabelAlignment {
         case .cellLeading:
-            origin.x = topLabelPadding.left
+            origin.x = self.topLabelPadding.left
         case .cellCenter:
-            origin.x = (cellFrame.width/2) + topLabelPadding.left - topLabelPadding.right
+            origin.x = (self.cellFrame.width/2) + self.topLabelPadding.left - self.topLabelPadding.right
         case .cellTrailing:
-            origin.x = cellFrame.width - topLabelSize.width - topLabelPadding.right
+            origin.x = self.cellFrame.width - self.topLabelSize.width - self.topLabelPadding.right
         case .messageLeading:
-            origin.x = messageContainerFrame.minX + topLabelPadding.left
+            origin.x = self.messageContainerFrame.minX + self.topLabelPadding.left
         case .messageTrailing:
-            origin.x = messageContainerFrame.maxX - topLabelSize.width - topLabelPadding.right
+            origin.x = self.messageContainerFrame.maxX - self.topLabelSize.width - self.topLabelPadding.right
         }
         
-        return CGRect(origin: origin, size: topLabelSize)
+        return CGRect(origin: origin, size: self.topLabelSize)
         
     }()
 
@@ -136,26 +136,26 @@ final class MessageIntermediateLayoutAttributes {
     
     lazy var bottomLabelFrame: CGRect = {
         
-        guard bottomLabelSize != .zero else { return .zero }
+        guard self.bottomLabelSize != .zero else { return .zero }
         
         var origin: CGPoint = .zero
         
-        origin.y = messageContainerFrame.maxY + messageContainerPadding.bottom + bottomLabelPadding.top
+        origin.y = self.messageContainerFrame.maxY + self.messageContainerPadding.bottom + self.bottomLabelPadding.top
         
-        switch bottomLabelAlignment {
+        switch self.bottomLabelAlignment {
         case .cellLeading:
-            origin.x = bottomLabelPadding.left
+            origin.x = self.bottomLabelPadding.left
         case .cellCenter:
-            origin.x = (cellFrame.width/2) + bottomLabelPadding.left - bottomLabelPadding.right
+            origin.x = (self.cellFrame.width/2) + self.bottomLabelPadding.left - self.bottomLabelPadding.right
         case .cellTrailing:
-            origin.x = cellFrame.width - bottomLabelSize.width - bottomLabelPadding.right
+            origin.x = self.cellFrame.width - self.bottomLabelSize.width - self.bottomLabelPadding.right
         case .messageLeading:
-            origin.x = messageContainerFrame.minX + bottomLabelPadding.left
+            origin.x = self.messageContainerFrame.minX + self.bottomLabelPadding.left
         case .messageTrailing:
-            origin.x = messageContainerFrame.maxX - bottomLabelSize.width - bottomLabelPadding.right
+            origin.x = self.messageContainerFrame.maxX - self.bottomLabelSize.width - self.bottomLabelPadding.right
         }
         
-        return CGRect(origin: origin, size: bottomLabelSize)
+        return CGRect(origin: origin, size: self.bottomLabelSize)
 
     }()
     

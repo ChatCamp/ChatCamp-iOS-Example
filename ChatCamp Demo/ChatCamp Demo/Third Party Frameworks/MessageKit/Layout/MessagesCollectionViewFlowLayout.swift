@@ -55,7 +55,7 @@ open class MessagesCollectionViewFlowLayout: UICollectionViewFlowLayout {
     /// Font to be used by `TextMessageCell` for `MessageData.emoji(String)` case.
     ///
     /// The default value of this property is 2x the `messageLabelFont`.
-    private var emojiLabelFont: UIFont
+    internal var emojiLabelFont: UIFont
 
     typealias MessageID = String
     
@@ -264,7 +264,7 @@ fileprivate extension MessagesCollectionViewFlowLayout {
     ///
     /// - Parameters:
     ///   - attributes: The `MessageCollectionViewLayoutAttributes` to apply the layout information to.
-    private func configure(attributes: MessagesCollectionViewLayoutAttributes) {
+    internal func configure(attributes: MessagesCollectionViewLayoutAttributes) {
         
         let intermediateAttributes = messageIntermediateLayoutAttributes(for: attributes.indexPath)
         
@@ -604,7 +604,7 @@ private extension MessagesCollectionViewFlowLayout {
 
 // MARK: - Cell Sizing
 
-private extension MessagesCollectionViewFlowLayout {
+internal extension MessagesCollectionViewFlowLayout {
     
     // P
     
@@ -612,7 +612,7 @@ private extension MessagesCollectionViewFlowLayout {
     ///
     /// - Parameters:
     ///   - attributes: The `MessageIntermediateLayoutAttributes` to use to determine the height of the cell.
-    private func cellHeight(for attributes: MessageIntermediateLayoutAttributes) -> CGFloat {
+    internal func cellHeight(for attributes: MessageIntermediateLayoutAttributes) -> CGFloat {
         
         var cellHeight: CGFloat = 0
         

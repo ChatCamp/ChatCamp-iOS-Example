@@ -409,7 +409,7 @@ open class MessageInputBar: UIView {
                 windowAnchor?.isActive = false
                 windowAnchor = contentView.bottomAnchor.constraintLessThanOrEqualToSystemSpacingBelow(window.safeAreaLayoutGuide.bottomAnchor, multiplier: 1)
                 windowAnchor?.constant = -padding.bottom
-                windowAnchor?.priority = UILayoutPriority(rawValue: 750)
+                windowAnchor?.priority = UILayoutPriority(750)
                 windowAnchor?.isActive = true
                 backgroundViewBottomAnchor?.constant = 34
             }

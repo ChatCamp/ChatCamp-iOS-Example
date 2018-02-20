@@ -56,11 +56,11 @@ open class InputBarButtonItem: UIButton {
         didSet {
             switch spacing {
             case .flexible:
-                setContentHuggingPriority(UILayoutPriority(rawValue: 1), for: .horizontal)
+                setContentHuggingPriority(UILayoutPriority(1), for: .horizontal)
             case .fixed:
-                setContentHuggingPriority(UILayoutPriority(rawValue: 1000), for: .horizontal)
+                setContentHuggingPriority(UILayoutPriority(1000), for: .horizontal)
             case .none:
-                setContentHuggingPriority(UILayoutPriority(rawValue: 500), for: .horizontal)
+                setContentHuggingPriority(UILayoutPriority(500), for: .horizontal)
             }
         }
     }
@@ -162,8 +162,8 @@ open class InputBarButtonItem: UIButton {
         contentVerticalAlignment = .center
         contentHorizontalAlignment = .center
         imageView?.contentMode = .scaleAspectFit
-        setContentHuggingPriority(UILayoutPriority(rawValue: 500), for: .horizontal)
-        setContentHuggingPriority(UILayoutPriority(rawValue: 500), for: .vertical)
+        setContentHuggingPriority(UILayoutPriority(500), for: .horizontal)
+        setContentHuggingPriority(UILayoutPriority(500), for: .vertical)
         setTitleColor(UIColor(red: 0, green: 122/255, blue: 1, alpha: 1), for: .normal)
         setTitleColor(UIColor(red: 0, green: 122/255, blue: 1, alpha: 0.3), for: .highlighted)
         setTitleColor(.lightGray, for: .disabled)
