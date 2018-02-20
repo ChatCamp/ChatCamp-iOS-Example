@@ -178,8 +178,8 @@ open class InputTextView: UITextView {
             centerX: placeholderLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             centerY: placeholderLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
             )
-        placeholderLabelConstraintSet?.centerX?.priority = 0 // .defaultLow //TODO: Check
-        placeholderLabelConstraintSet?.centerY?.priority =  0 // .defaultLow //Todo: Check
+        placeholderLabelConstraintSet?.centerX?.priority = UILayoutPriorityDefaultLow // .defaultLow //TODO: Check
+        placeholderLabelConstraintSet?.centerY?.priority = UILayoutPriorityDefaultLow // .defaultLow //Todo: Check
         placeholderLabelConstraintSet?.activate()
     }
     
