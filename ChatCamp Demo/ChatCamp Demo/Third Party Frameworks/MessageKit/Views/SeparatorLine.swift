@@ -63,6 +63,7 @@ open class SeparatorLine: UIView {
     open func setup() {
         backgroundColor = .lightGray
         translatesAutoresizingMaskIntoConstraints = false
-        setContentHuggingPriority(.defaultHigh, for: .vertical)
+        setContentHuggingPriority(0, for: .vertical) //Todo: check
+//        setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
 }

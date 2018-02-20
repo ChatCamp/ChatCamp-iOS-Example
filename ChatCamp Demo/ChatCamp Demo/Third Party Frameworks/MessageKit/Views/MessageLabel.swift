@@ -117,11 +117,11 @@ open class MessageLabel: UILabel {
 
     public static var defaultAttributes: [NSAttributedStringKey: Any] = {
         return [
-            NSAttributedStringKey.foregroundColor: UIColor.darkText,
-            NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
-            NSAttributedStringKey.underlineColor: UIColor.darkText
+            NSForegroundColorAttributeName: UIColor.darkText,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue,
+            NSUnderlineColorAttributeName: UIColor.darkText
         ]
-    }()
+        }() as [NSAttributedStringKey : Any]
 
     open internal(set) var addressAttributes: [NSAttributedStringKey: Any] = defaultAttributes
 
@@ -202,7 +202,7 @@ open class MessageLabel: UILabel {
         let range = NSRange(location: 0, length: newText.length)
         
         let mutableText = NSMutableAttributedString(attributedString: newText)
-        mutableText.addAttribute(.paragraphStyle, value: style, range: range)
+        mutableText.addAttribute(NSParagraphStyleAttributeName, value: style, range: range)
         
         if shouldParse {
             rangesForDetectors.removeAll()
@@ -213,8 +213,10 @@ open class MessageLabel: UILabel {
         for (detector, rangeTuples) in rangesForDetectors {
             if enabledDetectors.contains(detector) {
                 let attributes = detectorAttributes(for: detector)
-                rangeTuples.forEach { (range, _) in
-                    mutableText.addAttributes(attributes, range: range)
+                rangeTuples.forEach { (arg) in
+                    
+                    let (range, _) = arg
+                    mutableText.addAttributes(attributes as [String : Any], range: range)
                 }
             }
         }
@@ -230,7 +232,7 @@ open class MessageLabel: UILabel {
         guard text.length > 0 else { return NSParagraphStyle() }
         
         var range = NSRange(location: 0, length: text.length)
-        let existingStyle = text.attribute(.paragraphStyle, at: 0, effectiveRange: &range) as? NSMutableParagraphStyle
+        let existingStyle = text.attribute(NSParagraphStyleAttributeName, at: 0, effectiveRange: &range) as? NSMutableParagraphStyle
         let style = existingStyle ?? NSMutableParagraphStyle()
         
         style.lineBreakMode = lineBreakMode
@@ -249,7 +251,7 @@ open class MessageLabel: UILabel {
 
             for (range, _)  in rangeTuples {
                 let attributes = detectorAttributes(for: detector)
-                mutableAttributedString.addAttributes(attributes, range: range)
+                mutableAttributedString.addAttributes(attributes as [String : Any], range: range)
             }
 
             let updatedString = NSAttributedString(attributedString: mutableAttributedString)
@@ -306,7 +308,7 @@ open class MessageLabel: UILabel {
             switch result.resultType {
             case .address:
                 var ranges = rangesForDetectors[.address] ?? []
-                let tuple: (NSRange, MessageTextCheckingType) = (result.range, .addressComponents(result.addressComponents))
+                let tuple: (NSRange, MessageTextCheckingType) = (result.range, .addressComponents(result.addressComponents! as [NSTextCheckingKey : String]))
                 ranges.append(tuple)
                 rangesForDetectors.updateValue(ranges, forKey: .address)
             case .date:
@@ -378,8 +380,10 @@ open class MessageLabel: UILabel {
         case let .addressComponents(addressComponents):
             var transformedAddressComponents = [String: String]()
             guard let addressComponents = addressComponents else { return }
-            addressComponents.forEach { (key, value) in
-                transformedAddressComponents[key.rawValue] = value
+            addressComponents.forEach { (arg) in
+                
+                let (key, value) = arg
+                transformedAddressComponents[key as String] = value //TODO: Check
             }
             handleAddress(transformedAddressComponents)
         case let .phoneNumber(phoneNumber):

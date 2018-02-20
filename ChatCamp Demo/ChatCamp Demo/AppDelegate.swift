@@ -52,7 +52,7 @@ extension AppDelegate {
     fileprivate func setupChatCampSDK() {
         CCPClient.initApp(appId: "6346990561630613504")
     }
-    
+
     fileprivate func setupAppearances() {
         UINavigationBar.appearance().tintColor = UIColor(red: 63/255, green: 81/255, blue: 180/255, alpha: 1.0)
     }

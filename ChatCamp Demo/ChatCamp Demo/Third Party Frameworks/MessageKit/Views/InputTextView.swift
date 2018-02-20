@@ -178,8 +178,8 @@ open class InputTextView: UITextView {
             centerX: placeholderLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             centerY: placeholderLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
             )
-        placeholderLabelConstraintSet?.centerX?.priority = .defaultLow
-        placeholderLabelConstraintSet?.centerY?.priority = .defaultLow
+        placeholderLabelConstraintSet?.centerX?.priority = 0 // .defaultLow //TODO: Check
+        placeholderLabelConstraintSet?.centerY?.priority =  0 // .defaultLow //Todo: Check
         placeholderLabelConstraintSet?.activate()
     }
     
@@ -243,10 +243,10 @@ open class InputTextView: UITextView {
         
         // The attributes that should be applied to the new NSAttributedString to match the current attributes
         let attributes: [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.font: font ?? UIFont.preferredFont(forTextStyle: .body),
-            NSAttributedStringKey.foregroundColor: textColor ?? .black
+            NSFontAttributeName as NSString: font ?? UIFont.preferredFont(forTextStyle: .body),
+            NSForegroundColorAttributeName as NSString: textColor ?? .black
             ]
-        newAttributedStingComponent.addAttributes(attributes, range: NSRange(location: 0, length: newAttributedStingComponent.length))
+        newAttributedStingComponent.addAttributes(attributes as [String : Any], range: NSRange(location: 0, length: newAttributedStingComponent.length))
         
         textStorage.beginEditing()
         // Paste over selected text
@@ -281,7 +281,7 @@ open class InputTextView: UITextView {
         
         var images = [UIImage]()
         let range = NSRange(location: 0, length: attributedText.length)
-        attributedText.enumerateAttribute(.attachment, in: range, options: [], using: { value, range, _ -> Void in
+        attributedText.enumerateAttribute(NSAttachmentAttributeName, in: range, options: [], using: { value, range, _ -> Void in
             
             if let attachment = value as? NSTextAttachment {
                 if let image = attachment.image {
@@ -306,8 +306,8 @@ open class InputTextView: UITextView {
         let range = NSRange(location: 0, length: attributedText.length)
         attributedText.enumerateAttributes(in: range, options: []) { (object, range, _) in
             
-            if object.keys.contains(.attachment) {
-                if let attachment = object[.attachment] as? NSTextAttachment {
+            if object.keys.contains(NSAttachmentAttributeName) {
+                if let attachment = object[NSAttachmentAttributeName] as? NSTextAttachment {
                     if let image = attachment.image {
                         components.append(image)
                     } else if let image = attachment.image(forBounds: attachment.bounds,
@@ -332,7 +332,7 @@ open class InputTextView: UITextView {
         
         guard images.count > 0 else { return }
         let range = NSRange(location: 0, length: attributedText.length)
-        attributedText.enumerateAttribute(.attachment, in: range, options: [], using: { value, _, _ -> Void in
+        attributedText.enumerateAttribute(NSAttachmentAttributeName, in: range, options: [], using: { value, _, _ -> Void in
             if let attachment = value as? NSTextAttachment, let image = attachment.image {
                 
                 // Calculates a new width/height ratio to fit the image in the current frame

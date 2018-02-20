@@ -199,7 +199,7 @@ open class MessageInputBar: UIView {
     public private(set) var previousIntrinsicContentSize: CGSize?
     
     /// The most recent calculation of the intrinsicContentSize
-    private lazy var cachedIntrinsicContentSize: CGSize = calculateIntrinsicContentSize()
+    private lazy var cachedIntrinsicContentSize: CGSize = self.calculateIntrinsicContentSize()
     
     /// A boolean that indicates if the maxTextViewHeight has been met. Keeping track of this
     /// improves the performance

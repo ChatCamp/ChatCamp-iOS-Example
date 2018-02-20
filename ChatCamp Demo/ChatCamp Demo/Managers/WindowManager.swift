@@ -50,7 +50,7 @@ extension WindowManager {
         }
     }
     
-    private func makeRootViewController(viewController: UIViewController) {
+    internal func makeRootViewController(viewController: UIViewController) {
         viewController.view.alpha = 0
         
         UIView.animate(withDuration: DefaultAnimationDuration,
