@@ -227,9 +227,11 @@ extension ChatViewController {
 extension ChatViewController: MessageInputBarDelegate {
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
         channel.sendMessage(text: text) { (message, error) in
+            inputBar.inputTextView.text = ""
             if error != nil {
                 DispatchQueue.main.async {
                     self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                    inputBar.inputTextView.text = text
                 }
             } else if let _ = message {
                 inputBar.inputTextView.text = ""
