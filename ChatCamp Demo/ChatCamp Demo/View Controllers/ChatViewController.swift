@@ -115,6 +115,50 @@ extension ChatViewController {
         }
     }
     
+    fileprivate func compressImage(image:UIImage) -> Data? {
+        // Reducing file size to a 10th
+        
+        var actualHeight : CGFloat = image.size.height
+        var actualWidth : CGFloat = image.size.width
+        let maxHeight : CGFloat = 1280.0
+        let maxWidth : CGFloat = 800.0
+        var imgRatio : CGFloat = actualWidth/actualHeight
+        let maxRatio : CGFloat = maxWidth/maxHeight
+        var compressionQuality : CGFloat = 0.5
+        
+        if (actualHeight > maxHeight || actualWidth > maxWidth){
+            if(imgRatio < maxRatio){
+                //adjust width according to maxHeight
+                imgRatio = maxHeight / actualHeight
+                actualWidth = imgRatio * actualWidth
+                actualHeight = maxHeight
+            }
+            else if(imgRatio > maxRatio){
+                //adjust height according to maxWidth
+                imgRatio = maxWidth / actualWidth
+                actualHeight = imgRatio * actualHeight
+                actualWidth = maxWidth
+            }
+            else{
+                actualHeight = maxHeight
+                actualWidth = maxWidth
+                compressionQuality = 1
+            }
+        }
+        
+        let rect = CGRect(x: 0.0, y: 0.0, width: actualWidth, height: actualHeight)
+        UIGraphicsBeginImageContext(rect.size)
+        image.draw(in: rect)
+        guard let img = UIGraphicsGetImageFromCurrentImageContext() else {
+            return nil
+        }
+        UIGraphicsEndImageContext()
+        guard let imageData = UIImageJPEGRepresentation(img, compressionQuality)else{
+            return nil
+        }
+        return imageData
+    }
+    
     fileprivate func setupMessageInputBar() {
         messageInputBar.sendButton.setTitle(nil, for: .normal)
         messageInputBar.sendButton.setImage(#imageLiteral(resourceName: "chat_send_button"), for: .normal)
@@ -132,9 +176,13 @@ extension ChatViewController {
                 
                 let pickedAsset = assets[0].originalAsset!
                 let requestOptions = PHImageRequestOptions()
+                requestOptions.deliveryMode = .fastFormat
+                requestOptions.resizeMode = .fast
                 requestOptions.version = .original
                 PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { (data, string, orientation, info) in
-                    if let originalData = data {
+                    if var originalData = data {
+                        let image = UIImage(data: originalData)
+                        originalData = self.compressImage(image: image!)!
                         ImageManager.shared.uploadAttachment(imageData: originalData, channelID: self.channel.getId())
                         { (successful, imageURL, imageName, imageType) in
                             
@@ -306,6 +354,10 @@ extension ChatViewController: MessagesDisplayDelegate {
         let ccpMessage = self.messages[indexPath.section]
         
         avatarView.initials = String(CCPClient.getCurrentUser().getDisplayName().first!)
-//        avatarView.downloadedFrom(link: ccpMessage.getUser().getAvatarUrl())
+        
+        let avatarUrl = ccpMessage.getUser().getAvatarUrl()
+        if avatarUrl != nil {
+            avatarView.downloadedFrom(link: avatarUrl!)
+        }
     }
 }
