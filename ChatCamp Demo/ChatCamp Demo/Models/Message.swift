@@ -29,7 +29,7 @@ class Message: NSObject, MessageType {
     }
     
     init(fromCCPMessage ccpMessage: CCPMessage) {
-        sender = Sender(id: ccpMessage.getUser().getId(), displayName: ccpMessage.getUser().getDisplayName())
+        sender = Sender(id: ccpMessage.getUser().getId(), displayName: ccpMessage.getUser().getDisplayName()!)
         messageId = ccpMessage.getId()
         sentDate = Date(timeIntervalSince1970: TimeInterval(exactly: ccpMessage.getInsertedAt())!)
         

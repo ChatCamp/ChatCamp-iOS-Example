@@ -80,7 +80,7 @@
                                 <attributedString key="attributedText">
                                     <fragment content="www.ChatCamp.io">
                                         <attributes>
-                                            <font key="NSFont" size="14" name="FuturaBT-Medium"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>

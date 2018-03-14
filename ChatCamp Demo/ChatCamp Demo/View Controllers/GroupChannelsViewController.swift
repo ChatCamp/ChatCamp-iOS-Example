@@ -78,7 +78,7 @@ extension GroupChannelsViewController: UITableViewDelegate {
         let userID = CCPClient.getCurrentUser().getId()
         let username = CCPClient.getCurrentUser().getDisplayName()
         
-        let sender = Sender(id: userID, displayName: username)
+        let sender = Sender(id: userID, displayName: username!)
         
         let chatViewController = ChatViewController(channel: channels[indexPath.row], sender: sender)
         navigationController?.pushViewController(chatViewController, animated: true)
