@@ -35,7 +35,7 @@ extension LoginViewController {
         }
         
         activityIndicator.startAnimating()
-        CCPClient.connect(uid: userID) { (user, error) in
+        CCPClient.connect(uid: userID) { [unowned self] (user, error) in
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
                 

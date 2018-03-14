@@ -30,7 +30,7 @@ class GroupChannelsViewController: UIViewController {
         super.viewDidLoad()
         
         let groupChannelsQuery = CCPGroupChannel.createGroupChannelListQuery()
-        groupChannelsQuery.get { (channels, error) in
+        groupChannelsQuery.get { [unowned self] (channels, error) in
             if error == nil {
                 self.channels = channels!
                 

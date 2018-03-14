@@ -236,12 +236,12 @@ extension ChatViewController {
         let attachmentButton = InputBarButtonItem(frame: CGRect(x: 3, y: 2, width: 30, height: 30))
         attachmentButton.setImage(#imageLiteral(resourceName: "chat_image_button"), for: .normal)
         
-        attachmentButton.onTouchUpInside { (attachmentButton) in
+        attachmentButton.onTouchUpInside { [unowned self] (attachmentButton) in
             let photoGalleryViewController = DKImagePickerController()
             photoGalleryViewController.singleSelect = true
             photoGalleryViewController.sourceType = .photo
             
-            photoGalleryViewController.didSelectAssets = { (assets: [DKAsset]) in
+            photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
                 guard assets[0].type == .photo else { return }
                 
                 let pickedAsset = assets[0].originalAsset!
@@ -249,19 +249,19 @@ extension ChatViewController {
                 requestOptions.deliveryMode = .fastFormat
                 requestOptions.resizeMode = .fast
                 requestOptions.version = .original
-                PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { (data, string, orientation, info) in
+                PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
                     if var originalData = data {
                         let image = UIImage(data: originalData)
                         originalData = self.compressImage(image: image!)!
                         ImageManager.shared.uploadAttachment(imageData: originalData, channelID: self.channel.getId())
-                        { (successful, imageURL, imageName, imageType) in
+                        { [unowned self] (successful, imageURL, imageName, imageType) in
                             
                             if successful,
                                 let urlString = imageURL,
                                 let name = imageName,
                                 let type = imageType {
                                 
-                                self.channel.sendAttachmentRaw(url: urlString, name: name, type: type, completionHandler: { (message, error) in
+                                self.channel.sendAttachmentRaw(url: urlString, name: name, type: type, completionHandler: { [unowned self] (message, error) in
                                     if error != nil {
                                         DispatchQueue.main.async {
                                             self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
@@ -296,7 +296,7 @@ extension ChatViewController {
 // MARK:- MessageInputBarDelegate
 extension ChatViewController: MessageInputBarDelegate {
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
-        channel.sendMessage(text: text) { (message, error) in
+        channel.sendMessage(text: text) { [unowned self] (message, error) in
             inputBar.inputTextView.text = ""
             if error != nil {
                 DispatchQueue.main.async {

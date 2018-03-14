@@ -304,7 +304,7 @@ open class InputTextView: UITextView {
         
         var components = [Any]()
         let range = NSRange(location: 0, length: attributedText.length)
-        attributedText.enumerateAttributes(in: range, options: []) { (object, range, _) in
+        attributedText.enumerateAttributes(in: range, options: []) { [unowned self] (object, range, _) in
             
             if object.keys.contains(NSAttachmentAttributeName) {
                 if let attachment = object[NSAttachmentAttributeName] as? NSTextAttachment {
