@@ -45,15 +45,20 @@ class Message: NSObject, MessageType {
         if ccpMessage.getType() == "text" && ccpMessage.getCustomType() != "action_link" {
             data = MessageData.text(ccpMessage.getText())
         } else if ccpMessage.getType() == "attachment" {
-            data = MessageData.photo(#imageLiteral(resourceName: "chat_image_placeholder"))
-            
-            DispatchQueue.global().async {
-                let imageData = try? Data(contentsOf: URL(string: ccpMessage.getAttachment()!.getUrl())!)
+            if ccpMessage.getAttachment()!.isImage() {
+                data = MessageData.photo(#imageLiteral(resourceName: "chat_image_placeholder"))
                 
-                DispatchQueue.main.async {
-                    self.data = MessageData.photo(UIImage(data: imageData!)!)
-                    self.delegate?.messageDidUpdateWithImage(message: self)
+                DispatchQueue.global().async {
+                    let imageData = try? Data(contentsOf: URL(string: ccpMessage.getAttachment()!.getUrl())!)
+                    
+                    DispatchQueue.main.async {
+                        self.data = MessageData.photo(UIImage(data: imageData!)!)
+                        self.delegate?.messageDidUpdateWithImage(message: self)
+                    }
                 }
+            }
+            else {
+                data = MessageData.text(ccpMessage.getAttachment()!.getUrl())
             }
         } else if ccpMessage.getType() == "text" && ccpMessage.getCustomType() == "action_link" {
 //            let customAction = ccpMessage.getCustomType()
