@@ -21,3 +21,4 @@ enum TabName: String {
 }
 
 let DefaultAnimationDuration: TimeInterval = 0.3
+let gradientTransitionDuration: TimeInterval = 1.5

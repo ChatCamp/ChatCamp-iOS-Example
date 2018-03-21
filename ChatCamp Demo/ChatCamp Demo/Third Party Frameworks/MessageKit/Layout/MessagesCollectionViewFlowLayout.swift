@@ -637,19 +637,17 @@ internal extension MessagesCollectionViewFlowLayout {
             cellHeight += attributes.bottomLabelSize.height
             cellHeight += attributes.messageContainerSize.height
             cellHeight += attributes.messageVerticalPadding
-            cellHeight += attributes.bottomReadReceiptSize.height
         case .cellBottom:
             cellHeight += max(attributes.avatarSize.height, attributes.bottomLabelSize.height)
             cellHeight += attributes.topLabelSize.height
             cellHeight += attributes.messageContainerSize.height
             cellHeight += attributes.messageVerticalPadding
-            cellHeight += attributes.bottomReadReceiptSize.height
         case .messageTop, .messageCenter, .messageBottom:
             cellHeight += max(attributes.avatarSize.height, attributes.messageContainerSize.height)
             cellHeight += attributes.messageVerticalPadding
             cellHeight += attributes.topLabelSize.height
             cellHeight += attributes.bottomLabelSize.height
-            cellHeight += attributes.bottomReadReceiptSize.height
+            cellHeight += attributes.bottomReadReceiptSize.height + 15.0
         }
         
         return cellHeight

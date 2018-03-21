@@ -22,7 +22,9 @@ class ChatViewController: MessagesViewController {
     fileprivate var mkMessages: [Message] = []
     
     fileprivate var partnerTyping = false
-
+    var loadingDots = LoadingDots()
+    let loadingDotsAnimationDelay : TimeInterval = 0.5
+    
     init(channel: CCPGroupChannel, sender: Sender) {
         self.channel = channel
         self.sender = sender
@@ -76,10 +78,10 @@ class ChatViewController: MessagesViewController {
         CCPClient.removeChannelDelegate(identifier: ChatViewController.string())
     }
     
-//    override func viewDidDisappear(_ animated: Bool) {
-//        super.viewDidDisappear(animated)
-//        db = nil
-//    }
+    //    override func viewDidDisappear(_ animated: Bool) {
+    //        super.viewDidDisappear(animated)
+    //        db = nil
+    //    }
     func addNavigationRightBarButton() {
         let barButtonItem = UIBarButtonItem(image: UIImage(named: "fab_add"),
                                             style: .plain,
@@ -90,18 +92,33 @@ class ChatViewController: MessagesViewController {
     
     @objc func addTypingText() {
         if partnerTyping {
+            removeLoadingDots()
             messageInputBar.topStackViewPadding = .zero
             messageInputBar.topStackView.arrangedSubviews.first?.removeFromSuperview()
+            messagesCollectionView.scrollToBottom(animated: false)
         } else {
-            let label = UILabel()
-            label.font = UIFont.boldSystemFont(ofSize: 16)
-            label.text = "Saurabh is typing..."
-            messageInputBar.topStackView.addArrangedSubview(label)
-            messageInputBar.topStackViewPadding.top = 6
-            messageInputBar.topStackViewPadding.left = 12
-            messageInputBar.backgroundColor = messageInputBar.backgroundView.backgroundColor
+            showLoadingDots()
         }
         partnerTyping = !partnerTyping
+    }
+    
+    private func showLoadingDots() {
+        removeLoadingDots()
+        loadingDots = LoadingDots.loadViewFromNib() as! LoadingDots
+        loadingDots.hideDots()
+        messageInputBar.topStackView.addArrangedSubview(loadingDots)
+        messagesCollectionView.scrollToBottom(animated: false)
+        messageInputBar.topStackViewPadding.top = 16
+        messageInputBar.topStackViewPadding.bottom = 16
+        messageInputBar.topStackViewPadding.left = 12
+        messageInputBar.backgroundColor = messageInputBar.backgroundView.backgroundColor
+        delay(loadingDotsAnimationDelay) {
+            self.loadingDots.animate()
+        }
+    }
+    
+    func removeLoadingDots() {
+        loadingDots.removeFromSuperview()
     }
 }
 
@@ -183,18 +200,18 @@ extension ChatViewController {
                 self.messages = reverseChronologicalMessages
                 
                 for message in self.messages {
-//                    let m = CCPMessage.createfromSerializedData(jsonString: message.serialize()!)
+                    //                    let m = CCPMessage.createfromSerializedData(jsonString: message.serialize()!)
                     do {
                         try self.db.insertChat(channel: self.channel, message: message)
                     } catch {
                         print(self.db.errorMessage)
                     }
                     print("MEssage Serialize: \(message.serialize())")
-//                    print("MEssage DeSerialize: \(m)")
+                    //                    print("MEssage DeSerialize: \(m)")
                 }
                 
                 if !(cachedMessages != nil && cachedMessages?.first?.getId() == loadedMessages.first?.getId()) {
-                
+                    
                     self.mkMessages = Message.array(withCCPMessages: reverseChronologicalMessages)
                     
                     for message in self.mkMessages {
@@ -553,11 +570,11 @@ extension SQLiteDatabase {
     
     func insertChat(channel: CCPBaseChannel, message: CCPMessage) throws {
         let chat = Chat(
-        messageId: message.getId() as NSString,
-        channelType: (channel.isGroupChannel() ? "group" : "open") as NSString,
-        channelId: channel.getId() as NSString,
-        timestamp: Int32(message.getInsertedAt()),
-        data: message.serialize() as! NSString)
+            messageId: message.getId() as NSString,
+            channelType: (channel.isGroupChannel() ? "group" : "open") as NSString,
+            channelId: channel.getId() as NSString,
+            timestamp: Int32(message.getInsertedAt()),
+            data: message.serialize() as! NSString)
         let insertSql = "INSERT OR REPLACE INTO Chat (messageId, channelType, channelId, timestamp, data) VALUES (?, ?, ?, ?, ?);"
         let insertStatement = try prepareStatement(sql: insertSql)
         defer {
@@ -596,24 +613,24 @@ extension SQLiteDatabase {
             sqlite3_finalize(queryStatement)
         }
         
-//            guard sqlite3_bind_text(queryStatement, 1, channelId, -1, nil) == SQLITE_OK  else {
-//                return nil
-//            }
+        //            guard sqlite3_bind_text(queryStatement, 1, channelId, -1, nil) == SQLITE_OK  else {
+        //                return nil
+        //            }
         
         var m = [CCPMessage]()
         
         
         while (sqlite3_step(queryStatement) == SQLITE_ROW) {
-//                let queryResultCol0 = sqlite3_column_text(queryStatement, 0)
-//                let messageId = String(cString: queryResultCol0!) as NSString
-//
-//                let queryResultCol1 = sqlite3_column_text(queryStatement, 1)
-//                let channelType = String(cString: queryResultCol1!) as NSString
-//
-//                let queryResultCol2 = sqlite3_column_text(queryStatement, 2)
-//                let channelId = String(cString: queryResultCol2!) as NSString
-//
-//                let timestamp = sqlite3_column_int(queryStatement, 3)
+            //                let queryResultCol0 = sqlite3_column_text(queryStatement, 0)
+            //                let messageId = String(cString: queryResultCol0!) as NSString
+            //
+            //                let queryResultCol1 = sqlite3_column_text(queryStatement, 1)
+            //                let channelType = String(cString: queryResultCol1!) as NSString
+            //
+            //                let queryResultCol2 = sqlite3_column_text(queryStatement, 2)
+            //                let channelId = String(cString: queryResultCol2!) as NSString
+            //
+            //                let timestamp = sqlite3_column_int(queryStatement, 3)
             
             let queryResultCol4 = sqlite3_column_text(queryStatement, 4)
             let data = String(cString: queryResultCol4!) as NSString
@@ -657,3 +674,4 @@ extension Chat: SQLTable {
         """
     }
 }
+

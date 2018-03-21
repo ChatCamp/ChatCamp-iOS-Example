@@ -12,4 +12,8 @@ extension NSObject {
     class func string() -> String {
         return String(describing: self)
     }
+    
+    public class var nameOfClass: String {
+        return NSStringFromClass(self).components(separatedBy: ".").last!
+    }
 }
