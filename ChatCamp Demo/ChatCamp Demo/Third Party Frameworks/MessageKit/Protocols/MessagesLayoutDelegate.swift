@@ -85,6 +85,7 @@ public protocol MessagesLayoutDelegate: AnyObject {
     /// All other senders: .messageTrailing(.zero)
     func cellBottomLabelAlignment(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> LabelAlignment
 
+    func cellBottomReadReceiptAlignment(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> LabelAlignment
     /// Specifies the size of the `AvatarView` in a `MessageCollectionViewCell`.
     ///
     /// - Parameters:
@@ -95,6 +96,8 @@ public protocol MessagesLayoutDelegate: AnyObject {
     /// The default value returned by this method is a size of `30 x 30`.
     func avatarSize(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGSize
 
+    /// The default value returned by this method is a size of `15 x 15`.
+    func readReceiptImageSize(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGSize
     /// Specifies the size to use for a `MessageHeaderView`.
     ///
     /// - Parameters:
@@ -220,9 +223,20 @@ public extension MessagesLayoutDelegate {
         }
         return dataSource.isFromCurrentSender(message: message) ? .messageLeading(.zero) : .messageTrailing(.zero)
     }
+    
+    func cellBottomReadReceiptAlignment(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> LabelAlignment {
+        guard let dataSource = messagesCollectionView.messagesDataSource else {
+            fatalError(MessageKitError.nilMessagesDataSource)
+        }
+        return dataSource.isFromCurrentSender(message: message) ? .messageLeading(.zero) : .messageTrailing(.zero)
+    }
 
     func avatarSize(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGSize {
         return CGSize(width: 30, height: 30)
+    }
+    
+    func readReceiptImageSize(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGSize {
+        return CGSize(width: 15, height: 15)
     }
     
     func avatarPosition(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> AvatarPosition {

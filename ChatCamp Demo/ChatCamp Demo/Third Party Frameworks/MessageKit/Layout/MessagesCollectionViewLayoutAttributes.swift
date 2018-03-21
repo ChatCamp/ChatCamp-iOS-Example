@@ -37,6 +37,7 @@ final class MessagesCollectionViewLayoutAttributes: UICollectionViewLayoutAttrib
 
     var topLabelFrame: CGRect = .zero
     var bottomLabelFrame: CGRect = .zero
+    var bottomReadReceiptFrame: CGRect = .zero
 
     // MARK: - Methods
 
@@ -49,6 +50,7 @@ final class MessagesCollectionViewLayoutAttributes: UICollectionViewLayoutAttrib
         copy.messageLabelInsets = messageLabelInsets
         copy.topLabelFrame = topLabelFrame
         copy.bottomLabelFrame = bottomLabelFrame
+        copy.bottomReadReceiptFrame = bottomReadReceiptFrame
         return copy
         // swiftlint:enable force_cast
     }

@@ -70,7 +70,8 @@ public protocol MessagesDataSource: AnyObject {
     ///
     /// The default value returned by this method is `nil`.
     func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString?
-
+    
+    func cellBottomReadReceiptImage(for message: MessageType, at indexPath: IndexPath) -> UIImage?
 }
 
 public extension MessagesDataSource {
@@ -84,6 +85,10 @@ public extension MessagesDataSource {
     }
 
     func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        return nil
+    }
+
+    func cellBottomReadReceiptImage(for message: MessageType, at indexPath: IndexPath) -> UIImage? {
         return nil
     }
 

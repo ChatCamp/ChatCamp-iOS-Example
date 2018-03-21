@@ -21,6 +21,8 @@ class ChatViewController: MessagesViewController {
     
     fileprivate var mkMessages: [Message] = []
     
+    fileprivate var partnerTyping = false
+
     init(channel: CCPGroupChannel, sender: Sender) {
         self.channel = channel
         self.sender = sender
@@ -60,8 +62,8 @@ class ChatViewController: MessagesViewController {
             print("Unable to open database. Verify that you created the directory described in the Getting Started section.")
         }
         
-        
         loadMessages(count: 30)
+        addNavigationRightBarButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,6 +80,29 @@ class ChatViewController: MessagesViewController {
 //        super.viewDidDisappear(animated)
 //        db = nil
 //    }
+    func addNavigationRightBarButton() {
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: "fab_add"),
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(addTypingText))
+        navigationItem.rightBarButtonItem = barButtonItem
+    }
+    
+    @objc func addTypingText() {
+        if partnerTyping {
+            messageInputBar.topStackViewPadding = .zero
+            messageInputBar.topStackView.arrangedSubviews.first?.removeFromSuperview()
+        } else {
+            let label = UILabel()
+            label.font = UIFont.boldSystemFont(ofSize: 16)
+            label.text = "Saurabh is typing..."
+            messageInputBar.topStackView.addArrangedSubview(label)
+            messageInputBar.topStackViewPadding.top = 6
+            messageInputBar.topStackViewPadding.left = 12
+            messageInputBar.backgroundColor = messageInputBar.backgroundView.backgroundColor
+        }
+        partnerTyping = !partnerTyping
+    }
 }
 
 // MARK:- MessageImageDelegate
@@ -339,6 +364,17 @@ extension ChatViewController: MessagesDataSource {
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
         return mkMessages[indexPath.section]
+    }
+    
+    func cellBottomReadReceiptImage(for message: MessageType, at indexPath: IndexPath) -> UIImage? {
+        return #imageLiteral(resourceName: "image1")
+    }
+    
+    func cellBottomLabelAlignment(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> LabelAlignment {
+        guard let dataSource = messagesCollectionView.messagesDataSource else {
+            fatalError(MessageKitError.nilMessagesDataSource)
+        }
+        return dataSource.isFromCurrentSender(message: message) ? .messageTrailing(.zero) : .messageLeading(.zero)
     }
 }
 
