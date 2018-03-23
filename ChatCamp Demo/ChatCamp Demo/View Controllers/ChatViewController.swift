@@ -103,18 +103,12 @@ class ChatViewController: MessagesViewController {
     }
     
     private func showLoadingDots() {
-        removeLoadingDots()
-        loadingDots = LoadingDots.loadViewFromNib() as! LoadingDots
-        loadingDots.hideDots()
-        messageInputBar.topStackView.addArrangedSubview(loadingDots)
-        messagesCollectionView.scrollToBottom(animated: false)
-        messageInputBar.topStackViewPadding.top = 16
-        messageInputBar.topStackViewPadding.bottom = 16
-        messageInputBar.topStackViewPadding.left = 12
-        messageInputBar.backgroundColor = messageInputBar.backgroundView.backgroundColor
-        delay(loadingDotsAnimationDelay) {
-            self.loadingDots.animate()
-        }
+        let data = MessageData.writingView(loadingDots)
+        
+        let writingMessage = Message.init(senderOfMessage: sender, IDOfMessage: "TYPING_INDICATOR", sentDate: Date(), messageData: data)
+        mkMessages.append(writingMessage)
+        messagesCollectionView.insertSections(IndexSet([mkMessages.count - 1]))
+        messagesCollectionView.scrollToBottom(animated: true)
     }
     
     func removeLoadingDots() {
@@ -469,6 +463,19 @@ extension ChatViewController: MessagesDisplayDelegate {
                 customView.fillSuperview()
             }
             return .custom(configurationClosure)
+        case .writingView(_):
+            let configurationClosure = { (containerView: UIImageView) in
+                containerView.layer.cornerRadius = 4
+                containerView.layer.masksToBounds = true
+                containerView.layer.borderWidth = 1
+                containerView.layer.borderColor = UIColor.lightGray.cgColor
+                
+                let loadingView = LoadingDots.loadViewFromNib() as! LoadingDots
+                loadingView.animate()
+                containerView.addSubview(loadingView)
+                containerView.fillSuperview()
+            }
+            return .writingView(configurationClosure)
         default:
             return .bubble
         }

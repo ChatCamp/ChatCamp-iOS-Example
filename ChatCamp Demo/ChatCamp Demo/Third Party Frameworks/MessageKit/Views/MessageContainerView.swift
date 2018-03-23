@@ -46,7 +46,7 @@ open class MessageContainerView: UIImageView {
 
     private func sizeMaskToView() {
         switch style {
-        case .none, .custom:
+        case .none, .custom, .writingView:
             break
         case .bubble, .bubbleTail:
             imageMask.frame = bounds
@@ -80,7 +80,7 @@ open class MessageContainerView: UIImageView {
             mask = nil
             image = nil
             tintColor = nil
-        case .custom(let configurationClosure):
+        case .custom(let configurationClosure), .writingView(let configurationClosure):
             mask = nil
             image = nil
             tintColor = nil

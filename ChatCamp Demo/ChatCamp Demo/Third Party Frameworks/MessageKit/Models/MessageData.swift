@@ -62,5 +62,7 @@ public enum MessageData {
     case custom([String: Any])
 //
 //    case placeholder
+    
+    case writingView(UIView)
 
 }

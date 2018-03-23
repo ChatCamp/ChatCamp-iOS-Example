@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		090F17D2206557F100A627CD /* WritingMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090F17D1206557F100A627CD /* WritingMessageCell.swift */; };
 		092C99E92062C7E500281982 /* LoadingDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092C99E82062C7E500281982 /* LoadingDots.swift */; };
 		092C99EB2062C81000281982 /* LoadingDots.xib in Resources */ = {isa = PBXBuildFile; fileRef = 092C99EA2062C81000281982 /* LoadingDots.xib */; };
 		092C99ED2062CC3600281982 /* DelayMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092C99EC2062CC3600281982 /* DelayMethod.swift */; };
@@ -100,6 +101,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		090F17D1206557F100A627CD /* WritingMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMessageCell.swift; sourceTree = "<group>"; };
 		092C99E82062C7E500281982 /* LoadingDots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDots.swift; sourceTree = "<group>"; };
 		092C99EA2062C81000281982 /* LoadingDots.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingDots.xib; sourceTree = "<group>"; };
 		092C99EC2062CC3600281982 /* DelayMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelayMethod.swift; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 				C052C0232036E04F00ADED74 /* CustomMessageCell.swift */,
 				C052C029203717EF00ADED74 /* CustomMessageContentView.swift */,
 				C052C0272037178B00ADED74 /* CustomMessageContentView.xib */,
+				090F17D1206557F100A627CD /* WritingMessageCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -660,6 +663,7 @@
 				092C99ED2062CC3600281982 /* DelayMethod.swift in Sources */,
 				C052C01C2036DB3A00ADED74 /* MessagesCollectionView.swift in Sources */,
 				C052BFF12036DB3A00ADED74 /* MessageInputBarDelegate.swift in Sources */,
+				090F17D2206557F100A627CD /* WritingMessageCell.swift in Sources */,
 				C08F0BFB2030180E001821D8 /* CreateChannelViewController.swift in Sources */,
 				C052BFF92036DB3A00ADED74 /* DetectorType.swift in Sources */,
 				C052C0142036DB3A00ADED74 /* MessageFooterView.swift in Sources */,
