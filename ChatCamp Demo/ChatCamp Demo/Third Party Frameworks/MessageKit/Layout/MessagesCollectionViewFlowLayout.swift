@@ -256,6 +256,10 @@ fileprivate extension MessagesCollectionViewFlowLayout {
         // Cell Height
         attributes.itemHeight = cellHeight(for: attributes)
         
+        // Cell Read Receipt
+        attributes.bottomReadReceiptSize = readReceipSize(for: attributes)
+        attributes.bottomReadReceiptAlignment = cellBottomLabelAlignment(for: attributes)
+        
         return attributes
     }
     
@@ -275,6 +279,7 @@ fileprivate extension MessagesCollectionViewFlowLayout {
         attributes.bottomLabelFrame = intermediateAttributes.bottomLabelFrame
         attributes.avatarFrame = intermediateAttributes.avatarFrame
         attributes.messageLabelInsets = intermediateAttributes.messageLabelInsets
+        attributes.bottomReadReceiptFrame = intermediateAttributes.bottomReadReceiptFrame
         
         switch intermediateAttributes.message.data {
         case .emoji:
@@ -325,6 +330,9 @@ fileprivate extension MessagesCollectionViewFlowLayout {
         return messagesLayoutDelegate.avatarSize(for: attributes.message, at: attributes.indexPath, in: messagesCollectionView)
     }
     
+    func readReceipSize(for attributes: MessageIntermediateLayoutAttributes) -> CGSize {
+        return messagesLayoutDelegate.readReceiptImageSize(for: attributes.message, at: attributes.indexPath, in: messagesCollectionView)
+    }
 }
 
 // MARK: - General Label Size Calculations
@@ -446,6 +454,9 @@ private extension MessagesCollectionViewFlowLayout {
             let width = messagesLayoutDelegate.widthForImageInCustom(message: message, at: indexPath, with: maxWidth, in: messagesCollectionView)
             let height = messagesLayoutDelegate.heightForImageInCustom(message: message, at: indexPath, with: maxWidth, in: messagesCollectionView) + CustomMessageCell.bottomViewHeight()
             messageContainerSize = CGSize(width: width, height: height)
+        case .writingView:
+            //TODO: get width and height from a particular type here
+            messageContainerSize = CGSize(width: 50, height: 50)
         }
         
         return messageContainerSize
@@ -468,6 +479,9 @@ private extension MessagesCollectionViewFlowLayout {
         return messagesLayoutDelegate.cellBottomLabelAlignment(for: attributes.message, at: attributes.indexPath, in: messagesCollectionView)
     }
     
+    func cellBottomReadReceiptAlignment(for attributes: MessageIntermediateLayoutAttributes) -> LabelAlignment {
+        return messagesLayoutDelegate.cellBottomReadReceiptAlignment(for: attributes.message, at: attributes.indexPath, in: messagesCollectionView)
+    }
     // J
     
     /// Returns the max available width for the cell's bottom label considering the specified layout information.
@@ -523,6 +537,10 @@ private extension MessagesCollectionViewFlowLayout {
         
         guard let bottomLabelText = text else { return .zero }
         return labelSize(for: bottomLabelText, considering: attributes.bottomLabelMaxWidth)
+    }
+    
+    func cellBottomReadReceiptSize(for attributes: MessageIntermediateLayoutAttributes) -> CGSize {
+        return readReceipSize(for: attributes)
     }
 
 }
@@ -632,6 +650,7 @@ internal extension MessagesCollectionViewFlowLayout {
             cellHeight += attributes.messageVerticalPadding
             cellHeight += attributes.topLabelSize.height
             cellHeight += attributes.bottomLabelSize.height
+            cellHeight += attributes.bottomReadReceiptSize.height + 15.0
         }
         
         return cellHeight

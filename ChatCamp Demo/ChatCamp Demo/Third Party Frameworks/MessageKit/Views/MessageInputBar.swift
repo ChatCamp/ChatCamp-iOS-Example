@@ -440,6 +440,7 @@ open class MessageInputBar: UIView {
     /// Updates the constraint constants that correspond to the topStackViewPadding UIEdgeInsets
     private func updateTopStackViewPadding() {
         topStackViewLayoutSet?.top?.constant = topStackViewPadding.top
+        topStackViewLayoutSet?.bottom?.constant = -topStackViewPadding.bottom
         topStackViewLayoutSet?.left?.constant = topStackViewPadding.left
         topStackViewLayoutSet?.right?.constant = -topStackViewPadding.right
     }

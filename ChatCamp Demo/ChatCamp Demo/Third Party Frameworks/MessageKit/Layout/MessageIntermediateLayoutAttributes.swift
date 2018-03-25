@@ -159,6 +159,36 @@ final class MessageIntermediateLayoutAttributes {
 
     }()
     
+    // Cell Read Receipt Image
+    var bottomReadReceiptAlignment: LabelAlignment = .cellCenter(.zero)
+    var bottomReadReceiptSize: CGSize = .zero
+    var bottomReadReceiptMaxWidth: CGFloat = 0
+    
+    lazy var bottomReadReceiptFrame: CGRect = {
+        
+        guard self.bottomReadReceiptSize != .zero else { return .zero }
+        
+        var origin: CGPoint = .zero
+        
+        origin.y = self.messageContainerFrame.maxY + self.messageContainerPadding.bottom + self.bottomLabelPadding.top
+        
+        switch self.bottomReadReceiptAlignment {
+        case .cellLeading:
+            origin.x = self.bottomLabelPadding.left
+        case .cellCenter:
+            origin.x = (self.cellFrame.width/2) + self.bottomLabelPadding.left - self.bottomLabelPadding.right
+        case .cellTrailing:
+            origin.x = self.cellFrame.width - self.bottomLabelSize.width - self.bottomLabelPadding.right
+        case .messageLeading:
+            origin.x = self.messageContainerFrame.minX + self.bottomLabelPadding.left
+        case .messageTrailing:
+            origin.x = self.messageContainerFrame.maxX - self.bottomReadReceiptSize.width - self.bottomLabelPadding.right
+        }
+        
+        return CGRect(origin: origin, size: self.bottomReadReceiptSize)
+        
+    }()
+    
     // MARK: - Initializer
     
     init(message: MessageType, indexPath: IndexPath) {

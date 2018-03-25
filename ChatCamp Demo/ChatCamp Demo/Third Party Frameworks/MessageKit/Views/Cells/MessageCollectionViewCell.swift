@@ -50,6 +50,11 @@ open class MessageCollectionViewCell: UICollectionViewCell, CollectionViewReusab
         label.numberOfLines = 0
         return label
     }()
+    
+    open var cellBottomReadReceiptImage: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
 
     open weak var delegate: MessageCellDelegate?
 
@@ -68,6 +73,7 @@ open class MessageCollectionViewCell: UICollectionViewCell, CollectionViewReusab
         contentView.addSubview(avatarView)
         contentView.addSubview(cellTopLabel)
         contentView.addSubview(cellBottomLabel)
+        contentView.addSubview(cellBottomReadReceiptImage)
     }
 
     open override func prepareForReuse() {
@@ -86,6 +92,7 @@ open class MessageCollectionViewCell: UICollectionViewCell, CollectionViewReusab
             avatarView.frame = attributes.avatarFrame
             cellTopLabel.frame = attributes.topLabelFrame
             cellBottomLabel.frame = attributes.bottomLabelFrame
+            cellBottomReadReceiptImage.frame = attributes.bottomReadReceiptFrame
             messageContainerView.frame = attributes.messageContainerFrame
         }
     }
@@ -103,16 +110,20 @@ open class MessageCollectionViewCell: UICollectionViewCell, CollectionViewReusab
         let messageColor = displayDelegate.backgroundColor(for: message, at: indexPath, in: messagesCollectionView)
         let messageStyle = displayDelegate.messageStyle(for: message, at: indexPath, in: messagesCollectionView)
         
-        displayDelegate.configureAvatarView(avatarView, for: message, at: indexPath, in: messagesCollectionView)
+        if message.messageId != "TYPING_INDICATOR" {
+            displayDelegate.configureAvatarView(avatarView, for: message, at: indexPath, in: messagesCollectionView)
+        }
 
         messageContainerView.backgroundColor = messageColor
         messageContainerView.style = messageStyle
 
         let topText = dataSource.cellTopLabelAttributedText(for: message, at: indexPath)
         let bottomText = dataSource.cellBottomLabelAttributedText(for: message, at: indexPath)
+        let readReceiptImage = dataSource.cellBottomReadReceiptImage(for: message, at: indexPath)
 
         cellTopLabel.attributedText = topText
         cellBottomLabel.attributedText = bottomText
+        cellBottomReadReceiptImage.image = readReceiptImage
     }
 
     /// Handle tap gesture on contentView and its subviews like messageContainerView, cellTopLabel, cellBottomLabel, avatarView ....
