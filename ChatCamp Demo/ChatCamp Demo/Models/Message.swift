@@ -26,7 +26,7 @@ class Message: NSObject, MessageType {
         messageId = IDOfMessage
         sentDate = date
         data = messageData
-        super.init()
+//        super.init()
     }
     
     init(fromCCPMessage ccpMessage: CCPMessage) {

@@ -17,6 +17,7 @@ class ChatViewController: MessagesViewController {
     fileprivate var db: SQLiteDatabase!
     fileprivate var channel: CCPGroupChannel
     fileprivate var sender: Sender
+    fileprivate var lastRead: Double
     fileprivate var messages: [CCPMessage] = []
     
     fileprivate var mkMessages: [Message] = []
@@ -28,10 +29,10 @@ class ChatViewController: MessagesViewController {
     init(channel: CCPGroupChannel, sender: Sender) {
         self.channel = channel
         self.sender = sender
+        self.lastRead = 0
         super.init(nibName: nil, bundle: nil)
         CCPGroupChannel.get(groupChannelId: channel.getId()) {(groupChannel, error) in
             if let gC = groupChannel {
-                print("GETTING GROUP CHANNEL")
                 self.channel = gC
             }
         }
@@ -78,6 +79,7 @@ class ChatViewController: MessagesViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         CCPClient.addChannelDelegate(channelDelegate: self, identifier: ChatViewController.string())
+        channel.markAsRead()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -151,12 +153,12 @@ extension ChatViewController: MessageImageDelegate {
 // MARK:- CCPChannelDelegate
 extension ChatViewController: CCPChannelDelegate {
     func channelDidChangeTypingStatus(channel: CCPBaseChannel) {
-        // TODO: add typing status
-        print("do nothing")
         if let c = channel as? CCPGroupChannel {
             if let p = c.getTypingParticipants().first {
-                let sender = Sender(id: p.getId(), displayName: p.getDisplayName()!)
-                self.showLoadingDots(sender: sender)
+                if p.getId() != self.sender.id {
+                    let sender = Sender(id: p.getId(), displayName: p.getDisplayName()!)
+                    self.showLoadingDots(sender: sender)
+                }
             }
             else {
                 self.removeLoadingDots()
@@ -185,7 +187,22 @@ extension ChatViewController: CCPChannelDelegate {
     }
     
     func channelDidUpdateReadStatus(channel: CCPBaseChannel) {
-        
+        if let c = channel as? CCPGroupChannel {
+            if c.getReadReceipt().count > 0 {
+                var r: Double = 0
+                (_, r) = c.getReadReceipt().first!
+                for (_, time) in c.getReadReceipt() {
+                    if(time < r) {
+                        r = time
+                    }
+                }
+                lastRead = r
+                DispatchQueue.main.async {
+                    self.messagesCollectionView.reloadData()
+                    self.messagesCollectionView.scrollToBottom(animated: false)
+                }
+            }
+        }
     }
 }
 
@@ -339,6 +356,7 @@ extension ChatViewController {
                                         }
                                     } else if let _ = message {
                                         self.messageInputBar.inputTextView.text = ""
+                                        self.channel.markAsRead()
                                     }
                                 })
                                 
@@ -376,6 +394,7 @@ extension ChatViewController: MessageInputBarDelegate {
                 }
             } else if let _ = message {
                 inputBar.inputTextView.text = ""
+                self.channel.markAsRead()
             }
         }
     }
@@ -417,7 +436,18 @@ extension ChatViewController: MessagesDataSource {
     }
     
     func cellBottomReadReceiptImage(for message: MessageType, at indexPath: IndexPath) -> UIImage? {
-        return #imageLiteral(resourceName: "image1")
+        if message.messageId != "TYPING_INDICATOR" {
+            let ccpMessage = self.messages[indexPath.section]
+            if lastRead > Double(ccpMessage.getInsertedAt()) {
+                return #imageLiteral(resourceName: "double-tick-blue")
+            }
+            else {
+                return #imageLiteral(resourceName: "tick-grey")
+            }
+        }
+        else {
+            return #imageLiteral(resourceName: "fab_add")
+        }
     }
     
     func cellBottomLabelAlignment(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> LabelAlignment {
