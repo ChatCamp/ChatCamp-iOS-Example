@@ -110,9 +110,9 @@ open class MessageCollectionViewCell: UICollectionViewCell, CollectionViewReusab
         let messageColor = displayDelegate.backgroundColor(for: message, at: indexPath, in: messagesCollectionView)
         let messageStyle = displayDelegate.messageStyle(for: message, at: indexPath, in: messagesCollectionView)
         
-        if message.messageId != "TYPING_INDICATOR" {
+//        if message.messageId != "TYPING_INDICATOR" {
             displayDelegate.configureAvatarView(avatarView, for: message, at: indexPath, in: messagesCollectionView)
-        }
+//        }
 
         messageContainerView.backgroundColor = messageColor
         messageContainerView.style = messageStyle

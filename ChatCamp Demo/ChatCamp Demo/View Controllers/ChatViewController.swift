@@ -29,6 +29,13 @@ class ChatViewController: MessagesViewController {
         self.channel = channel
         self.sender = sender
         super.init(nibName: nil, bundle: nil)
+        CCPGroupChannel.get(groupChannelId: channel.getId()) {(groupChannel, error) in
+            if let gC = groupChannel {
+                print("GETTING GROUP CHANNEL")
+                self.channel = gC
+            }
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -65,7 +72,7 @@ class ChatViewController: MessagesViewController {
         }
         
         loadMessages(count: 30)
-        addNavigationRightBarButton()
+//        addNavigationRightBarButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,15 +89,15 @@ class ChatViewController: MessagesViewController {
     //        super.viewDidDisappear(animated)
     //        db = nil
     //    }
-    func addNavigationRightBarButton() {
-        let barButtonItem = UIBarButtonItem(image: UIImage(named: "fab_add"),
-                                            style: .plain,
-                                            target: self,
-                                            action: #selector(addTypingText))
-        navigationItem.rightBarButtonItem = barButtonItem
-    }
+//    func addNavigationRightBarButton() {
+//        let barButtonItem = UIBarButtonItem(image: UIImage(named: "fab_add"),
+//                                            style: .plain,
+//                                            target: self,
+//                                            action: #selector(addTypingText))
+//        navigationItem.rightBarButtonItem = barButtonItem
+//    }
     
-    @objc func addTypingText() {
+    func addTypingText() {
         if partnerTyping {
             removeLoadingDots()
 //            messageInputBar.topStackViewPadding = .zero
@@ -101,21 +108,30 @@ class ChatViewController: MessagesViewController {
             messagesCollectionView.reloadData()
             messagesCollectionView.scrollToBottom(animated: false)
         } else {
-            showLoadingDots()
+//            showLoadingDots()
         }
         partnerTyping = !partnerTyping
     }
     
-    private func showLoadingDots() {
-        let data = MessageData.writingView(loadingDots)
-        let writingMessage = Message.init(senderOfMessage: sender, IDOfMessage: "TYPING_INDICATOR", sentDate: Date(), messageData: data)
-        mkMessages.append(writingMessage)
-        messagesCollectionView.insertSections(IndexSet([mkMessages.count - 1]))
-        messagesCollectionView.scrollToBottom(animated: true)
+    func showLoadingDots(sender: Sender) {
+        if !partnerTyping {
+            partnerTyping = true
+            let data = MessageData.writingView(loadingDots)
+            let writingMessage = Message.init(senderOfMessage: sender, IDOfMessage: "TYPING_INDICATOR", sentDate: Date(), messageData: data)
+            mkMessages.append(writingMessage)
+            messagesCollectionView.insertSections(IndexSet([mkMessages.count - 1]))
+            messagesCollectionView.scrollToBottom(animated: true)
+        }
     }
     
     func removeLoadingDots() {
-        loadingDots.removeFromSuperview()
+        if partnerTyping {
+            partnerTyping = false
+            loadingDots.removeFromSuperview()
+            mkMessages.removeLast()
+            messagesCollectionView.reloadData()
+            messagesCollectionView.scrollToBottom(animated: false)
+        }
     }
 }
 
@@ -137,10 +153,22 @@ extension ChatViewController: CCPChannelDelegate {
     func channelDidChangeTypingStatus(channel: CCPBaseChannel) {
         // TODO: add typing status
         print("do nothing")
+        if let c = channel as? CCPGroupChannel {
+            if let p = c.getTypingParticipants().first {
+                let sender = Sender(id: p.getId(), displayName: p.getDisplayName()!)
+                self.showLoadingDots(sender: sender)
+            }
+            else {
+                self.removeLoadingDots()
+            }
+        }
+        
+        
     }
     
     func channelDidReceiveMessage(channel: CCPBaseChannel, message: CCPMessage) {
         let mkMessage = Message(fromCCPMessage: message)
+        self.removeLoadingDots()
         mkMessages.append(mkMessage)
         messages.append(message)
         
@@ -154,6 +182,10 @@ extension ChatViewController: CCPChannelDelegate {
         } catch {
             print(self.db.errorMessage)
         }
+    }
+    
+    func channelDidUpdateReadStatus(channel: CCPBaseChannel) {
+        
     }
 }
 
@@ -347,6 +379,10 @@ extension ChatViewController: MessageInputBarDelegate {
             }
         }
     }
+    
+    func messageInputBar(_ inputBar: MessageInputBar, textViewTextDidChangeTo text: String) {
+        channel.startTyping()
+    }
 }
 
 // MARK:- UICollectionViewDelegate
@@ -486,13 +522,26 @@ extension ChatViewController: MessagesDisplayDelegate {
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
         
-        let ccpMessage = self.messages[indexPath.section]
+        if message.messageId == "TYPING_INDICATOR" {
+            if let participant = self.channel.getTypingParticipants().first {
+                avatarView.initials = String(describing: participant.getDisplayName()!.first!)
+                let avatarUrl = participant.getAvatarUrl()
+                if avatarUrl != nil {
+                    avatarView.downloadedFrom(link: avatarUrl!)
+                }
+            }
+            
+        }
+        else {
         
-        avatarView.initials = String(describing: CCPClient.getCurrentUser().getDisplayName()!.first!)
-        
-        let avatarUrl = ccpMessage.getUser().getAvatarUrl()
-        if avatarUrl != nil {
-            avatarView.downloadedFrom(link: avatarUrl!)
+            let ccpMessage = self.messages[indexPath.section]
+            
+            avatarView.initials = String(describing: CCPClient.getCurrentUser().getDisplayName()!.first!)
+            
+            let avatarUrl = ccpMessage.getUser().getAvatarUrl()
+            if avatarUrl != nil {
+                avatarView.downloadedFrom(link: avatarUrl!)
+            }
         }
     }
 }
