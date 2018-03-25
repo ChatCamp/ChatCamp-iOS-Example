@@ -66,7 +66,12 @@ extension GroupChannelsViewController: UITableViewDataSource {
         let channel = channels[indexPath.row]
         
         cell.nameLabel.text = channel.getName()
-        cell.messageLabel.text = channel.getId()    // TODO: change ID to last message
+        cell.messageLabel.text = ""
+        cell.unreadCountLabel.text = String(channel.getUnreadMessageCount())
+        if let message = channel.getLastMessage() {
+            cell.messageLabel.text = message.getText()
+        }
+        
         
         return cell
     }
