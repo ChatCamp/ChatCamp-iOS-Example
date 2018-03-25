@@ -93,8 +93,12 @@ class ChatViewController: MessagesViewController {
     @objc func addTypingText() {
         if partnerTyping {
             removeLoadingDots()
-            messageInputBar.topStackViewPadding = .zero
-            messageInputBar.topStackView.arrangedSubviews.first?.removeFromSuperview()
+//            messageInputBar.topStackViewPadding = .zero
+//            messageInputBar.topStackView.arrangedSubviews.first?.removeFromSuperview()
+            
+//            messagesCollectionView.deleteSections(IndexSet([mkMessages.count - 1]))
+            mkMessages.removeLast()
+            messagesCollectionView.reloadData()
             messagesCollectionView.scrollToBottom(animated: false)
         } else {
             showLoadingDots()
@@ -104,7 +108,6 @@ class ChatViewController: MessagesViewController {
     
     private func showLoadingDots() {
         let data = MessageData.writingView(loadingDots)
-        
         let writingMessage = Message.init(senderOfMessage: sender, IDOfMessage: "TYPING_INDICATOR", sentDate: Date(), messageData: data)
         mkMessages.append(writingMessage)
         messagesCollectionView.insertSections(IndexSet([mkMessages.count - 1]))
