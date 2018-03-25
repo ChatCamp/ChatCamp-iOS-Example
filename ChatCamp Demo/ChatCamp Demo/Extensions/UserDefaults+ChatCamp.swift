@@ -12,6 +12,7 @@ extension UserDefaults {
     enum Keys: String {
         case userIDKey = "userIDKey"
         case usernameKey = "usernameKey"
+        case deviceTokenKey = "deviceTokenKey"
     }
     
     func userID() -> String? {
@@ -28,5 +29,13 @@ extension UserDefaults {
     
     func setUsername(username: String?) {
         set(username, forKey: Keys.usernameKey.rawValue)
+    }
+    
+    func deviceToken() -> String? {
+        return string(forKey: Keys.deviceTokenKey.rawValue)
+    }
+    
+    func setDeviceToken(deviceToken: String?) {
+        set(deviceToken, forKey: Keys.deviceTokenKey.rawValue)
     }
 }

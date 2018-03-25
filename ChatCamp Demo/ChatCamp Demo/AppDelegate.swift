@@ -8,6 +8,7 @@
 
 import UIKit
 import ChatCamp
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,8 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         setupChatCampSDK()
-        setupAppearances()
         
+        setupAppearances()
+        initializeNotificationServices()
         WindowManager.shared.prepareWindow(isLoggedIn: false)
         
         return true
@@ -43,7 +45,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let tokenParts = deviceToken.map { data -> String in
+            return String(format: "%02.2hhx", data)
+        }
+        
+        let token = tokenParts.joined()
+        UserDefaults.standard.setDeviceToken(deviceToken: token)
+        print("Device Token: \(token)")
+        
+        // ...register device token with our Time Entry API server via REST
+    }
+    
+        func application(_ application: UIApplication,
+                         didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Device token for push notifications: FAIL -- ")
+        print(error)
+    }
+    
+    func initializeNotificationServices() -> Void {
+        let settings = UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(settings)
+        
+        // This is an asynchronous method to retrieve a Device Token
+        // Callbacks are in AppDelegate.swift
+        // Success = didRegisterForRemoteNotificationsWithDeviceToken
+        // Fail = didFailToRegisterForRemoteNotificationsWithError
+        UIApplication.shared.registerForRemoteNotifications()
+    }
 
 }
 

@@ -11,7 +11,6 @@
 		092C99E92062C7E500281982 /* LoadingDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092C99E82062C7E500281982 /* LoadingDots.swift */; };
 		092C99EB2062C81000281982 /* LoadingDots.xib in Resources */ = {isa = PBXBuildFile; fileRef = 092C99EA2062C81000281982 /* LoadingDots.xib */; };
 		092C99ED2062CC3600281982 /* DelayMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092C99EC2062CC3600281982 /* DelayMethod.swift */; };
-		804C08DE07661EA85689F8F7 /* Pods_ChatCamp_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1792827B812DA8708996D7B5 /* Pods_ChatCamp_Demo.framework */; };
 		C0328C5C20346B5A00BA4029 /* UIImageView+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0328C5B20346B5A00BA4029 /* UIImageView+ChatCamp.swift */; };
 		C03D3030202F2EC200E3A85A /* OpenChannelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D302F202F2EC200E3A85A /* OpenChannelsViewController.swift */; };
 		C03D3033202F305100E3A85A /* UIView+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D3032202F305100E3A85A /* UIView+ChatCamp.swift */; };
@@ -106,6 +105,7 @@
 		092C99EA2062C81000281982 /* LoadingDots.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingDots.xib; sourceTree = "<group>"; };
 		092C99EC2062CC3600281982 /* DelayMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelayMethod.swift; sourceTree = "<group>"; };
 		1792827B812DA8708996D7B5 /* Pods_ChatCamp_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatCamp_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FCB7B5A206813F50017A36C /* ChatCamp Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ChatCamp Demo.entitlements"; sourceTree = "<group>"; };
 		9E540E14A6B81D12A1285EA9 /* Pods-ChatCamp Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatCamp Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo.release.xcconfig"; sourceTree = "<group>"; };
 		A2060D6EED0BD486A421E2F7 /* Pods-ChatCamp Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatCamp Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		C0328C5B20346B5A00BA4029 /* UIImageView+ChatCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ChatCamp.swift"; sourceTree = "<group>"; };
@@ -204,7 +204,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				804C08DE07661EA85689F8F7 /* Pods_ChatCamp_Demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +254,7 @@
 		C03F7412202EFEBA00423969 /* ChatCamp Demo */ = {
 			isa = PBXGroup;
 			children = (
+				3FCB7B5A206813F50017A36C /* ChatCamp Demo.entitlements */,
 				C0D8F98B203843020051ED77 /* image1.png */,
 				C052BFAD2036DB1000ADED74 /* Third Party Frameworks */,
 				C0AD506E2032CF40003CE2E8 /* Managers */,
@@ -525,6 +525,14 @@
 					C03F740F202EFEBA00423969 = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -835,6 +843,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
@@ -846,15 +855,17 @@
 			baseConfigurationReference = A2060D6EED0BD486A421E2F7 /* Pods-ChatCamp Demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
+				CODE_SIGN_ENTITLEMENTS = "ChatCamp Demo/ChatCamp Demo.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ET385UDM96;
 				INFOPLIST_FILE = "ChatCamp Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.chatcamp.demo.ChatCamp-Demo";
+				PRODUCT_BUNDLE_IDENTIFIER = io.chatcamp.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -865,13 +876,16 @@
 			baseConfigurationReference = 9E540E14A6B81D12A1285EA9 /* Pods-ChatCamp Demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "ChatCamp Demo/ChatCamp Demo.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ET385UDM96;
 				INFOPLIST_FILE = "ChatCamp Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.chatcamp.demo.ChatCamp-Demo";
+				PRODUCT_BUNDLE_IDENTIFIER = io.chatcamp.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
