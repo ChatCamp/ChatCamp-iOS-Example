@@ -264,7 +264,7 @@ extension ChatViewController {
                         DispatchQueue.main.async {
                             
                             self.messagesCollectionView.reloadData()
-                            self.messagesCollectionView.scrollToItem(at:IndexPath(row: 0, section: count), at: .top, animated: false)
+                            self.messagesCollectionView.scrollToItem(at:IndexPath(row: 0, section: count - 1), at: .top, animated: false)
                             self.loadingMessages = false
                         }
                     
