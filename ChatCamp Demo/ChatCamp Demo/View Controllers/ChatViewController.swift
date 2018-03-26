@@ -18,10 +18,11 @@ class ChatViewController: MessagesViewController {
     fileprivate var channel: CCPGroupChannel
     fileprivate var sender: Sender
     fileprivate var lastRead: Double
+    fileprivate var lastReadSent: Double
     fileprivate var messages: [CCPMessage] = []
-    
+    fileprivate var loadingMessages: Bool
     fileprivate var mkMessages: [Message] = []
-    
+    fileprivate var previousMessagesQuery: CCPPreviousMessageListQuery
     fileprivate var partnerTyping = false
     var loadingDots = LoadingDots()
     let loadingDotsAnimationDelay : TimeInterval = 0.5
@@ -30,6 +31,9 @@ class ChatViewController: MessagesViewController {
         self.channel = channel
         self.sender = sender
         self.lastRead = 0
+        self.lastReadSent = 0
+        self.loadingMessages = false
+        previousMessagesQuery = channel.createPreviousMessageListQuery()
         super.init(nibName: nil, bundle: nil)
         CCPGroupChannel.get(groupChannelId: channel.getId()) {(groupChannel, error) in
             if let gC = groupChannel {
@@ -80,6 +84,7 @@ class ChatViewController: MessagesViewController {
         super.viewDidAppear(animated)
         CCPClient.addChannelDelegate(channelDelegate: self, identifier: ChatViewController.string())
         channel.markAsRead()
+        self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -200,10 +205,10 @@ extension ChatViewController: CCPChannelDelegate {
                             r = time
                         }
                     }
-                    lastRead = r
+                    self.lastRead = r
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToBottom(animated: false)
+//                        self.messagesCollectionView.scrollToBottom(animated: false)
                     }
                 }
             }
@@ -213,6 +218,62 @@ extension ChatViewController: CCPChannelDelegate {
 
 // MARK:- Helpers
 extension ChatViewController {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        
+        if ((NSDate().timeIntervalSince1970 * 1000) - self.lastReadSent) > 10000 {
+            channel.markAsRead()
+            self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if messagesCollectionView.indexPathsForVisibleItems.contains([0, 0]) && !self.loadingMessages {
+            print("REACHED TOP")
+            self.loadingMessages = true
+            let count = 30
+            self.previousMessagesQuery.load(limit: count, reverse: true) { (messages, error) in
+                if error != nil {
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Can't Load Messages", message: "An error occurred while loading the messages. Please try again.", actionText: "Ok")
+                    }
+                } else if let loadedMessages = messages {
+//                    let reverseChronologicalMessages = Array(loadedMessages.reversed())
+                    
+//                    self.messages = reverseChronologicalMessages
+                    
+                    for message in loadedMessages {
+                        //                    let m = CCPMessage.createfromSerializedData(jsonString: message.serialize()!)
+                        do {
+                            try self.db.insertChat(channel: self.channel, message: message)
+                            self.messages.insert(message, at: 0)
+                            self.mkMessages.insert(Message(fromCCPMessage: message), at: 0)
+                            self.mkMessages[0].delegate = self
+                        } catch {
+                            print(self.db.errorMessage)
+                        }
+                        print("MEssage Serialize: \(message.serialize())")
+                        //                    print("MEssage DeSerialize: \(m)")
+                    }
+                    
+                    
+                        
+                    
+                    
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.messagesCollectionView.reloadData()
+                            self.messagesCollectionView.scrollToItem(at:IndexPath(row: 0, section: count), at: .top, animated: false)
+                            self.loadingMessages = false
+                        }
+                    
+                }
+            }
+        }
+    }
+    
+    
     fileprivate func loadMessages(count: Int) {
         
         var cachedMessages: [CCPMessage]?
@@ -239,7 +300,7 @@ extension ChatViewController {
         }
         
         
-        let previousMessagesQuery = channel.createPreviousMessageListQuery()
+        
         previousMessagesQuery.load(limit: count, reverse: true) { (messages, error) in
             if error != nil {
                 DispatchQueue.main.async {
@@ -362,6 +423,7 @@ extension ChatViewController {
                                     } else if let _ = message {
                                         self.messageInputBar.inputTextView.text = ""
                                         self.channel.markAsRead()
+                                        self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
                                     }
                                 })
                                 
@@ -390,6 +452,7 @@ extension ChatViewController {
 // MARK:- MessageInputBarDelegate
 extension ChatViewController: MessageInputBarDelegate {
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
+        inputBar.inputTextView.text = ""
         channel.sendMessage(text: text) { [unowned self] (message, error) in
             inputBar.inputTextView.text = ""
             if error != nil {
@@ -398,15 +461,18 @@ extension ChatViewController: MessageInputBarDelegate {
                     inputBar.inputTextView.text = text
                 }
             } else if let _ = message {
-                inputBar.inputTextView.text = ""
                 self.channel.markAsRead()
+                self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
             }
         }
     }
     
     func messageInputBar(_ inputBar: MessageInputBar, textViewTextDidChangeTo text: String) {
-        channel.startTyping()
+        if !text.isEmpty {
+            channel.startTyping()
+        }
     }
+    
 }
 
 // MARK:- UICollectionViewDelegate
@@ -443,7 +509,7 @@ extension ChatViewController: MessagesDataSource {
     func cellBottomReadReceiptImage(for message: MessageType, at indexPath: IndexPath) -> UIImage? {
         if message.messageId != "TYPING_INDICATOR" {
             let ccpMessage = self.messages[indexPath.section]
-            if lastRead > Double(ccpMessage.getInsertedAt()) {
+            if self.lastRead > Double(ccpMessage.getInsertedAt()) {
                 return #imageLiteral(resourceName: "double-tick-blue")
             }
             else {
