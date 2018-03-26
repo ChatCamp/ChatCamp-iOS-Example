@@ -153,53 +153,58 @@ extension ChatViewController: MessageImageDelegate {
 // MARK:- CCPChannelDelegate
 extension ChatViewController: CCPChannelDelegate {
     func channelDidChangeTypingStatus(channel: CCPBaseChannel) {
-        if let c = channel as? CCPGroupChannel {
-            if let p = c.getTypingParticipants().first {
-                if p.getId() != self.sender.id {
-                    let sender = Sender(id: p.getId(), displayName: p.getDisplayName()!)
-                    self.showLoadingDots(sender: sender)
+        if channel.getId() == self.channel.getId() {
+            if let c = channel as? CCPGroupChannel {
+                if let p = c.getTypingParticipants().first {
+                    if p.getId() != self.sender.id {
+                        let sender = Sender(id: p.getId(), displayName: p.getDisplayName()!)
+                        self.showLoadingDots(sender: sender)
+                    }
+                }
+                else {
+                    self.removeLoadingDots()
                 }
             }
-            else {
-                self.removeLoadingDots()
-            }
         }
-        
-        
     }
     
     func channelDidReceiveMessage(channel: CCPBaseChannel, message: CCPMessage) {
-        let mkMessage = Message(fromCCPMessage: message)
-        self.removeLoadingDots()
-        mkMessages.append(mkMessage)
-        messages.append(message)
-        
-        mkMessage.delegate = self
-        
-        messagesCollectionView.insertSections(IndexSet([mkMessages.count - 1]))
-        messagesCollectionView.scrollToBottom(animated: true)
-        
+        if channel.getId() == self.channel.getId() {
+            let mkMessage = Message(fromCCPMessage: message)
+            self.removeLoadingDots()
+            mkMessages.append(mkMessage)
+            messages.append(message)
+            
+            mkMessage.delegate = self
+            
+            messagesCollectionView.insertSections(IndexSet([mkMessages.count - 1]))
+            messagesCollectionView.scrollToBottom(animated: true)
+        }
+            
         do {
             try self.db.insertChat(channel: channel, message: message)
         } catch {
             print(self.db.errorMessage)
         }
+        
     }
     
     func channelDidUpdateReadStatus(channel: CCPBaseChannel) {
-        if let c = channel as? CCPGroupChannel {
-            if c.getReadReceipt().count > 0 {
-                var r: Double = 0
-                (_, r) = c.getReadReceipt().first!
-                for (_, time) in c.getReadReceipt() {
-                    if(time < r) {
-                        r = time
+        if channel.getId() == self.channel.getId() {
+            if let c = channel as? CCPGroupChannel {
+                if c.getReadReceipt().count > 0 {
+                    var r: Double = 0
+                    (_, r) = c.getReadReceipt().first!
+                    for (_, time) in c.getReadReceipt() {
+                        if(time < r) {
+                            r = time
+                        }
                     }
-                }
-                lastRead = r
-                DispatchQueue.main.async {
-                    self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToBottom(animated: false)
+                    lastRead = r
+                    DispatchQueue.main.async {
+                        self.messagesCollectionView.reloadData()
+                        self.messagesCollectionView.scrollToBottom(animated: false)
+                    }
                 }
             }
         }
