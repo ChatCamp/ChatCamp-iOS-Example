@@ -51,8 +51,10 @@ extension LoginViewController {
                 } else {
                     UserDefaults.standard.setUserID(userID: userID)
                     UserDefaults.standard.setUsername(username: username)
-                    CCPClient.updateUserPushToken(token: UserDefaults.standard.deviceToken()!) { (_,_) in
-                        print("update device token on the server.")
+                    if let deviceToken = UserDefaults.standard.deviceToken() {
+                        CCPClient.updateUserPushToken(token: deviceToken) { (_,_) in
+                            print("update device token on the server.")
+                        }
                     }
                     WindowManager.shared.showHomeWithAnimation()
                 }
