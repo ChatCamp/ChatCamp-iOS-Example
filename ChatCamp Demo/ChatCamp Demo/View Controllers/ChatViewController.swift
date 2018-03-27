@@ -229,7 +229,7 @@ extension ChatViewController {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if messagesCollectionView.indexPathsForVisibleItems.contains([0, 0]) && !self.loadingMessages && self.mkMessages.count >= 30 && self.mkMessages.count%30 == 0 {
+        if messagesCollectionView.indexPathsForVisibleItems.contains([0, 0]) && !self.loadingMessages && self.mkMessages.count >= 30 {
             print("REACHED TOP")
             self.loadingMessages = true
             let count = self.messageCount
