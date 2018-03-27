@@ -24,6 +24,7 @@ class ChatViewController: MessagesViewController {
     fileprivate var mkMessages: [Message] = []
     fileprivate var previousMessagesQuery: CCPPreviousMessageListQuery
     fileprivate var partnerTyping = false
+    fileprivate var messageCount: Int = 30
     var loadingDots = LoadingDots()
     let loadingDotsAnimationDelay : TimeInterval = 0.5
     
@@ -76,7 +77,7 @@ class ChatViewController: MessagesViewController {
             print("Unable to open database. Verify that you created the directory described in the Getting Started section.")
         }
         
-        loadMessages(count: 30)
+        loadMessages(count: messageCount)
 //        addNavigationRightBarButton()
     }
     
@@ -228,10 +229,10 @@ extension ChatViewController {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if messagesCollectionView.indexPathsForVisibleItems.contains([0, 0]) && !self.loadingMessages {
+        if messagesCollectionView.indexPathsForVisibleItems.contains([0, 0]) && !self.loadingMessages && self.mkMessages.count >= 30 && self.mkMessages.count%30 == 0 {
             print("REACHED TOP")
             self.loadingMessages = true
-            let count = 30
+            let count = self.messageCount
             self.previousMessagesQuery.load(limit: count, reverse: true) { (messages, error) in
                 if error != nil {
                     DispatchQueue.main.async {
@@ -252,7 +253,7 @@ extension ChatViewController {
                         } catch {
                             print(self.db.errorMessage)
                         }
-                        print("MEssage Serialize: \(message.serialize())")
+//                        print("MEssage Serialize: \(message.serialize())")
                         //                    print("MEssage DeSerialize: \(m)")
                     }
                     
@@ -318,7 +319,7 @@ extension ChatViewController {
                     } catch {
                         print(self.db.errorMessage)
                     }
-                    print("MEssage Serialize: \(message.serialize())")
+//                    print("MEssage Serialize: \(message.serialize())")
                     //                    print("MEssage DeSerialize: \(m)")
                 }
                 
