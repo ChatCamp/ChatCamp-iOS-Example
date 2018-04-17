@@ -64,7 +64,13 @@ extension GroupChannelsViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChatTableViewCell.string(), for: indexPath) as! ChatTableViewCell
         
         let channel = channels[indexPath.row]
-        
+        let participantCount = channel.getParticipantsCount()
+        if participantCount == 2 && channel.isDistinct() {
+            let avatarUrl = channel.getLastMessage()?.getUser().getAvatarUrl()
+            if avatarUrl != nil {
+                cell.avatarImageView.downloadedFrom(link: avatarUrl!)
+            }
+        }
         cell.nameLabel.text = channel.getName()
         cell.messageLabel.text = ""
         cell.unreadCountLabel.text = String(channel.getUnreadMessageCount())
