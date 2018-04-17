@@ -91,28 +91,7 @@ class ChatViewController: MessagesViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if channel.getParticipantsCount() == 2 {
-            title = nil
-            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 40, height: 40))
-            imageView.layer.cornerRadius = imageView.bounds.width/2
-            imageView.layer.masksToBounds = true
-            let avatarUrl = channel.getLastMessage()?.getUser().getAvatarUrl()
-            if avatarUrl != nil {
-                imageView.downloadedFrom(link: avatarUrl!)
-            }
-
-            let label = UILabel(frame: CGRect.init(x: 0, y: 0, width: 80, height: 30))
-            label.text = channel.getLastMessage()?.getUser().getDisplayName()
-            
-            let profileImage = UIBarButtonItem(customView: imageView)
-            let userName = UIBarButtonItem(customView: label)
-            
-            navigationController?.navigationBar.items?.first?.title = ""
-            navigationItem.leftItemsSupplementBackButton = true
-            navigationItem.leftBarButtonItems = [profileImage, userName]
-            
-            
-        }
+        setupNavigationItemsForIndividualChat()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -132,8 +111,27 @@ class ChatViewController: MessagesViewController {
 //        navigationItem.rightBarButtonItem = barButtonItem
 //    }
     
-    @objc func profileButtonTapped() {
-    
+    fileprivate func setupNavigationItemsForIndividualChat() {
+        if channel.getParticipantsCount() == 2 && channel.isDistinct() {
+            title = nil
+            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 40, height: 40))
+            imageView.layer.cornerRadius = imageView.bounds.width/2
+            imageView.layer.masksToBounds = true
+            let avatarUrl = channel.getLastMessage()?.getUser().getAvatarUrl()
+            if avatarUrl != nil {
+                imageView.downloadedFrom(link: avatarUrl!)
+            }
+            
+            let label = UILabel(frame: CGRect.init(x: 0, y: 0, width: 80, height: 30))
+            label.text = channel.getLastMessage()?.getUser().getDisplayName()
+            
+            let profileImage = UIBarButtonItem(customView: imageView)
+            let userName = UIBarButtonItem(customView: label)
+            
+            navigationController?.navigationBar.items?.first?.title = ""
+            navigationItem.leftItemsSupplementBackButton = true
+            navigationItem.leftBarButtonItems = [profileImage, userName]
+        }
     }
     
     func addTypingText() {
