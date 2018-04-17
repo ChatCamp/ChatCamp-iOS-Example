@@ -78,7 +78,6 @@ extension GroupChannelsViewController: UITableViewDataSource {
             cell.messageLabel.text = message.getText()
         }
         
-        
         return cell
     }
 }
@@ -93,7 +92,6 @@ extension GroupChannelsViewController: UITableViewDelegate {
         
         let chatViewController = ChatViewController(channel: channels[indexPath.row], sender: sender)
         navigationController?.pushViewController(chatViewController, animated: true)
-        
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

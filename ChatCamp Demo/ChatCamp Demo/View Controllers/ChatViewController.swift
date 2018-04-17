@@ -88,6 +88,33 @@ class ChatViewController: MessagesViewController {
         self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if channel.getParticipantsCount() == 2 {
+            title = nil
+            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 40, height: 40))
+            imageView.layer.cornerRadius = imageView.bounds.width/2
+            imageView.layer.masksToBounds = true
+            let avatarUrl = channel.getLastMessage()?.getUser().getAvatarUrl()
+            if avatarUrl != nil {
+                imageView.downloadedFrom(link: avatarUrl!)
+            }
+
+            let label = UILabel(frame: CGRect.init(x: 0, y: 0, width: 80, height: 30))
+            label.text = channel.getLastMessage()?.getUser().getDisplayName()
+            
+            let profileImage = UIBarButtonItem(customView: imageView)
+            let userName = UIBarButtonItem(customView: label)
+            
+            navigationController?.navigationBar.items?.first?.title = ""
+            navigationItem.leftItemsSupplementBackButton = true
+            navigationItem.leftBarButtonItems = [profileImage, userName]
+            
+            
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         CCPClient.removeChannelDelegate(identifier: ChatViewController.string())
@@ -104,6 +131,10 @@ class ChatViewController: MessagesViewController {
 //                                            action: #selector(addTypingText))
 //        navigationItem.rightBarButtonItem = barButtonItem
 //    }
+    
+    @objc func profileButtonTapped() {
+    
+    }
     
     func addTypingText() {
         if partnerTyping {
