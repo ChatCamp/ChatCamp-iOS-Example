@@ -64,6 +64,7 @@ extension GroupChannelsViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChatTableViewCell.string(), for: indexPath) as! ChatTableViewCell
         
         let channel = channels[indexPath.row]
+        channel.getParticipants()
         let participantCount = channel.getParticipantsCount()
         if participantCount == 2 && channel.isDistinct() {
             let avatarUrl = channel.getLastMessage()?.getUser().getAvatarUrl()
