@@ -65,25 +65,51 @@ class Message: NSObject, MessageType {
 //            let customAction = ccpMessage.getCustomType()
             let metadata = ccpMessage.getMetadata()
             
-            let metadata1: [String: Any] = ["product":[
-                "ImageURL": ["http://streaklabs.in/UserImages/FitBit.jpg"],
-                "Name": "Fitbit",
-                "Code": "SP0129",
-                "ShortDescription": "Fitbit logs your health data",
-                "ShippingCost": 20
-                ]]
+//            let metadata1: [String: Any] = ["product":[
+//                "ImageURL": ["http://streaklabs.in/UserImages/FitBit.jpg"],
+//                "Name": "Fitbit",
+//                "Code": "SP0129",
+//                "ShortDescription": "Fitbit logs your health data",
+//                "ShippingCost": 20
+//                ]]
             
-            let product: [String: Any] = metadata1["product"] as! [String: Any]
+//            let product: [String: Any] = metadata1["product"] as! [String: Any]
+//            let link = (product["ImageURL"] as! [String])[0]
+//            let title = product["Name"] as! String
+//            let code = "Code: \((product["Code"] as! String))"
+//            let shortDescription = product["ShortDescription"] as! String
+//            let shippingCost = "₹ \(product["ShippingCost"] as! Int) shipping cost"
+
+            var imageURL = "http://streaklabs.in/UserImages/FitBit.jpg"
+            var name = ""
+            var code = ""
+            var shortDescription = ""
+            var shippingCost = 0
             
-            let link = (product["ImageURL"] as! [String])[0]
-            let title = product["Name"] as! String
-            let code = "Code: \((product["Code"] as! String))"
-            let shortDescription = product["ShortDescription"] as! String
-            let shippingCost = "₹ \(product["ShippingCost"] as! Int) shipping cost"
+            let product = metadata["product"]
+            if let productValue = product {
+                var json: [String: Any]!
+                if let jData = productValue.data(using: .utf8) {
+                    do {
+                        json = try JSONSerialization.jsonObject(with: jData) as? [String: Any]
+                        var url = (json?["ImageURL"] as! String).replacingOccurrences(of: "\"", with: "")
+                        url.removeFirst()
+                        url.removeLast()
+                        imageURL = url
+                        name = json?["Name"] as! String
+                        code = json?["Code"] as! String
+                        shortDescription = json?["ShortDescription"] as! String
+                        shippingCost = json?["ShippingCost"] as! Int
+                    } catch {
+                        print("in error::")
+                        print(error.localizedDescription)
+                    }
+                }
+            }
             
             var messageDataDictionary: [String: Any] = [
-                "ImageURL": link,
-                "Name": title,
+                "ImageURL": imageURL,
+                "Name": name,
                 "Code": code,
                 "ShortDescription": shortDescription,
                 "ShippingCost": shippingCost,
@@ -92,7 +118,7 @@ class Message: NSObject, MessageType {
             
             data = MessageData.custom(messageDataDictionary)
             
-            URLSession.shared.dataTask(with: URL(string: link)!) { data, response, error in
+            URLSession.shared.dataTask(with: URL(string: imageURL)!) { data, response, error in
                 guard
                     let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
                     let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
