@@ -51,17 +51,14 @@ class ChatViewController: MessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = channel.getName()
-        
         setupMessageInputBar()
-        
+        setupNavigationItemsForIndividualChat()
+
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
-        
-        
         
         do {
             let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -88,12 +85,6 @@ class ChatViewController: MessagesViewController {
         self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        setupNavigationItemsForIndividualChat()
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         CCPClient.removeChannelDelegate(identifier: ChatViewController.string())
@@ -113,24 +104,36 @@ class ChatViewController: MessagesViewController {
     
     fileprivate func setupNavigationItemsForIndividualChat() {
         if channel.getParticipantsCount() == 2 && channel.isDistinct() {
-            title = nil
-            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 40, height: 40))
-            imageView.layer.cornerRadius = imageView.bounds.width/2
-            imageView.layer.masksToBounds = true
-            let avatarUrl = channel.getLastMessage()?.getUser().getAvatarUrl()
-            if avatarUrl != nil {
-                imageView.downloadedFrom(link: avatarUrl!)
-            }
-            
-            let label = UILabel(frame: CGRect.init(x: 0, y: 0, width: 80, height: 30))
-            label.text = channel.getLastMessage()?.getUser().getDisplayName()
-            
-            let profileImage = UIBarButtonItem(customView: imageView)
-            let userName = UIBarButtonItem(customView: label)
-            
             navigationController?.navigationBar.items?.first?.title = ""
-            navigationItem.leftItemsSupplementBackButton = true
-            navigationItem.leftBarButtonItems = [profileImage, userName]
+            CCPGroupChannel.get(groupChannelId: channel.getId()) {(groupChannel, error) in
+                if let gC = groupChannel {
+                    for participant in gC.getParticipants() {
+                        if participant.getId() != self.sender.id {
+                            self.title = nil
+                            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 40, height: 40))
+                            imageView.layer.cornerRadius = imageView.bounds.width/2
+                            imageView.layer.masksToBounds = true
+                            let avatarUrl = participant.getAvatarUrl()
+                            if avatarUrl != nil {
+                                imageView.downloadedFrom(link: avatarUrl!)
+                            }
+                            
+                            let label = UILabel(frame: CGRect.init(x: 0, y: 0, width: 80, height: 30))
+                            label.text = participant.getDisplayName()
+                            
+                            let profileImage = UIBarButtonItem(customView: imageView)
+                            let userName = UIBarButtonItem(customView: label)
+                            
+                            self.navigationItem.leftItemsSupplementBackButton = true
+                            self.navigationItem.leftBarButtonItems = [profileImage, userName]
+                        } else {
+                            continue
+                        }
+                    }
+                }
+            }
+        } else {
+            title = channel.getName()
         }
     }
     

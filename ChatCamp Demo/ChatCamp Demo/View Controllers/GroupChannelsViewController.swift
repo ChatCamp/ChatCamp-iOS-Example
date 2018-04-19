@@ -64,12 +64,22 @@ extension GroupChannelsViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChatTableViewCell.string(), for: indexPath) as! ChatTableViewCell
         
         let channel = channels[indexPath.row]
-        channel.getParticipants()
-        let participantCount = channel.getParticipantsCount()
-        if participantCount == 2 && channel.isDistinct() {
-            let avatarUrl = channel.getLastMessage()?.getUser().getAvatarUrl()
-            if avatarUrl != nil {
-                cell.avatarImageView.downloadedFrom(link: avatarUrl!)
+        
+        if channel.getParticipantsCount() == 2 && channel.isDistinct() {
+            CCPGroupChannel.get(groupChannelId: channel.getId()) { (groupChannel, error) in
+                if let gC = groupChannel {
+                    let participants = gC.getParticipants()
+                    for participant in participants {
+                        if participant.getId() != CCPClient.getCurrentUser().getId() {
+                            let avatarUrl = participant.getAvatarUrl()
+                            if avatarUrl != nil {
+                                cell.avatarImageView.downloadedFrom(link: avatarUrl!)
+                            }
+                        } else {
+                            continue
+                        }
+                    }
+                }
             }
         }
         cell.nameLabel.text = channel.getName()

@@ -858,7 +858,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ChatCamp Demo/ChatCamp Demo.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Y78N79J6Y9;
+				DEVELOPMENT_TEAM = ET385UDM96;
 				INFOPLIST_FILE = "ChatCamp Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -879,7 +879,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ChatCamp Demo/ChatCamp Demo.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Y78N79J6Y9;
+				DEVELOPMENT_TEAM = ET385UDM96;
 				INFOPLIST_FILE = "ChatCamp Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
