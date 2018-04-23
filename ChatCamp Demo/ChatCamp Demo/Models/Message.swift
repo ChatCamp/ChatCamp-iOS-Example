@@ -92,14 +92,16 @@ class Message: NSObject, MessageType {
                 if let jData = productValue.data(using: .utf8) {
                     do {
                         json = try JSONSerialization.jsonObject(with: jData) as? [String: Any]
-                        var url = (json?["ImageURL"] as! String).replacingOccurrences(of: "\"", with: "")
-                        url.removeFirst()
-                        url.removeLast()
-                        imageURL = url
-                        name = json?["Name"] as! String
-                        code = json?["Code"] as! String
-                        shortDescription = json?["ShortDescription"] as! String
-                        shippingCost = json?["ShippingCost"] as! Int
+                        if let url = (json?["ImageURL"] as? String) {
+                            var urlString = url.replacingOccurrences(of: "\"", with: "")
+                            urlString.removeFirst()
+                            urlString.removeLast()
+                            imageURL = urlString
+                        }
+                        name = json?["Name"] as? String ?? "Fitbit"
+                        code = json?["Code"] as? String ?? "SP0129"
+                        shortDescription = json?["ShortDescription"] as? String ?? "Fitbit logs your health data"
+                        shippingCost = json?["ShippingCost"] as? Int ?? 20
                     } catch {
                         print("in error::")
                         print(error.localizedDescription)

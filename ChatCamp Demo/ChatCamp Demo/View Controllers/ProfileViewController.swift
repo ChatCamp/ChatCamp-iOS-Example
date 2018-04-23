@@ -25,6 +25,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = "Contact Info"
         let avatarUrl = participant?.getAvatarUrl()
         if avatarUrl != nil {
             profileImageView.downloadedFrom(link: avatarUrl!)
