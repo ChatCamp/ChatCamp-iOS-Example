@@ -291,10 +291,19 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L7G-IS-ma4">
+                                                    <rect key="frame" x="344" y="13.5" width="15" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="15" id="1ev-xy-yrl"/>
+                                                        <constraint firstAttribute="width" constant="15" id="vIr-hp-SzK"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="aIa-eg-Ots" firstAttribute="leading" secondItem="56r-uP-S3C" secondAttribute="trailing" constant="8" id="BgH-xT-KGM"/>
                                                 <constraint firstItem="aIa-eg-Ots" firstAttribute="centerY" secondItem="36G-CC-KN9" secondAttribute="centerY" id="FWu-aq-0ug"/>
+                                                <constraint firstItem="L7G-IS-ma4" firstAttribute="centerY" secondItem="36G-CC-KN9" secondAttribute="centerY" id="Upq-N6-cV3"/>
+                                                <constraint firstAttribute="trailing" secondItem="L7G-IS-ma4" secondAttribute="trailing" constant="16" id="XiT-vl-MbF"/>
                                                 <constraint firstItem="56r-uP-S3C" firstAttribute="leading" secondItem="36G-CC-KN9" secondAttribute="leading" constant="16" id="dEL-RH-LJO"/>
                                                 <constraint firstItem="56r-uP-S3C" firstAttribute="centerY" secondItem="36G-CC-KN9" secondAttribute="centerY" id="qkJ-X3-bd4"/>
                                                 <constraint firstItem="56r-uP-S3C" firstAttribute="centerY" secondItem="36G-CC-KN9" secondAttribute="centerY" id="xKI-mg-JRQ"/>
@@ -303,6 +312,7 @@
                                         <connections>
                                             <outlet property="avatarImageView" destination="56r-uP-S3C" id="KZF-7G-q32"/>
                                             <outlet property="displayNameLabel" destination="aIa-eg-Ots" id="FDe-X0-UQT"/>
+                                            <outlet property="onlineStatusImageView" destination="L7G-IS-ma4" id="02t-cW-ijk"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

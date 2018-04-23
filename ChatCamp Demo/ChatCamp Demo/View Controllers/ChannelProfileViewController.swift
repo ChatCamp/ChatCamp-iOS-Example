@@ -58,6 +58,7 @@ extension ChannelProfileViewController {
         if indexPath.section == 0 {
             cell.avatarImageView.image = #imageLiteral(resourceName: "user_placeholder")
             cell.displayNameLabel.text = channel?.getName()
+            cell.onlineStatusImageView.removeFromSuperview()
         } else {
             if let avatarURL = participants?[indexPath.row].getAvatarUrl() {
                 cell.avatarImageView.downloadedFrom(link: avatarURL)
@@ -65,6 +66,11 @@ extension ChannelProfileViewController {
                 cell.avatarImageView.image = #imageLiteral(resourceName: "user_placeholder")
             }
             cell.displayNameLabel.text = participants?[indexPath.row].getDisplayName()
+            if participants?[indexPath.row].getIsOnline() ?? false {
+                cell.onlineStatusImageView.image = #imageLiteral(resourceName: "online")
+            } else {
+                cell.onlineStatusImageView.image = #imageLiteral(resourceName: "offline")
+            }
         }
         
         return cell

@@ -17,6 +17,7 @@ class ChannelProfileTableViewCell: UITableViewCell {
         }
     }
     @IBOutlet weak var displayNameLabel: UILabel!
+    @IBOutlet weak var onlineStatusImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
