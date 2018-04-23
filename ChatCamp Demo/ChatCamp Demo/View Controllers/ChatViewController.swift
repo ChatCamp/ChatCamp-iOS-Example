@@ -14,6 +14,7 @@ import Photos
 import SQLite3
 
 class ChatViewController: MessagesViewController {
+    fileprivate var participant: CCPParticipant?
     fileprivate var db: SQLiteDatabase!
     fileprivate var channel: CCPGroupChannel
     fileprivate var sender: Sender
@@ -51,8 +52,8 @@ class ChatViewController: MessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupMessageInputBar()
         setupNavigationItemsForIndividualChat()
+        setupMessageInputBar()
 
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
@@ -103,12 +104,13 @@ class ChatViewController: MessagesViewController {
 //    }
     
     fileprivate func setupNavigationItemsForIndividualChat() {
-        if channel.getParticipantsCount() == 2 && channel.isDistinct() {
+        if channel.getParticipantsCount() == 2 {
             navigationController?.navigationBar.items?.first?.title = ""
             CCPGroupChannel.get(groupChannelId: channel.getId()) {(groupChannel, error) in
                 if let gC = groupChannel {
                     for participant in gC.getParticipants() {
                         if participant.getId() != self.sender.id {
+                            self.participant = participant
                             self.title = nil
                             let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 40, height: 40))
                             imageView.layer.cornerRadius = imageView.bounds.width/2
@@ -118,14 +120,11 @@ class ChatViewController: MessagesViewController {
                                 imageView.downloadedFrom(link: avatarUrl!)
                             }
                             
-                            let label = UILabel(frame: CGRect.init(x: 0, y: 0, width: 80, height: 30))
-                            label.text = participant.getDisplayName()
-                            
+                            let userNameBarButtonItem = UIBarButtonItem(title: participant.getDisplayName(), style: .plain, target: self, action: #selector(self.userProfileTapped))
                             let profileImage = UIBarButtonItem(customView: imageView)
-                            let userName = UIBarButtonItem(customView: label)
                             
                             self.navigationItem.leftItemsSupplementBackButton = true
-                            self.navigationItem.leftBarButtonItems = [profileImage, userName]
+                            self.navigationItem.leftBarButtonItems = [profileImage, userNameBarButtonItem]
                         } else {
                             continue
                         }
@@ -172,6 +171,12 @@ class ChatViewController: MessagesViewController {
             messagesCollectionView.reloadData()
             messagesCollectionView.scrollToBottom(animated: false)
         }
+    }
+    
+    @objc func userProfileTapped() {
+        let profileViewController = UIViewController.profileViewController()
+        profileViewController.participant = self.participant
+        self.navigationController?.pushViewController(profileViewController, animated: true)
     }
 }
 

@@ -57,10 +57,10 @@
             </objects>
             <point key="canvasLocation" x="1597.5999999999999" y="174.96251874062969"/>
         </scene>
-        <!--View Controller-->
+        <!--Profile View Controller-->
         <scene sceneID="twR-1r-9y3">
             <objects>
-                <viewController id="Ol3-bn-JkH" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ol3-bn-JkH" customClass="ProfileViewController" customModule="ChatCamp_Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Njz-L9-x4D">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -69,14 +69,14 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="150"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c2L-Gc-5lj">
-                                        <rect key="frame" x="147" y="35" width="80" height="80"/>
+                                        <rect key="frame" x="127.5" y="15" width="120" height="120"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="80" id="A8C-Aj-oOd"/>
-                                            <constraint firstAttribute="height" constant="80" id="FgO-zB-Dd2"/>
+                                            <constraint firstAttribute="height" constant="120" id="6sm-eV-d4p"/>
+                                            <constraint firstAttribute="width" constant="120" id="lTU-oR-M3O"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="c2L-Gc-5lj" firstAttribute="centerY" secondItem="Py9-XI-sGI" secondAttribute="centerY" id="gHL-Cg-mKj"/>
                                     <constraint firstAttribute="height" constant="150" id="hio-pR-qHQ"/>
@@ -94,7 +94,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DbX-Jt-nMe">
-                                        <rect key="frame" x="47" y="20" width="42" height="21"/>
+                                        <rect key="frame" x="39" y="20" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -102,7 +102,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="DbX-Jt-nMe" firstAttribute="leading" secondItem="l8G-1d-e39" secondAttribute="trailing" constant="16" id="1xn-jf-gRU"/>
+                                    <constraint firstItem="DbX-Jt-nMe" firstAttribute="leading" secondItem="l8G-1d-e39" secondAttribute="trailing" constant="8" id="1xn-jf-gRU"/>
                                     <constraint firstItem="l8G-1d-e39" firstAttribute="centerY" secondItem="pNW-Fx-Ips" secondAttribute="centerY" id="Gz0-hb-YYT"/>
                                     <constraint firstItem="DbX-Jt-nMe" firstAttribute="centerY" secondItem="pNW-Fx-Ips" secondAttribute="centerY" id="Mwh-vS-rSr"/>
                                     <constraint firstItem="l8G-1d-e39" firstAttribute="leading" secondItem="pNW-Fx-Ips" secondAttribute="leading" constant="16" id="SPD-EE-44e"/>
@@ -121,6 +121,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4RH-cU-kyB"/>
                     </view>
+                    <connections>
+                        <outlet property="displayNameLabel" destination="DbX-Jt-nMe" id="9wy-c4-n8G"/>
+                        <outlet property="onlineStatusImageView" destination="l8G-1d-e39" id="bBm-Om-yAZ"/>
+                        <outlet property="profileImageView" destination="c2L-Gc-5lj" id="IbX-ff-ZuD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fKz-mb-y1P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

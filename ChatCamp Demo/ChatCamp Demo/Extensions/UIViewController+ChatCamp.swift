@@ -25,6 +25,10 @@ extension UIViewController {
     static func createChannelViewController() -> UINavigationController {
         return UIStoryboard.createChannel().instantiateViewController(withIdentifier: UINavigationController.string()) as! UINavigationController
     }
+    
+    static func profileViewController() -> ProfileViewController {
+        return UIStoryboard.home().instantiateViewController(withIdentifier: ProfileViewController.string()) as! ProfileViewController
+    }
 }
 
 // MARK:- Alerts

@@ -11,6 +11,7 @@
 		092C99E92062C7E500281982 /* LoadingDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092C99E82062C7E500281982 /* LoadingDots.swift */; };
 		092C99EB2062C81000281982 /* LoadingDots.xib in Resources */ = {isa = PBXBuildFile; fileRef = 092C99EA2062C81000281982 /* LoadingDots.xib */; };
 		092C99ED2062CC3600281982 /* DelayMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092C99EC2062CC3600281982 /* DelayMethod.swift */; };
+		096F143D208C927C0073ADCA /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096F143C208C927C0073ADCA /* ProfileViewController.swift */; };
 		7F79F56F3DC92F0751644531 /* Pods_ChatCamp_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1792827B812DA8708996D7B5 /* Pods_ChatCamp_Demo.framework */; };
 		C0328C5C20346B5A00BA4029 /* UIImageView+ChatCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0328C5B20346B5A00BA4029 /* UIImageView+ChatCamp.swift */; };
 		C03D3030202F2EC200E3A85A /* OpenChannelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D302F202F2EC200E3A85A /* OpenChannelsViewController.swift */; };
@@ -105,6 +106,7 @@
 		092C99E82062C7E500281982 /* LoadingDots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDots.swift; sourceTree = "<group>"; };
 		092C99EA2062C81000281982 /* LoadingDots.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingDots.xib; sourceTree = "<group>"; };
 		092C99EC2062CC3600281982 /* DelayMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelayMethod.swift; sourceTree = "<group>"; };
+		096F143C208C927C0073ADCA /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1792827B812DA8708996D7B5 /* Pods_ChatCamp_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatCamp_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FCB7B5A206813F50017A36C /* ChatCamp Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ChatCamp Demo.entitlements"; sourceTree = "<group>"; };
 		9E540E14A6B81D12A1285EA9 /* Pods-ChatCamp Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatCamp Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo.release.xcconfig"; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 				C0AD50772032D4FC003CE2E8 /* SettingsViewController.swift */,
 				C0B2666A202F453E008D33F3 /* ChatViewController.swift */,
 				C08F0BFA2030180E001821D8 /* CreateChannelViewController.swift */,
+				096F143C208C927C0073ADCA /* ProfileViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -619,8 +622,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${PODS_ROOT}/ChatCamp/ChatCamp.framework",
-				"${PODS_ROOT}/ChatCamp/ChatCamp.framework.dSYM",
+				"${PODS_ROOT}/../../../iflychat-ios-sdk/ChatCamp.framework",
 				"${BUILT_PRODUCTS_DIR}/DKImagePickerController/DKImagePickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/DKPhotoGallery/DKPhotoGallery.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
@@ -630,7 +632,6 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChatCamp.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/ChatCamp.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKImagePickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKPhotoGallery.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
@@ -670,6 +671,7 @@
 				C052C00D2036DB3A00ADED74 /* MessagesViewController.swift in Sources */,
 				C0AD50742032D0B6003CE2E8 /* UIViewController+ChatCamp.swift in Sources */,
 				C0D8F986203834C00051ED77 /* ImageManager.swift in Sources */,
+				096F143D208C927C0073ADCA /* ProfileViewController.swift in Sources */,
 				C052C0172036DB3A00ADED74 /* InputStackView.swift in Sources */,
 				C052BFFF2036DB3A00ADED74 /* MessageStyle.swift in Sources */,
 				092C99ED2062CC3600281982 /* DelayMethod.swift in Sources */,
