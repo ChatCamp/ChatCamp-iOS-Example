@@ -29,6 +29,10 @@ class GroupChannelsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadChannels()
+    }
+    
+    fileprivate func loadChannels() {
         let groupChannelsQuery = CCPGroupChannel.createGroupChannelListQuery()
         groupChannelsQuery.get { [unowned self] (channels, error) in
             if error == nil {
@@ -50,6 +54,11 @@ class GroupChannelsViewController: UIViewController {
 extension GroupChannelsViewController {
     @IBAction func didTapOnAddChannelFAB(_ sender: UIButton) {
         let createChannelViewController = UIViewController.createChannelViewController()
+        
+        (createChannelViewController.viewControllers.first as? CreateChannelViewController)?.channelCreated = {
+            self.loadChannels()
+        }
+        
         present(createChannelViewController, animated: true, completion: nil)
     }
 }
