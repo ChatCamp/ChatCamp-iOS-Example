@@ -56,6 +56,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Taking a photo requires your permission to access Camera.</string>
 	<key>aps-environment</key>
 	<string>development</string>
 </dict>

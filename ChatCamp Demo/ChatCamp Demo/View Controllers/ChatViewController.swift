@@ -449,7 +449,7 @@ extension ChatViewController {
         attachmentButton.onTouchUpInside { [unowned self] (attachmentButton) in
             let photoGalleryViewController = DKImagePickerController()
             photoGalleryViewController.singleSelect = true
-            photoGalleryViewController.sourceType = .photo
+            photoGalleryViewController.sourceType = .both
             
             photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
                 guard assets[0].type == .photo else { return }
