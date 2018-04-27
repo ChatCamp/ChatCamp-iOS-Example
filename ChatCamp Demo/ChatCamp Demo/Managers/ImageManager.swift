@@ -1,5 +1,5 @@
 //
-//  ImageManager.swift
+//  AttachmentManager.swift
 //  ChatCamp Demo
 //
 //  Created by Tanmay Khandelwal on 17/02/18.
@@ -11,10 +11,10 @@ import UIKit
 import ChatCamp
 import Alamofire
 
-class ImageManager {
-    class var shared: ImageManager {
+class AttachmentManager {
+    class var shared: AttachmentManager {
         struct Singleton {
-            static let instance = ImageManager()
+            static let instance = AttachmentManager()
         }
         
         return Singleton.instance
@@ -22,11 +22,11 @@ class ImageManager {
 }
 
 // MARK:- Helpers
-extension ImageManager {
-    func uploadAttachment(imageData: Data, channelID: String, completionHandler: @escaping (Bool, String?, String?, String?) -> Void) {
-        
+extension AttachmentManager {
+    
+    func uploadAttachment(data: Data, channelID: String, fileName: String, fileType: String, completionHandler: @escaping (Bool, String?, String?, String?) -> Void) {
         CCPGroupChannel.get(groupChannelId: channelID) { (groupChannel, error) in
-            groupChannel?.sendAttachment(file: imageData, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg", completionHandler: { (message, error) in
+            groupChannel?.sendAttachment(file: imageData, fileName: fileName, fileType: fileType, completionHandler: { (message, error) in
                 print("final attachment response: \(message) with error: \(error)")
             })
         }

@@ -1,7 +1,7 @@
 target 'ChatCamp Demo' do
     use_frameworks!
 
-    pod 'ChatCamp', :path => '/Users/saurabh/Desktop/Developer/chatcamp/iflychat-ios-sdk'
+    pod 'ChatCamp', '0.1.6'
     pod 'DKImagePickerController', '4.0.0-beta', :subspecs => ['PhotoGallery', 'Camera', 'InlineCamera']
     pod 'Alamofire'
 end
