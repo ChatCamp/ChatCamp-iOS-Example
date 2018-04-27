@@ -446,62 +446,236 @@ extension ChatViewController {
         let attachmentButton = InputBarButtonItem(frame: CGRect(x: 3, y: 2, width: 30, height: 30))
         attachmentButton.setImage(#imageLiteral(resourceName: "chat_image_button"), for: .normal)
         
-        attachmentButton.onTouchUpInside { [unowned self] (attachmentButton) in
-            let photoGalleryViewController = DKImagePickerController()
-            photoGalleryViewController.singleSelect = true
-            photoGalleryViewController.sourceType = .both
-            
-            photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
-                guard assets[0].type == .photo else { return }
-                
-                let pickedAsset = assets[0].originalAsset!
-                let requestOptions = PHImageRequestOptions()
-                requestOptions.deliveryMode = .fastFormat
-                requestOptions.resizeMode = .fast
-                requestOptions.version = .original
-                PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
-                    if var originalData = data {
-                        let image = UIImage(data: originalData)
-                        originalData = self.compressImage(image: image!)!
-                        ImageManager.shared.uploadAttachment(imageData: originalData, channelID: self.channel.getId())
-                        { [unowned self] (successful, imageURL, imageName, imageType) in
-                            
-                            if successful,
-                                let urlString = imageURL,
-                                let name = imageName,
-                                let type = imageType {
-                                
-                                self.channel.sendAttachmentRaw(url: urlString, name: name, type: type, completionHandler: { [unowned self] (message, error) in
-                                    if error != nil {
-                                        DispatchQueue.main.async {
-                                            self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
-                                        }
-                                    } else if let _ = message {
-                                        self.messageInputBar.inputTextView.text = ""
-                                        self.channel.markAsRead()
-                                        self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
-                                    }
-                                })
-                                
-                            } else {
-                                DispatchQueue.main.async {
-                                    self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
-                                }
-                            }
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
-                        }
-                    }
-                })
-            }
-            
-            self.present(photoGalleryViewController, animated: true, completion: nil)
+        attachmentButton.onTouchUpInside { [unowned self] attachmentButton in
+            self.presentAlertController()
         }
+        
+//        attachmentButton.onTouchUpInside { [unowned self] (attachmentButton) in
+//            let photoGalleryViewController = DKImagePickerController()
+//            photoGalleryViewController.singleSelect = true
+//            photoGalleryViewController.sourceType = .both
+//
+//            photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
+//                guard assets[0].type == .photo else { return }
+//
+//                let pickedAsset = assets[0].originalAsset!
+//                let requestOptions = PHImageRequestOptions()
+//                requestOptions.deliveryMode = .fastFormat
+//                requestOptions.resizeMode = .fast
+//                requestOptions.version = .original
+//                PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
+//                    if var originalData = data {
+//                        let image = UIImage(data: originalData)
+//                        originalData = self.compressImage(image: image!)!
+//                        ImageManager.shared.uploadAttachment(imageData: originalData, channelID: self.channel.getId())
+//                        { [unowned self] (successful, imageURL, imageName, imageType) in
+//
+//                            if successful,
+//                                let urlString = imageURL,
+//                                let name = imageName,
+//                                let type = imageType {
+//
+//                                self.channel.sendAttachmentRaw(url: urlString, name: name, type: type, completionHandler: { [unowned self] (message, error) in
+//                                    if error != nil {
+//                                        DispatchQueue.main.async {
+//                                            self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+//                                        }
+//                                    } else if let _ = message {
+//                                        self.messageInputBar.inputTextView.text = ""
+//                                        self.channel.markAsRead()
+//                                        self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
+//                                    }
+//                                })
+//
+//                            } else {
+//                                DispatchQueue.main.async {
+//                                    self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+//                                }
+//                            }
+//                        }
+//                    } else {
+//                        DispatchQueue.main.async {
+//                            self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
+//                        }
+//                    }
+//                })
+//            }
+//
+//            self.present(photoGalleryViewController, animated: true, completion: nil)
+//        }
         
         messageInputBar.setLeftStackViewWidthConstant(to: 50, animated: false)
         messageInputBar.leftStackView.addSubview(attachmentButton)
+    }
+    
+    fileprivate func presentAlertController() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { (action) in
+            // TODO: add camera functionality here
+        }
+        
+        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default) { (action) in
+            self.handlePhotoLibraryAction()
+        }
+        
+        let videoLibraryAction = UIAlertAction(title: "Video Library", style: .default) { (action) in
+            self.handleVideoLibraryAction()
+        }
+        
+        let documentAction = UIAlertAction(title: "Document", style: .default) { (action) in
+            // TODO: add library access functionality here
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(cameraAction)
+        alertController.addAction(photoLibraryAction)
+        alertController.addAction(videoLibraryAction)
+        alertController.addAction(documentAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    fileprivate func handlePhotoLibraryAction() {
+        let photoGalleryViewController = DKImagePickerController()
+        photoGalleryViewController.singleSelect = true
+        photoGalleryViewController.sourceType = .both
+
+        photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
+            guard assets[0].type == .photo else { return }
+
+            let pickedAsset = assets[0].originalAsset!
+            let requestOptions = PHImageRequestOptions()
+            requestOptions.deliveryMode = .fastFormat
+            requestOptions.resizeMode = .fast
+            requestOptions.version = .original
+            PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
+                if var originalData = data {
+                    let image = UIImage(data: originalData)
+                    originalData = self.compressImage(image: image!)!
+                    ImageManager.shared.uploadAttachment(imageData: originalData, channelID: self.channel.getId())
+                    { [unowned self] (successful, imageURL, imageName, imageType) in
+
+                        if successful,
+                            let urlString = imageURL,
+                            let name = imageName,
+                            let type = imageType {
+
+                            self.channel.sendAttachmentRaw(url: urlString, name: name, type: type, completionHandler: { [unowned self] (message, error) in
+                                if error != nil {
+                                    DispatchQueue.main.async {
+                                        self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                                    }
+                                } else if let _ = message {
+                                    self.messageInputBar.inputTextView.text = ""
+                                    self.channel.markAsRead()
+                                    self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
+                                }
+                            })
+
+                        } else {
+                            DispatchQueue.main.async {
+                                self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                            }
+                        }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
+                    }
+                }
+            })
+        }
+
+        self.present(photoGalleryViewController, animated: true, completion: nil)
+    }
+    
+    fileprivate func handleVideoLibraryAction() {
+        let photoGalleryViewController = DKImagePickerController()
+        photoGalleryViewController.singleSelect = true
+        photoGalleryViewController.sourceType = .both
+        
+        photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
+            guard assets.first?.type == .video else { return }
+            
+            let pickedAsset = assets.first?.originalAsset!
+            let requestOptions = PHVideoRequestOptions()
+            requestOptions.deliveryMode = .fastFormat
+            requestOptions.version = .original
+            PHImageManager.default().requestAVAsset(forVideo: pickedAsset!, options: requestOptions, resultHandler: { (asset, audioMix, info) in
+                let asset = asset as? AVURLAsset
+                do {
+                    let videoData = try Data(contentsOf: (asset?.url)!)
+                    print("video data : \(videoData)")
+                    ImageManager.shared.uploadAttachment(imageData: videoData, channelID: self.channel.getId()) { [unowned self] (successful, imageURL, imageName, imageType) in
+                        if successful,
+                            let urlString = imageURL,
+                            let name = imageName,
+                            let type = imageType {
+
+                            self.channel.sendAttachmentRaw(url: urlString, name: name, type: type, completionHandler: { [unowned self] (message, error) in
+                                if error != nil {
+                                    DispatchQueue.main.async {
+                                        self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                                    }
+                                } else if let _ = message {
+                                    self.messageInputBar.inputTextView.text = ""
+                                    self.channel.markAsRead()
+                                    self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
+                                }
+                            })
+
+                        } else {
+                            DispatchQueue.main.async {
+                                self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                            }
+                        }
+                    }
+                } catch  {
+                    print("exception catch at block - while uploading video")
+                }
+            })
+//
+//            PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
+//                if var originalData = data {
+//                    let image = UIImage(data: originalData)
+//                    originalData = self.compressImage(image: image!)!
+//                    ImageManager.shared.uploadAttachment(imageData: originalData, channelID: self.channel.getId())
+//                    { [unowned self] (successful, imageURL, imageName, imageType) in
+//
+//                        if successful,
+//                            let urlString = imageURL,
+//                            let name = imageName,
+//                            let type = imageType {
+//
+//                            self.channel.sendAttachmentRaw(url: urlString, name: name, type: type, completionHandler: { [unowned self] (message, error) in
+//                                if error != nil {
+//                                    DispatchQueue.main.async {
+//                                        self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+//                                    }
+//                                } else if let _ = message {
+//                                    self.messageInputBar.inputTextView.text = ""
+//                                    self.channel.markAsRead()
+//                                    self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
+//                                }
+//                            })
+//
+//                        } else {
+//                            DispatchQueue.main.async {
+//                                self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    DispatchQueue.main.async {
+//                        self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
+//                    }
+//                }
+//            })
+        }
+        
+        self.present(photoGalleryViewController, animated: true, completion: nil)
     }
 }
 

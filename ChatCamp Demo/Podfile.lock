@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.7.2)
-  - ChatCamp (0.1.5)
+  - ChatCamp (0.0.3)
   - DKCamera (1.5.1)
   - DKImagePickerController/Camera (4.0.0-beta):
     - DKCamera (= 1.5.1)
@@ -42,20 +42,24 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - ChatCamp (= 0.1.5)
+  - ChatCamp (from `/Users/saurabh/Desktop/Developer/chatcamp/iflychat-ios-sdk`)
   - DKImagePickerController/Camera (= 4.0.0-beta)
   - DKImagePickerController/InlineCamera (= 4.0.0-beta)
   - DKImagePickerController/PhotoGallery (= 4.0.0-beta)
 
+EXTERNAL SOURCES:
+  ChatCamp:
+    :path: /Users/saurabh/Desktop/Developer/chatcamp/iflychat-ios-sdk
+
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
-  ChatCamp: e3c4147590f442e5343bd3f958829c009d270370
+  ChatCamp: 6b555b2a3b30a5979f7c5a6599af2a4680b3e7ae
   DKCamera: 59e2879aa034264fd316111812a1ca9001b75a9f
   DKImagePickerController: 8abb5370913beced68cac281a0e2eee82000e832
   DKPhotoGallery: 3664c4af6d0cbbb25fe57f63d53722b91ef68b75
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
 
-PODFILE CHECKSUM: 53175eeb90cafa13b47a54dd512e4940d8fc492a
+PODFILE CHECKSUM: d4f7e9ec1aa90bea2046074aa2b6d9696a555674
 
 COCOAPODS: 1.4.0

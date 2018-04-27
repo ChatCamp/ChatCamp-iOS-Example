@@ -53,7 +53,7 @@ class Message: NSObject, MessageType {
                     let imageData = try? Data(contentsOf: URL(string: ccpMessage.getAttachment()!.getUrl())!)
                     
                     DispatchQueue.main.async {
-                        self.data = MessageData.photo(UIImage(data: imageData!)!)
+                        self.data = MessageData.photo(UIImage(data: imageData!) ?? #imageLiteral(resourceName: "chat_image_placeholder"))
                         self.delegate?.messageDidUpdateWithImage(message: self)
                     }
                 }
