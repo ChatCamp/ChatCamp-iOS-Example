@@ -65,13 +65,29 @@ extension GroupChannelsViewController: UITableViewDataSource {
         
         let channel = channels[indexPath.row]
         
+        if channel.getParticipantsCount() == 2 && channel.isDistinct() {
+            CCPGroupChannel.get(groupChannelId: channel.getId()) { (groupChannel, error) in
+                if let gC = groupChannel {
+                    let participants = gC.getParticipants()
+                    for participant in participants {
+                        if participant.getId() != CCPClient.getCurrentUser().getId() {
+                            let avatarUrl = participant.getAvatarUrl()
+                            if avatarUrl != nil {
+                                cell.avatarImageView.downloadedFrom(link: avatarUrl!)
+                            }
+                        } else {
+                            continue
+                        }
+                    }
+                }
+            }
+        }
         cell.nameLabel.text = channel.getName()
         cell.messageLabel.text = ""
         cell.unreadCountLabel.text = String(channel.getUnreadMessageCount())
         if let message = channel.getLastMessage() {
             cell.messageLabel.text = message.getText()
         }
-        
         
         return cell
     }
@@ -87,7 +103,6 @@ extension GroupChannelsViewController: UITableViewDelegate {
         
         let chatViewController = ChatViewController(channel: channels[indexPath.row], sender: sender)
         navigationController?.pushViewController(chatViewController, animated: true)
-        
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

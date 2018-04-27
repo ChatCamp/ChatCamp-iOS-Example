@@ -14,6 +14,8 @@ import Photos
 import SQLite3
 
 class ChatViewController: MessagesViewController {
+    fileprivate var participant: CCPParticipant?
+    fileprivate var allParticipants: [CCPParticipant]?
     fileprivate var db: SQLiteDatabase!
     fileprivate var channel: CCPGroupChannel
     fileprivate var sender: Sender
@@ -51,17 +53,14 @@ class ChatViewController: MessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = channel.getName()
-        
+        setupNavigationItems()
         setupMessageInputBar()
-        
+
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
-        
-        
         
         do {
             let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -105,6 +104,44 @@ class ChatViewController: MessagesViewController {
 //        navigationItem.rightBarButtonItem = barButtonItem
 //    }
     
+    fileprivate func setupNavigationItems() {
+        if channel.getParticipantsCount() == 2 && channel.isDistinct() {
+            navigationController?.navigationBar.items?.first?.title = ""
+            CCPGroupChannel.get(groupChannelId: channel.getId()) {(groupChannel, error) in
+                if let gC = groupChannel {
+                    self.allParticipants = gC.getParticipants()
+                    for participant in gC.getParticipants() {
+                        if participant.getId() != self.sender.id {
+                            self.participant = participant
+                            self.title = nil
+                            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 40, height: 40))
+                            imageView.layer.cornerRadius = imageView.bounds.width/2
+                            imageView.layer.masksToBounds = true
+                            let avatarUrl = participant.getAvatarUrl()
+                            if avatarUrl != nil {
+                                imageView.downloadedFrom(link: avatarUrl!)
+                            }
+                            
+                            let userNameBarButtonItem = UIBarButtonItem(title: participant.getDisplayName(), style: .plain, target: self, action: #selector(self.userProfileTapped))
+                            let profileImage = UIBarButtonItem(customView: imageView)
+                            
+                            self.navigationItem.leftItemsSupplementBackButton = true
+                            self.navigationItem.leftBarButtonItems = [profileImage, userNameBarButtonItem]
+                        } else {
+                            continue
+                        }
+                    }
+                }
+            }
+        } else {
+            navigationController?.navigationBar.items?.first?.title = ""
+            let channelAvatarBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "user_placeholder"), style: .plain, target: self, action: nil)
+            let channelNameBarButtonItem = UIBarButtonItem(title: channel.getName(), style: .plain, target: self, action: #selector(channelProfileButtonTapped))
+            navigationItem.leftItemsSupplementBackButton = true
+            navigationItem.leftBarButtonItems = [channelAvatarBarButtonItem, channelNameBarButtonItem]
+        }
+    }
+    
     func addTypingText() {
         if partnerTyping {
             removeLoadingDots()
@@ -139,6 +176,24 @@ class ChatViewController: MessagesViewController {
             mkMessages.removeLast()
             messagesCollectionView.reloadData()
             messagesCollectionView.scrollToBottom(animated: false)
+        }
+    }
+    
+    @objc func userProfileTapped() {
+        let profileViewController = UIViewController.profileViewController()
+        profileViewController.participant = self.participant
+        self.navigationController?.pushViewController(profileViewController, animated: true)
+    }
+    
+    @objc func channelProfileButtonTapped() {
+        let channelProfileViewController = UIViewController.channelProfileViewController()
+        channelProfileViewController.channel = self.channel
+        CCPGroupChannel.get(groupChannelId: channel.getId()) {(groupChannel, error) in
+            if let gC = groupChannel {
+                self.allParticipants = gC.getParticipants()
+                channelProfileViewController.participants = self.allParticipants
+                self.navigationController?.pushViewController(channelProfileViewController, animated: true)
+            }
         }
     }
 }
