@@ -53,7 +53,7 @@ class ChatViewController: MessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNavigationItemsForIndividualChat()
+        setupNavigationItems()
         setupMessageInputBar()
 
         messagesCollectionView.messagesDataSource = self
@@ -104,7 +104,7 @@ class ChatViewController: MessagesViewController {
 //        navigationItem.rightBarButtonItem = barButtonItem
 //    }
     
-    fileprivate func setupNavigationItemsForIndividualChat() {
+    fileprivate func setupNavigationItems() {
         if channel.getParticipantsCount() == 2 && channel.isDistinct() {
             navigationController?.navigationBar.items?.first?.title = ""
             CCPGroupChannel.get(groupChannelId: channel.getId()) {(groupChannel, error) in
