@@ -552,7 +552,7 @@ extension ChatViewController {
                 do {
                     let videoData = try Data(contentsOf: (asset?.url)!)
                     print("video data : \(videoData)")
-                    ImageManager.shared.uploadAttachment(imageData: videoData, channelID: self.channel.getId()) { [unowned self] (successful, imageURL, imageName, imageType) in
+                    AttachmentManager.shared.uploadAttachment(data: videoData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { [unowned self] (successful, imageURL, imageName, imageType) in
                         if successful,
                             let urlString = imageURL,
                             let name = imageName,
