@@ -27,7 +27,6 @@ class Message: NSObject, MessageType {
         messageId = IDOfMessage
         sentDate = date
         data = messageData
-//        super.init()
     }
     
     init(fromCCPMessage ccpMessage: CCPMessage) {
@@ -59,13 +58,6 @@ class Message: NSObject, MessageType {
                     }
                 }
             } else if ccpMessage.getAttachment()?.getType().range(of: "video") != nil {
-//                let fetchOptions = PHFetchOptions()
-//                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-//                let fetchResult = PHAsset.fetchAssets(with: .video, options: fetchOptions).lastObject
-//                PHImageManager().requestAVAsset(forVideo: fetchResult!, options: nil, resultHandler: { (avurlAsset, audioMix, dict) in
-//                    let newObj = avurlAsset as! AVURLAsset
-//                    self.data = MessageData.video(file: newObj.url, thumbnail: #imageLiteral(resourceName: "chat_image_placeholder"))
-//                })
                 DispatchQueue.global().async {
                     if let attachement = ccpMessage.getAttachment(), let dataURL = URL(string: attachement.getUrl()) {
                         self.data = MessageData.video(file: dataURL, thumbnail: #imageLiteral(resourceName: "chat_image_placeholder"))
@@ -80,12 +72,8 @@ class Message: NSObject, MessageType {
                             let sessionConfig = URLSessionConfiguration.default
                             let session = URLSession(configuration: sessionConfig)
                             let request = URLRequest(url: dataURL)
-                            let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
-                            if let tempLocalUrl = tempLocalUrl, error == nil {
-                                // Success
-                                if let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                                    print("Successfully downloaded. Status code: \(statusCode)")
-                                }
+                            session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+                                if let tempLocalUrl = tempLocalUrl, error == nil {
                                     do {
                                         try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
                                         DispatchQueue.main.async {
@@ -102,12 +90,10 @@ class Message: NSObject, MessageType {
                                     } catch (let writeError) {
                                         print("Error creating a file \(destinationFileUrl) : \(writeError)")
                                     }
-                                
                                 } else {
                                     print("Error took place while downloading a file. Error description: %@", error?.localizedDescription);
                                 }
-                            }
-                            task.resume()
+                            }.resume()
                         }
                     }
                 }
@@ -116,24 +102,7 @@ class Message: NSObject, MessageType {
                 data = MessageData.text(ccpMessage.getAttachment()!.getUrl())
             }
         } else if ccpMessage.getType() == "text" && ccpMessage.getCustomType() == "action_link" {
-//            let customAction = ccpMessage.getCustomType()
             let metadata = ccpMessage.getMetadata()
-            
-//            let metadata1: [String: Any] = ["product":[
-//                "ImageURL": ["http://streaklabs.in/UserImages/FitBit.jpg"],
-//                "Name": "Fitbit",
-//                "Code": "SP0129",
-//                "ShortDescription": "Fitbit logs your health data",
-//                "ShippingCost": 20
-//                ]]
-            
-//            let product: [String: Any] = metadata1["product"] as! [String: Any]
-//            let link = (product["ImageURL"] as! [String])[0]
-//            let title = product["Name"] as! String
-//            let code = "Code: \((product["Code"] as! String))"
-//            let shortDescription = product["ShortDescription"] as! String
-//            let shippingCost = "₹ \(product["ShippingCost"] as! Int) shipping cost"
-
             var imageURL = "http://streaklabs.in/UserImages/FitBit.jpg"
             var name = ""
             var code = ""
