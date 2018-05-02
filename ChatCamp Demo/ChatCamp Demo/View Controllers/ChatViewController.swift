@@ -439,6 +439,22 @@ extension ChatViewController {
         return imageData
     }
     
+    func compressVideo(inputURL: URL, outputURL: URL, handler:@escaping (_ exportSession: AVAssetExportSession?) -> Void) {
+        let urlAsset = AVURLAsset(url: inputURL, options: nil)
+        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetLowQuality) else {
+            handler(nil)
+            
+            return
+        }
+        
+        exportSession.outputURL = outputURL
+        exportSession.outputFileType = AVFileTypeQuickTimeMovie
+        exportSession.shouldOptimizeForNetworkUse = true
+        exportSession.exportAsynchronously { () -> Void in
+            handler(exportSession)
+        }
+    }
+    
     fileprivate func setupMessageInputBar() {
         messageInputBar.sendButton.setTitle(nil, for: .normal)
         messageInputBar.sendButton.setImage(#imageLiteral(resourceName: "chat_send_button"), for: .normal)
@@ -551,28 +567,46 @@ extension ChatViewController {
                 let asset = asset as? AVURLAsset
                 do {
                     let videoData = try Data(contentsOf: (asset?.url)!)
-                    print("video data : \(videoData)")
-                    AttachmentManager.shared.uploadAttachment(data: videoData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { [unowned self] (successful, imageURL, imageName, imageType) in
-                        if successful,
-                            let urlString = imageURL,
-                            let name = imageName,
-                            let type = imageType {
+                    print("video data length before compression: \(Double(videoData.count / 1048576)) mb")
+                    let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
+//                    let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".MOV")
+                    self.compressVideo(inputURL: (asset?.url)!, outputURL: compressedURL) { (exportSession) in
+                        guard let session = exportSession else {
+                            return
+                        }
+                        
+                        if session.status == .completed {
+                            do {
+                                let compressedData = try Data(contentsOf: compressedURL)
+                                
+                                print("File size after compression: \(Double(compressedData.count / 1048576)) mb")
+                                
+                                AttachmentManager.shared.uploadAttachment(data: compressedData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { [unowned self] (successful, imageURL, imageName, imageType) in
+                                    if successful,
+                                        let urlString = imageURL,
+                                        let name = imageName,
+                                        let type = imageType {
 
-                            self.channel.sendAttachmentRaw(url: urlString, name: name, type: type, completionHandler: { [unowned self] (message, error) in
-                                if error != nil {
-                                    DispatchQueue.main.async {
-                                        self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                                        self.channel.sendAttachmentRaw(url: urlString, name: name, type: type, completionHandler: { [unowned self] (message, error) in
+                                            if error != nil {
+                                                DispatchQueue.main.async {
+                                                    self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                                                }
+                                            } else if let _ = message {
+                                                self.messageInputBar.inputTextView.text = ""
+                                                self.channel.markAsRead()
+                                                self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
+                                            }
+                                        })
+
+                                    } else {
+                                        DispatchQueue.main.async {
+                                            self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                                        }
                                     }
-                                } else if let _ = message {
-                                    self.messageInputBar.inputTextView.text = ""
-                                    self.channel.markAsRead()
-                                    self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
                                 }
-                            })
-
-                        } else {
-                            DispatchQueue.main.async {
-                                self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
+                            } catch  {
+                                print("exception catch at block - while uploading video")
                             }
                         }
                     }

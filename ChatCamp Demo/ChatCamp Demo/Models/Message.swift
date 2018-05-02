@@ -59,61 +59,56 @@ class Message: NSObject, MessageType {
                     }
                 }
             } else if ccpMessage.getAttachment()?.getType().range(of: "video") != nil {
-                let fetchOptions = PHFetchOptions()
-                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-                let fetchResult = PHAsset.fetchAssets(with: .video, options: fetchOptions).lastObject
-                PHImageManager().requestAVAsset(forVideo: fetchResult!, options: nil, resultHandler: { (avurlAsset, audioMix, dict) in
-                    let newObj = avurlAsset as! AVURLAsset
-                    self.data = MessageData.video(file: newObj.url, thumbnail: #imageLiteral(resourceName: "chat_image_placeholder"))
-                })
+//                let fetchOptions = PHFetchOptions()
+//                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+//                let fetchResult = PHAsset.fetchAssets(with: .video, options: fetchOptions).lastObject
+//                PHImageManager().requestAVAsset(forVideo: fetchResult!, options: nil, resultHandler: { (avurlAsset, audioMix, dict) in
+//                    let newObj = avurlAsset as! AVURLAsset
+//                    self.data = MessageData.video(file: newObj.url, thumbnail: #imageLiteral(resourceName: "chat_image_placeholder"))
+//                })
                 DispatchQueue.global().async {
                     if let attachement = ccpMessage.getAttachment(), let dataURL = URL(string: attachement.getUrl()) {
+                        self.data = MessageData.video(file: dataURL, thumbnail: #imageLiteral(resourceName: "chat_image_placeholder"))
                         let documentUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first as URL!
                         let destinationFileUrl = documentUrl.appendingPathComponent(attachement.getName())
-                        let sessionConfig = URLSessionConfiguration.default
+                        if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
+                            DispatchQueue.main.async {
+                                self.data = MessageData.video(file: destinationFileUrl, thumbnail: ImageManager.getThumbnailFrom(path: destinationFileUrl)!)
+                                self.delegate?.messageDidUpdateWithImage(message: self)
+                            }
+                        } else {
+                            let sessionConfig = URLSessionConfiguration.default
                             let session = URLSession(configuration: sessionConfig)
                             let request = URLRequest(url: dataURL)
                             let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
-                                if let tempLocalUrl = tempLocalUrl, error == nil {
-                                    // Success
-                                    if let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                                        print("Successfully downloaded. Status code: \(statusCode)")
-                                    }
-
-                                        do {
-                                            try FileManager.default.removeItem(at: destinationFileUrl)
-                                            try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
-                                            PHPhotoLibrary.shared().performChanges({
-                                                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: destinationFileUrl)
-                                            }) { completed, error in
-                                                if completed {
-                                                    print("Video is saved!")
-                                                    let fetchOptions = PHFetchOptions()
-                                                    fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-                                                    
-                                                    // After uploading we fetch the PHAsset for most recent video and then get its current location url
-                                                    
-                                                    let fetchResult = PHAsset.fetchAssets(with: .video, options: fetchOptions).lastObject
-                                                    PHImageManager().requestAVAsset(forVideo: fetchResult!, options: nil, resultHandler: { (avurlAsset, audioMix, dict) in
-                                                        let newObj = avurlAsset as! AVURLAsset
-                                                        print(newObj.url)
-                                                        DispatchQueue.main.async {
-
-                                                            self.data = MessageData.video(file: newObj.url, thumbnail: ImageManager.getThumbnailFrom(path: newObj.url)!)
-                                                            self.delegate?.messageDidUpdateWithImage(message: self)
-                                                        }
-                                                    })
-                                                }
-                                            }
-                                        } catch (let writeError) {
-                                            print("Error creating a file \(destinationFileUrl) : \(writeError)")
+                            if let tempLocalUrl = tempLocalUrl, error == nil {
+                                // Success
+                                if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                                    print("Successfully downloaded. Status code: \(statusCode)")
+                                }
+                                    do {
+                                        try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
+                                        DispatchQueue.main.async {
+                                            self.data = MessageData.video(file: destinationFileUrl, thumbnail: ImageManager.getThumbnailFrom(path: destinationFileUrl)!)
+                                            self.delegate?.messageDidUpdateWithImage(message: self)
                                         }
-                                    
-                                    } else {
-                                        print("Error took place while downloading a file. Error description: %@", error?.localizedDescription);
+                                        PHPhotoLibrary.shared().performChanges({
+                                            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: destinationFileUrl)
+                                        }) { completed, error in
+                                            if completed {
+                                                print("Video is saved!")
+                                            }
+                                        }
+                                    } catch (let writeError) {
+                                        print("Error creating a file \(destinationFileUrl) : \(writeError)")
                                     }
+                                
+                                } else {
+                                    print("Error took place while downloading a file. Error description: %@", error?.localizedDescription);
+                                }
                             }
                             task.resume()
+                        }
                     }
                 }
             }
@@ -191,7 +186,7 @@ class Message: NSObject, MessageType {
                     self.data = MessageData.custom(messageDataDictionary)
                     self.delegate?.messageDidUpdateWithImage(message: self)
                 }
-                }.resume()
+            }.resume()
         }
     }
     
