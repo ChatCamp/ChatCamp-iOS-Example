@@ -473,7 +473,7 @@ extension ChatViewController {
     fileprivate func presentAlertController() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let videoCameraAction = UIAlertAction(title: "Video Camera", style: .default) { (action) in
-            // TODO: add camera functionality here
+            self.handleVideoCameraAction()
         }
         
         let photoCameraAction = UIAlertAction(title: "Photo Camera", style: .default) { (action) in
@@ -490,7 +490,7 @@ extension ChatViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-//        alertController.addAction(videoCameraAction)
+        alertController.addAction(videoCameraAction)
         alertController.addAction(photoCameraAction)
         alertController.addAction(photoLibraryAction)
         alertController.addAction(documentAction)
@@ -587,6 +587,29 @@ extension ChatViewController {
         }
         
         self.present(photoGalleryViewController, animated: true, completion: nil)
+    }
+    
+    func handleVideoCameraAction() {
+        let cameraViewController = UIViewController.cameraViewController()
+        cameraViewController.videoProcessed = { url in
+            let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
+            self.compressVideo(inputURL: url, outputURL: compressedURL) { (exportSession) in
+                guard let session = exportSession else {
+                    return
+                }
+                if session.status == .completed {
+                    do {
+                        let compressedData = try Data(contentsOf: compressedURL)
+                        AttachmentManager.shared.uploadAttachment(data: compressedData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
+                            // Do nothing for now. not getting any completion handler call here.
+                        }
+                    } catch  {
+                        print("exception catch at block - while uploading video")
+                    }
+                }
+            }
+        }
+        present(cameraViewController, animated: true, completion: nil)
     }
 }
 

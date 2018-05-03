@@ -39,6 +39,7 @@ PODS:
   - SDWebImage/GIF (4.3.3):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
+  - SwiftyCam (2.6.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -46,6 +47,7 @@ DEPENDENCIES:
   - DKImagePickerController/Camera (= 4.0.0-beta)
   - DKImagePickerController/InlineCamera (= 4.0.0-beta)
   - DKImagePickerController/PhotoGallery (= 4.0.0-beta)
+  - SwiftyCam
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
@@ -55,7 +57,8 @@ SPEC CHECKSUMS:
   DKPhotoGallery: 3664c4af6d0cbbb25fe57f63d53722b91ef68b75
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
+  SwiftyCam: 86c114177a1b1f5dc2c82384577d0c20b922a31b
 
-PODFILE CHECKSUM: a4e5bbd7540453a4eb8b6ef556a92e26d0c8dc69
+PODFILE CHECKSUM: a74fd92c1d6ce81504f94fae75d5f6d6609b2e5c
 
 COCOAPODS: 1.4.0
