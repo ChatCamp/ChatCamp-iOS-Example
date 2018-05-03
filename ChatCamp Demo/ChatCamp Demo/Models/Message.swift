@@ -57,7 +57,7 @@ class Message: NSObject, MessageType {
                         }
                     }
                 }
-            } else if ccpMessage.getAttachment()?.getType().range(of: "video") != nil {
+            } else if ccpMessage.getAttachment()?.isVideo() ?? false {
                 DispatchQueue.global().async {
                     if let attachement = ccpMessage.getAttachment(), let dataURL = URL(string: attachement.getUrl()) {
                         self.data = MessageData.video(file: dataURL, thumbnail: #imageLiteral(resourceName: "chat_image_placeholder"))
