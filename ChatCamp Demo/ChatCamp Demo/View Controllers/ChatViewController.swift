@@ -472,8 +472,12 @@ extension ChatViewController {
     
     fileprivate func presentAlertController() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let cameraAction = UIAlertAction(title: "Camera", style: .default) { (action) in
+        let videoCameraAction = UIAlertAction(title: "Video Camera", style: .default) { (action) in
             // TODO: add camera functionality here
+        }
+        
+        let photoCameraAction = UIAlertAction(title: "Photo Camera", style: .default) { (action) in
+            self.handlePhotoCameraAction()
         }
         
         let photoLibraryAction = UIAlertAction(title: "Photo & Video Library", style: .default) { (action) in
@@ -486,7 +490,8 @@ extension ChatViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        alertController.addAction(cameraAction)
+//        alertController.addAction(videoCameraAction)
+        alertController.addAction(photoCameraAction)
         alertController.addAction(photoLibraryAction)
         alertController.addAction(documentAction)
         alertController.addAction(cancelAction)
@@ -498,7 +503,8 @@ extension ChatViewController {
         let photoGalleryViewController = DKImagePickerController()
         photoGalleryViewController.singleSelect = true
         photoGalleryViewController.sourceType = .photo
-
+        photoGalleryViewController.showsCancelButton = true
+        
         photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
             if assets.first?.type == .photo {
                 // Asset is photo type
@@ -549,6 +555,37 @@ extension ChatViewController {
             }
         }
 
+        self.present(photoGalleryViewController, animated: true, completion: nil)
+    }
+
+    func handlePhotoCameraAction() {
+        let photoGalleryViewController = DKImagePickerController()
+        photoGalleryViewController.singleSelect = true
+        photoGalleryViewController.sourceType = .camera
+        photoGalleryViewController.showsCancelButton = true
+        
+        photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
+            guard let pickedAsset = assets.first?.originalAsset else { return }
+            let requestOptions = PHImageRequestOptions()
+            requestOptions.deliveryMode = .fastFormat
+            requestOptions.resizeMode = .fast
+            requestOptions.version = .original
+            PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
+                if var originalData = data {
+                    let image = UIImage(data: originalData)
+                    originalData = self.compressImage(image: image!)!
+                    AttachmentManager.shared.uploadAttachment(data: originalData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
+                        // Do nothing for now. not getting any completion handler call here.
+                    }
+                    
+                } else {
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
+                    }
+                }
+            })
+        }
+        
         self.present(photoGalleryViewController, animated: true, completion: nil)
     }
 }
