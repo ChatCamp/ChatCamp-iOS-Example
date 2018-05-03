@@ -650,6 +650,9 @@ extension ChatViewController: MessageCellDelegate {
             let link = metadata["ImageURL"] as! String
             let safariViewController = SFSafariViewController(url: URL(string: link)!)
             present(safariViewController, animated: true, completion: nil)
+        case .video(let videoURL, let thumbnail):
+            let videoViewController = VideoViewController(videoURL: videoURL)
+            self.present(videoViewController, animated: true, completion: nil)
         default:
             break
         }

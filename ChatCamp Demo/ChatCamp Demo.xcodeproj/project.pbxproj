@@ -11,6 +11,7 @@
 		09142C362097444300323BC5 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C352097444300323BC5 /* ImageManager.swift */; };
 		09142C38209AEE5400323BC5 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C37209AEE5400323BC5 /* CameraViewController.swift */; };
 		09142C3A209B023500323BC5 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C39209B023500323BC5 /* RecordButton.swift */; };
+		09142C3C209B238100323BC5 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C3B209B238100323BC5 /* VideoViewController.swift */; };
 		092C99E92062C7E500281982 /* LoadingDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092C99E82062C7E500281982 /* LoadingDots.swift */; };
 		092C99EB2062C81000281982 /* LoadingDots.xib in Resources */ = {isa = PBXBuildFile; fileRef = 092C99EA2062C81000281982 /* LoadingDots.xib */; };
 		092C99ED2062CC3600281982 /* DelayMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092C99EC2062CC3600281982 /* DelayMethod.swift */; };
@@ -111,6 +112,7 @@
 		09142C352097444300323BC5 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		09142C37209AEE5400323BC5 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		09142C39209B023500323BC5 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
+		09142C3B209B238100323BC5 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		092C99E82062C7E500281982 /* LoadingDots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDots.swift; sourceTree = "<group>"; };
 		092C99EA2062C81000281982 /* LoadingDots.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingDots.xib; sourceTree = "<group>"; };
 		092C99EC2062CC3600281982 /* DelayMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelayMethod.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				096F143C208C927C0073ADCA /* ProfileViewController.swift */,
 				09E78CA6208DEFA6004DCC53 /* ChannelProfileViewController.swift */,
 				09142C37209AEE5400323BC5 /* CameraViewController.swift */,
+				09142C3B209B238100323BC5 /* VideoViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				C052C0032036DB3A00ADED74 /* CGRect+Extensions.swift in Sources */,
 				C0AD50762032D4DC003CE2E8 /* GroupChannelsViewController.swift in Sources */,
 				C052BFFC2036DB3A00ADED74 /* MessageData.swift in Sources */,
+				09142C3C209B238100323BC5 /* VideoViewController.swift in Sources */,
 				C052C0112036DB3A00ADED74 /* MessageCollectionViewCell.swift in Sources */,
 				C052C0062036DB3A00ADED74 /* UICollectionView+Extensions.swift in Sources */,
 				C052C0192036DB3A00ADED74 /* MessageContainerView.swift in Sources */,
