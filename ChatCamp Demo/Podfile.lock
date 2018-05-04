@@ -16,27 +16,27 @@ PODS:
     - DKImagePickerController/Core
     - DKPhotoGallery
   - DKImagePickerController/Resource (4.0.0-beta)
-  - DKPhotoGallery (0.0.4):
-    - DKPhotoGallery/Core (= 0.0.4)
-    - DKPhotoGallery/Model (= 0.0.4)
-    - DKPhotoGallery/Preview (= 0.0.4)
-    - DKPhotoGallery/Resource (= 0.0.4)
+  - DKPhotoGallery (0.0.3):
+    - DKPhotoGallery/Core (= 0.0.3)
+    - DKPhotoGallery/Model (= 0.0.3)
+    - DKPhotoGallery/Preview (= 0.0.3)
+    - DKPhotoGallery/Resource (= 0.0.3)
     - SDWebImage/GIF (~> 4.0)
-  - DKPhotoGallery/Core (0.0.4):
+  - DKPhotoGallery/Core (0.0.3):
     - DKPhotoGallery/Model
     - DKPhotoGallery/Preview
     - SDWebImage/GIF (~> 4.0)
-  - DKPhotoGallery/Model (0.0.4):
+  - DKPhotoGallery/Model (0.0.3):
     - SDWebImage/GIF (~> 4.0)
-  - DKPhotoGallery/Preview (0.0.4):
+  - DKPhotoGallery/Preview (0.0.3):
     - DKPhotoGallery/Model
     - DKPhotoGallery/Resource
     - SDWebImage/GIF (~> 4.0)
-  - DKPhotoGallery/Resource (0.0.4):
+  - DKPhotoGallery/Resource (0.0.3):
     - SDWebImage/GIF (~> 4.0)
   - FLAnimatedImage (1.0.12)
-  - SDWebImage/Core (4.3.3)
-  - SDWebImage/GIF (4.3.3):
+  - SDWebImage/Core (4.3.0)
+  - SDWebImage/GIF (4.3.0):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
   - SwiftyCam (2.6.0)
@@ -54,10 +54,9 @@ SPEC CHECKSUMS:
   ChatCamp: 8587062fd6ef561fd71fc582cd2dacc9014eed25
   DKCamera: 59e2879aa034264fd316111812a1ca9001b75a9f
   DKImagePickerController: 8abb5370913beced68cac281a0e2eee82000e832
-  DKPhotoGallery: 3664c4af6d0cbbb25fe57f63d53722b91ef68b75
+  DKPhotoGallery: 1c3a7fbd0b246861586bb63f422331b6c21dbdf8
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
-  SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
-  SwiftyCam: 86c114177a1b1f5dc2c82384577d0c20b922a31b
+  SDWebImage: 6da6c8bca115addc4de8613362e1b15f66333825
 
 PODFILE CHECKSUM: a74fd92c1d6ce81504f94fae75d5f6d6609b2e5c
 
