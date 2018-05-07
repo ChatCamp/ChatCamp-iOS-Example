@@ -8,6 +8,7 @@
 
 import Foundation
 import ChatCamp
+import Photos
 
 protocol MessageImageDelegate: NSObjectProtocol {
     func messageDidUpdateWithImage(message: Message)
@@ -26,7 +27,6 @@ class Message: NSObject, MessageType {
         messageId = IDOfMessage
         sentDate = date
         data = messageData
-//        super.init()
     }
     
     init(fromCCPMessage ccpMessage: CCPMessage) {
@@ -50,11 +50,51 @@ class Message: NSObject, MessageType {
                 data = MessageData.photo(#imageLiteral(resourceName: "chat_image_placeholder"))
                 
                 DispatchQueue.global().async {
-                    let imageData = try? Data(contentsOf: URL(string: ccpMessage.getAttachment()!.getUrl())!)
-                    
-                    DispatchQueue.main.async {
-                        self.data = MessageData.photo(UIImage(data: imageData!)!)
-                        self.delegate?.messageDidUpdateWithImage(message: self)
+                    if let attachement = ccpMessage.getAttachment(), let dataURL = URL(string: attachement.getUrl()), let imageData = try? Data(contentsOf: dataURL) {
+                        DispatchQueue.main.async {
+                            self.data = MessageData.photo(UIImage(data: imageData) ?? #imageLiteral(resourceName: "chat_image_placeholder"))
+                            self.delegate?.messageDidUpdateWithImage(message: self)
+                        }
+                    }
+                }
+            } else if ccpMessage.getAttachment()?.isVideo() ?? false {
+                DispatchQueue.global().async {
+                    if let attachement = ccpMessage.getAttachment(), let dataURL = URL(string: attachement.getUrl()) {
+                        self.data = MessageData.video(file: dataURL, thumbnail: #imageLiteral(resourceName: "chat_image_placeholder"))
+                        let documentUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first as URL!
+                        let destinationFileUrl = documentUrl.appendingPathComponent(attachement.getName())
+                        if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
+                            DispatchQueue.main.async {
+                                self.data = MessageData.video(file: destinationFileUrl, thumbnail: ImageManager.getThumbnailFrom(path: destinationFileUrl)!)
+                                self.delegate?.messageDidUpdateWithImage(message: self)
+                            }
+                        } else {
+                            let sessionConfig = URLSessionConfiguration.default
+                            let session = URLSession(configuration: sessionConfig)
+                            let request = URLRequest(url: dataURL)
+                            session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+                                if let tempLocalUrl = tempLocalUrl, error == nil {
+                                    do {
+                                        try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
+                                        DispatchQueue.main.async {
+                                            self.data = MessageData.video(file: destinationFileUrl, thumbnail: ImageManager.getThumbnailFrom(path: destinationFileUrl)!)
+                                            self.delegate?.messageDidUpdateWithImage(message: self)
+                                        }
+                                        PHPhotoLibrary.shared().performChanges({
+                                            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: destinationFileUrl)
+                                        }) { completed, error in
+                                            if completed {
+                                                print("Video is saved!")
+                                            }
+                                        }
+                                    } catch (let writeError) {
+                                        print("Error creating a file \(destinationFileUrl) : \(writeError)")
+                                    }
+                                } else {
+                                    print("Error took place while downloading a file. Error description: %@", error?.localizedDescription);
+                                }
+                            }.resume()
+                        }
                     }
                 }
             }
@@ -62,24 +102,7 @@ class Message: NSObject, MessageType {
                 data = MessageData.text(ccpMessage.getAttachment()!.getUrl())
             }
         } else if ccpMessage.getType() == "text" && ccpMessage.getCustomType() == "action_link" {
-//            let customAction = ccpMessage.getCustomType()
             let metadata = ccpMessage.getMetadata()
-            
-//            let metadata1: [String: Any] = ["product":[
-//                "ImageURL": ["http://streaklabs.in/UserImages/FitBit.jpg"],
-//                "Name": "Fitbit",
-//                "Code": "SP0129",
-//                "ShortDescription": "Fitbit logs your health data",
-//                "ShippingCost": 20
-//                ]]
-            
-//            let product: [String: Any] = metadata1["product"] as! [String: Any]
-//            let link = (product["ImageURL"] as! [String])[0]
-//            let title = product["Name"] as! String
-//            let code = "Code: \((product["Code"] as! String))"
-//            let shortDescription = product["ShortDescription"] as! String
-//            let shippingCost = "₹ \(product["ShippingCost"] as! Int) shipping cost"
-
             var imageURL = "http://streaklabs.in/UserImages/FitBit.jpg"
             var name = ""
             var code = ""
@@ -132,7 +155,7 @@ class Message: NSObject, MessageType {
                     self.data = MessageData.custom(messageDataDictionary)
                     self.delegate?.messageDidUpdateWithImage(message: self)
                 }
-                }.resume()
+            }.resume()
         }
     }
     

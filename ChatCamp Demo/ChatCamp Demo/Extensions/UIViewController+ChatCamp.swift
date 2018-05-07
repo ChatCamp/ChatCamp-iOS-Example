@@ -33,6 +33,10 @@ extension UIViewController {
     static func channelProfileViewController() -> ChannelProfileViewController {
         return UIStoryboard.home().instantiateViewController(withIdentifier: ChannelProfileViewController.string()) as! ChannelProfileViewController
     }
+    
+    static func cameraViewController() -> CameraViewController {
+        return UIStoryboard.home().instantiateViewController(withIdentifier: CameraViewController.string()) as! CameraViewController
+    }
 }
 
 // MARK:- Alerts

@@ -439,6 +439,22 @@ extension ChatViewController {
         return imageData
     }
     
+    func compressVideo(inputURL: URL, outputURL: URL, handler:@escaping (_ exportSession: AVAssetExportSession?) -> Void) {
+        let urlAsset = AVURLAsset(url: inputURL, options: nil)
+        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetLowQuality) else {
+            handler(nil)
+            
+            return
+        }
+        
+        exportSession.outputURL = outputURL
+        exportSession.outputFileType = AVFileTypeQuickTimeMovie
+        exportSession.shouldOptimizeForNetworkUse = true
+        exportSession.exportAsynchronously { () -> Void in
+            handler(exportSession)
+        }
+    }
+    
     fileprivate func setupMessageInputBar() {
         messageInputBar.sendButton.setTitle(nil, for: .normal)
         messageInputBar.sendButton.setImage(#imageLiteral(resourceName: "chat_send_button"), for: .normal)
@@ -446,15 +462,53 @@ extension ChatViewController {
         let attachmentButton = InputBarButtonItem(frame: CGRect(x: 3, y: 2, width: 30, height: 30))
         attachmentButton.setImage(#imageLiteral(resourceName: "chat_image_button"), for: .normal)
         
-        attachmentButton.onTouchUpInside { [unowned self] (attachmentButton) in
-            let photoGalleryViewController = DKImagePickerController()
-            photoGalleryViewController.singleSelect = true
-            photoGalleryViewController.sourceType = .photo
-            
-            photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
-                guard assets[0].type == .photo else { return }
-                
-                let pickedAsset = assets[0].originalAsset!
+        attachmentButton.onTouchUpInside { [unowned self] attachmentButton in
+            self.presentAlertController()
+        }
+        
+        messageInputBar.setLeftStackViewWidthConstant(to: 50, animated: false)
+        messageInputBar.leftStackView.addSubview(attachmentButton)
+    }
+    
+    fileprivate func presentAlertController() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let videoCameraAction = UIAlertAction(title: "Video Camera", style: .default) { (action) in
+            self.handleVideoCameraAction()
+        }
+        
+        let photoCameraAction = UIAlertAction(title: "Photo Camera", style: .default) { (action) in
+            self.handlePhotoCameraAction()
+        }
+        
+        let photoLibraryAction = UIAlertAction(title: "Photo & Video Library", style: .default) { (action) in
+            self.handleLibraryAction()
+        }
+        
+        let documentAction = UIAlertAction(title: "Document", style: .default) { (action) in
+            // TODO: add document library access functionality here
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(videoCameraAction)
+        alertController.addAction(photoCameraAction)
+        alertController.addAction(photoLibraryAction)
+        alertController.addAction(documentAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    fileprivate func handleLibraryAction() {
+        let photoGalleryViewController = DKImagePickerController()
+        photoGalleryViewController.singleSelect = true
+        photoGalleryViewController.sourceType = .photo
+        photoGalleryViewController.showsCancelButton = true
+        
+        photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
+            if assets.first?.type == .photo {
+                // Asset is photo type
+                guard let pickedAsset = assets.first?.originalAsset else { return }
                 let requestOptions = PHImageRequestOptions()
                 requestOptions.deliveryMode = .fastFormat
                 requestOptions.resizeMode = .fast
@@ -463,45 +517,99 @@ extension ChatViewController {
                     if var originalData = data {
                         let image = UIImage(data: originalData)
                         originalData = self.compressImage(image: image!)!
-                        ImageManager.shared.uploadAttachment(imageData: originalData, channelID: self.channel.getId())
-                        { [unowned self] (successful, imageURL, imageName, imageType) in
-                            
-                            if successful,
-                                let urlString = imageURL,
-                                let name = imageName,
-                                let type = imageType {
-                                
-                                self.channel.sendAttachmentRaw(url: urlString, name: name, type: type, completionHandler: { [unowned self] (message, error) in
-                                    if error != nil {
-                                        DispatchQueue.main.async {
-                                            self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
-                                        }
-                                    } else if let _ = message {
-                                        self.messageInputBar.inputTextView.text = ""
-                                        self.channel.markAsRead()
-                                        self.lastReadSent = NSDate().timeIntervalSince1970 * 1000
-                                    }
-                                })
-                                
-                            } else {
-                                DispatchQueue.main.async {
-                                    self.showAlert(title: "Unable to Send Message", message: "An error occurred while sending the message.", actionText: "Ok")
-                                }
-                            }
+                        AttachmentManager.shared.uploadAttachment(data: originalData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
+                            // Do nothing for now. not getting any completion handler call here.
                         }
+
                     } else {
                         DispatchQueue.main.async {
                             self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
                         }
                     }
                 })
+            } else {
+                // Asset is video type
+                guard let pickedAsset = assets.first?.originalAsset else { return }
+                let requestOptions = PHVideoRequestOptions()
+                requestOptions.deliveryMode = .fastFormat
+                requestOptions.version = .original
+                PHImageManager.default().requestAVAsset(forVideo: pickedAsset, options: requestOptions, resultHandler: { (asset, audioMix, info) in
+                    let asset = asset as? AVURLAsset
+                    let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
+                    self.compressVideo(inputURL: (asset?.url)!, outputURL: compressedURL) { (exportSession) in
+                        guard let session = exportSession else {
+                            return
+                        }
+                        if session.status == .completed {
+                            do {
+                                let compressedData = try Data(contentsOf: compressedURL)
+                                AttachmentManager.shared.uploadAttachment(data: compressedData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
+                                    // Do nothing for now. not getting any completion handler call here.
+                                }
+                            } catch  {
+                                print("exception catch at block - while uploading video")
+                            }
+                        }
+                    }
+                })
             }
-            
-            self.present(photoGalleryViewController, animated: true, completion: nil)
+        }
+
+        self.present(photoGalleryViewController, animated: true, completion: nil)
+    }
+
+    func handlePhotoCameraAction() {
+        let photoGalleryViewController = DKImagePickerController()
+        photoGalleryViewController.singleSelect = true
+        photoGalleryViewController.sourceType = .camera
+        photoGalleryViewController.showsCancelButton = true
+        
+        photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
+            guard let pickedAsset = assets.first?.originalAsset else { return }
+            let requestOptions = PHImageRequestOptions()
+            requestOptions.deliveryMode = .fastFormat
+            requestOptions.resizeMode = .fast
+            requestOptions.version = .original
+            PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
+                if var originalData = data {
+                    let image = UIImage(data: originalData)
+                    originalData = self.compressImage(image: image!)!
+                    AttachmentManager.shared.uploadAttachment(data: originalData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
+                        // Do nothing for now. not getting any completion handler call here.
+                    }
+                    
+                } else {
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
+                    }
+                }
+            })
         }
         
-        messageInputBar.setLeftStackViewWidthConstant(to: 50, animated: false)
-        messageInputBar.leftStackView.addSubview(attachmentButton)
+        self.present(photoGalleryViewController, animated: true, completion: nil)
+    }
+    
+    func handleVideoCameraAction() {
+        let cameraViewController = UIViewController.cameraViewController()
+        cameraViewController.videoProcessed = { url in
+            let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
+            self.compressVideo(inputURL: url, outputURL: compressedURL) { (exportSession) in
+                guard let session = exportSession else {
+                    return
+                }
+                if session.status == .completed {
+                    do {
+                        let compressedData = try Data(contentsOf: compressedURL)
+                        AttachmentManager.shared.uploadAttachment(data: compressedData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
+                            // Do nothing for now. not getting any completion handler call here.
+                        }
+                    } catch  {
+                        print("exception catch at block - while uploading video")
+                    }
+                }
+            }
+        }
+        present(cameraViewController, animated: true, completion: nil)
     }
 }
 
@@ -542,6 +650,9 @@ extension ChatViewController: MessageCellDelegate {
             let link = metadata["ImageURL"] as! String
             let safariViewController = SFSafariViewController(url: URL(string: link)!)
             present(safariViewController, animated: true, completion: nil)
+        case .video(let videoURL, let thumbnail):
+            let videoViewController = VideoViewController(videoURL: videoURL)
+            self.present(videoViewController, animated: true, completion: nil)
         default:
             break
         }
