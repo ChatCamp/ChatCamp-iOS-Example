@@ -12,6 +12,7 @@ import SafariServices
 import DKImagePickerController
 import Photos
 import SQLite3
+import MobileCoreServices
 
 class ChatViewController: MessagesViewController {
     fileprivate var participant: CCPParticipant?
@@ -485,7 +486,7 @@ extension ChatViewController {
         }
         
         let documentAction = UIAlertAction(title: "Document", style: .default) { (action) in
-            // TODO: add document library access functionality here
+            self.handleDocumentAction()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -497,6 +498,13 @@ extension ChatViewController {
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    fileprivate func handleDocumentAction() {
+        let documentTypes = [kUTTypePDF as String, kUTTypeJPEG as String, kUTTypePNG as String]
+        let documentController = UIDocumentMenuViewController(documentTypes: documentTypes, in: .import)
+        documentController.delegate = self
+        self.present(documentController, animated: true, completion: nil)
     }
     
     fileprivate func handleLibraryAction() {
@@ -610,6 +618,27 @@ extension ChatViewController {
             }
         }
         present(cameraViewController, animated: true, completion: nil)
+    }
+}
+
+// MARK: UIDocumentMenuDelegate, UIDocumentPickerDelegate
+extension ChatViewController: UIDocumentMenuDelegate, UIDocumentPickerDelegate {
+    func documentMenu(_ documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+        documentPicker.delegate = self
+        present(documentPicker, animated: true, completion: nil)
+    }
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+        // do something with it
+        print(url)
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func documentMenuWasCancelled(_ documentMenu: UIDocumentMenuViewController) {
+        documentMenu.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -868,8 +897,6 @@ class SQLiteDatabase {
         }
     }
 }
-
-
 
 extension SQLiteDatabase {
     func prepareStatement(sql: String) throws -> OpaquePointer? {
