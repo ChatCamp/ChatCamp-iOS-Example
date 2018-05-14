@@ -52,6 +52,9 @@ public enum MessageData {
 
     /// An emoji message.
     case emoji(String)
+    
+    /// A document/attachment message.
+    case document(URL)
 
     // MARK: - Not supported yet
 

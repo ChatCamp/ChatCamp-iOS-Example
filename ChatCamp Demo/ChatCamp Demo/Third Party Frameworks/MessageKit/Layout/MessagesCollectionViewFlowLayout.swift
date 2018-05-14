@@ -284,7 +284,7 @@ fileprivate extension MessagesCollectionViewFlowLayout {
         switch intermediateAttributes.message.data {
         case .emoji:
             attributes.messageLabelFont = emojiLabelFont
-        case .text:
+        case .text, .document:
             attributes.messageLabelFont = messageLabelFont
         case .attributedText(let text):
             guard let font = text.attribute(NSFontAttributeName, at: 0, effectiveRange: nil) as? UIFont else { return }
@@ -407,7 +407,7 @@ private extension MessagesCollectionViewFlowLayout {
     func messageContainerMaxWidth(for attributes: MessageIntermediateLayoutAttributes) -> CGFloat {
         
         switch attributes.message.data {
-        case .text, .attributedText:
+        case .text, .attributedText, .document:
             return itemWidth - attributes.avatarSize.width - attributes.messageHorizontalPadding - attributes.messageLabelHorizontalInsets
         default:
             return itemWidth - attributes.avatarSize.width - attributes.messageHorizontalPadding
@@ -457,6 +457,10 @@ private extension MessagesCollectionViewFlowLayout {
         case .writingView:
             //TODO: get width and height from a particular type here
             messageContainerSize = CGSize(width: 50, height: 50)
+        case .document(let url):
+            messageContainerSize = labelSize(for: url.lastPathComponent, considering: maxWidth, and: messageLabelFont)
+            messageContainerSize.width += attributes.messageLabelHorizontalInsets
+            messageContainerSize.height += attributes.messageLabelVerticalInsets
         }
         
         return messageContainerSize

@@ -69,7 +69,7 @@ extension MessagesViewController: UICollectionViewDelegateFlowLayout {
         let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
 
         switch message.data {
-        case .text, .attributedText, .emoji, .photo, .custom:
+        case .text, .attributedText, .emoji, .photo, .custom, .document:
             selectedIndexPathForMenu = indexPath
             return true
         default:
@@ -95,6 +95,8 @@ extension MessagesViewController: UICollectionViewDelegateFlowLayout {
             pasteBoard.string = attributedText.string
         case .photo(let image):
             pasteBoard.image = image
+        case .document(let url):
+            pasteBoard.string = url.lastPathComponent
         default:
             break
         }

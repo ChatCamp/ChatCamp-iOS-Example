@@ -689,9 +689,19 @@ extension ChatViewController: MessageCellDelegate {
         case .video(let videoURL, let thumbnail):
             let videoViewController = VideoViewController(videoURL: videoURL)
             self.present(videoViewController, animated: true, completion: nil)
+        case .document(let url):
+            let documentInteractionController = UIDocumentInteractionController(url: url)
+            documentInteractionController.delegate = self
+            documentInteractionController.presentPreview(animated: true)
         default:
             break
         }
+    }
+}
+
+extension ChatViewController: UIDocumentInteractionControllerDelegate {
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
     }
 }
 
