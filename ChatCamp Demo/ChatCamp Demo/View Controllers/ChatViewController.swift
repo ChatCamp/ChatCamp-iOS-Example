@@ -501,7 +501,7 @@ extension ChatViewController {
     }
     
     fileprivate func handleDocumentAction() {
-        let documentTypes = [kUTTypePDF as String, kUTTypeJPEG as String, kUTTypePNG as String]
+        let documentTypes = [kUTTypeItem as String]
         let documentController = UIDocumentMenuViewController(documentTypes: documentTypes, in: .import)
         documentController.delegate = self
         self.present(documentController, animated: true, completion: nil)
@@ -629,8 +629,15 @@ extension ChatViewController: UIDocumentMenuDelegate, UIDocumentPickerDelegate {
     }
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
-        // do something with it
-        print(url)
+        do {
+            let documentData = try Data(contentsOf: url)
+            AttachmentManager.shared.uploadAttachment(data: documentData, channelID: self.channel.getId(), fileName: url.lastPathComponent, fileType: "application" + "/" + "\(url.pathExtension)") { (_, _, _, _) in
+                // Do nothing for now. not getting any completion handler call here.
+            }
+        } catch  {
+            print("exception catch at block - while uploading document attachment")
+        }
+        
     }
     
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
