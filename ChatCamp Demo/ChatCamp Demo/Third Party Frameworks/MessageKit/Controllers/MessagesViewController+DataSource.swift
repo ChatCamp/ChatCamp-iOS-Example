@@ -56,7 +56,7 @@ extension MessagesViewController: UICollectionViewDataSource {
         let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
 
         switch message.data {
-        case .text, .attributedText, .emoji, .document:
+        case .text, .attributedText, .emoji:
             let cell = messagesCollectionView.dequeueReusableCell(TextMessageCell.self, for: indexPath)
             cell.configure(with: message, at: indexPath, and: messagesCollectionView)
             return cell
@@ -74,6 +74,10 @@ extension MessagesViewController: UICollectionViewDataSource {
             return cell
         case .writingView:
             let cell = messagesCollectionView.dequeueReusableCell(WritingMessageCell.self, for: indexPath)
+            cell.configure(with: message, at: indexPath, and: messagesCollectionView)
+            return cell
+        case .document:
+            let cell = messagesCollectionView.dequeueReusableCell(DocumentMessageCell.self, for: indexPath)
             cell.configure(with: message, at: indexPath, and: messagesCollectionView)
             return cell
         }

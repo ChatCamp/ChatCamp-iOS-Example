@@ -95,8 +95,6 @@ extension MessagesViewController: UICollectionViewDelegateFlowLayout {
             pasteBoard.string = attributedText.string
         case .photo(let image):
             pasteBoard.image = image
-        case .document(let url):
-            pasteBoard.string = url.lastPathComponent
         default:
             break
         }

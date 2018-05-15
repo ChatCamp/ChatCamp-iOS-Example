@@ -81,8 +81,6 @@ open class TextMessageCell: MessageCollectionViewCell {
                 messageLabel.text = text
             case .attributedText(let text):
                 messageLabel.attributedText = text
-            case .document(let url):
-                messageLabel.text = url.lastPathComponent
             default:
                 break
             }

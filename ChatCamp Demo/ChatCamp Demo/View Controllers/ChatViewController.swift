@@ -829,6 +829,20 @@ extension ChatViewController: MessagesDisplayDelegate {
                 containerView.fillSuperview()
             }
             return .writingView(configurationClosure)
+        case .document(let url):
+            let configurationClosure = { (containerView: UIImageView) in
+                containerView.layer.cornerRadius = 4
+                containerView.layer.masksToBounds = true
+                containerView.layer.borderWidth = 1
+                containerView.layer.borderColor = UIColor.lightGray.cgColor
+                
+                let documentView = DocumentView().loadFromNib() as! DocumentView
+                
+                documentView.documentNameLabel.text = url.lastPathComponent
+                containerView.addSubview(documentView)
+                documentView.fillSuperview()
+            }
+            return .document(configurationClosure)
         default:
             return .bubble
         }
