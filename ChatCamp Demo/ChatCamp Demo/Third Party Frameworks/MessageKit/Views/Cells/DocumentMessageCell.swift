@@ -17,6 +17,10 @@ open class DocumentMessageCell: MessageCollectionViewCell {
     }
     
     class func sideViewWidth() -> CGFloat {
-        return 60
+        return 30
+    }
+    
+    class func paddingHeight() -> CGFloat {
+        return 10
     }
 }

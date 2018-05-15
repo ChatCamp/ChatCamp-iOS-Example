@@ -81,6 +81,7 @@ extension GroupChannelsViewController: UITableViewDataSource {
                     for participant in participants {
                         if participant.getId() != CCPClient.getCurrentUser().getId() {
                             let avatarUrl = participant.getAvatarUrl()
+                            cell.nameLabel.text = participant.getDisplayName()
                             if avatarUrl != nil {
                                 cell.avatarImageView.downloadedFrom(link: avatarUrl!)
                             }

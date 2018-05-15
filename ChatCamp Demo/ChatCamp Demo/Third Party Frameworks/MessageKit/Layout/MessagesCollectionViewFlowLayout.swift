@@ -460,7 +460,7 @@ private extension MessagesCollectionViewFlowLayout {
         case .document(let url):
             messageContainerSize = labelSize(for: url.lastPathComponent, considering: maxWidth, and: messageLabelFont)
             messageContainerSize.width += attributes.messageLabelHorizontalInsets + DocumentMessageCell.sideViewWidth()
-            messageContainerSize.height += attributes.messageLabelVerticalInsets
+            messageContainerSize.height += attributes.messageLabelVerticalInsets + DocumentMessageCell.paddingHeight()
         }
         
         return messageContainerSize

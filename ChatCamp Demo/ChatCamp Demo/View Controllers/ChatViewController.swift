@@ -115,7 +115,7 @@ class ChatViewController: MessagesViewController {
                         if participant.getId() != self.sender.id {
                             self.participant = participant
                             self.title = nil
-                            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 40, height: 40))
+                            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 30, height: 30))
                             imageView.layer.cornerRadius = imageView.bounds.width/2
                             imageView.layer.masksToBounds = true
                             let avatarUrl = participant.getAvatarUrl()
@@ -136,7 +136,7 @@ class ChatViewController: MessagesViewController {
             }
         } else {
             navigationController?.navigationBar.items?.first?.title = ""
-            let channelAvatarBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "user_placeholder"), style: .plain, target: self, action: nil)
+            let channelAvatarBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "avatar_placeholder"), style: .plain, target: self, action: nil)
             let channelNameBarButtonItem = UIBarButtonItem(title: channel.getName(), style: .plain, target: self, action: #selector(channelProfileButtonTapped))
             navigationItem.leftItemsSupplementBackButton = true
             navigationItem.leftBarButtonItems = [channelAvatarBarButtonItem, channelNameBarButtonItem]
@@ -837,7 +837,6 @@ extension ChatViewController: MessagesDisplayDelegate {
                 containerView.layer.borderColor = UIColor.lightGray.cgColor
                 
                 let documentView = DocumentView().loadFromNib() as! DocumentView
-                
                 documentView.documentNameLabel.text = url.lastPathComponent
                 containerView.addSubview(documentView)
                 documentView.fillSuperview()
