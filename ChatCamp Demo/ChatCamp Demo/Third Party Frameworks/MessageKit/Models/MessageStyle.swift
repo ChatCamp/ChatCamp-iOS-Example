@@ -71,6 +71,7 @@ public enum MessageStyle {
     case bubbleTailOutline(UIColor, TailCorner, TailStyle)
     case custom((MessageContainerView) -> Void)
     case writingView((MessageContainerView) -> Void)
+    case document((MessageContainerView) -> Void)
 
     // MARK: - Public
 
@@ -87,7 +88,7 @@ public enum MessageStyle {
         guard var image = UIImage(contentsOfFile: path) else { return nil }
 
         switch self {
-        case .none, .custom, .writingView:
+        case .none, .custom, .writingView, .document:
             return nil
         case .bubble, .bubbleOutline:
             break
@@ -115,7 +116,7 @@ public enum MessageStyle {
             return "bubble_full" + tailStyle.imageNameSuffix
         case .bubbleTailOutline(_, _, let tailStyle):
             return "bubble_outlined" + tailStyle.imageNameSuffix
-        case .none, .custom, .writingView:
+        case .none, .custom, .writingView, .document:
             return nil
         }
     }

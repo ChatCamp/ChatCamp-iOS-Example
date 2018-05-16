@@ -457,6 +457,10 @@ private extension MessagesCollectionViewFlowLayout {
         case .writingView:
             //TODO: get width and height from a particular type here
             messageContainerSize = CGSize(width: 50, height: 50)
+        case .document(let url):
+            messageContainerSize = labelSize(for: url.lastPathComponent, considering: maxWidth, and: messageLabelFont)
+            messageContainerSize.width += attributes.messageLabelHorizontalInsets + DocumentMessageCell.sideViewWidth()
+            messageContainerSize.height += attributes.messageLabelVerticalInsets + DocumentMessageCell.paddingHeight()
         }
         
         return messageContainerSize

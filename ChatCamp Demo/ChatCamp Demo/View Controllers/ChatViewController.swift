@@ -12,6 +12,7 @@ import SafariServices
 import DKImagePickerController
 import Photos
 import SQLite3
+import MobileCoreServices
 
 class ChatViewController: MessagesViewController {
     fileprivate var participant: CCPParticipant?
@@ -114,7 +115,7 @@ class ChatViewController: MessagesViewController {
                         if participant.getId() != self.sender.id {
                             self.participant = participant
                             self.title = nil
-                            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 40, height: 40))
+                            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 30, height: 30))
                             imageView.layer.cornerRadius = imageView.bounds.width/2
                             imageView.layer.masksToBounds = true
                             let avatarUrl = participant.getAvatarUrl()
@@ -135,7 +136,7 @@ class ChatViewController: MessagesViewController {
             }
         } else {
             navigationController?.navigationBar.items?.first?.title = ""
-            let channelAvatarBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "user_placeholder"), style: .plain, target: self, action: nil)
+            let channelAvatarBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "avatar_placeholder"), style: .plain, target: self, action: nil)
             let channelNameBarButtonItem = UIBarButtonItem(title: channel.getName(), style: .plain, target: self, action: #selector(channelProfileButtonTapped))
             navigationItem.leftItemsSupplementBackButton = true
             navigationItem.leftBarButtonItems = [channelAvatarBarButtonItem, channelNameBarButtonItem]
@@ -485,7 +486,7 @@ extension ChatViewController {
         }
         
         let documentAction = UIAlertAction(title: "Document", style: .default) { (action) in
-            // TODO: add document library access functionality here
+            self.handleDocumentAction()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -497,6 +498,13 @@ extension ChatViewController {
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    fileprivate func handleDocumentAction() {
+        let documentTypes = [kUTTypeItem as String]
+        let documentController = UIDocumentMenuViewController(documentTypes: documentTypes, in: .import)
+        documentController.delegate = self
+        self.present(documentController, animated: true, completion: nil)
     }
     
     fileprivate func handleLibraryAction() {
@@ -613,6 +621,34 @@ extension ChatViewController {
     }
 }
 
+// MARK: UIDocumentMenuDelegate, UIDocumentPickerDelegate
+extension ChatViewController: UIDocumentMenuDelegate, UIDocumentPickerDelegate {
+    func documentMenu(_ documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+        documentPicker.delegate = self
+        present(documentPicker, animated: true, completion: nil)
+    }
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+        do {
+            let documentData = try Data(contentsOf: url)
+            AttachmentManager.shared.uploadAttachment(data: documentData, channelID: self.channel.getId(), fileName: url.lastPathComponent, fileType: "application" + "/" + "\(url.pathExtension)") { (_, _, _, _) in
+                // Do nothing for now. not getting any completion handler call here.
+            }
+        } catch  {
+            print("exception catch at block - while uploading document attachment")
+        }
+        
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func documentMenuWasCancelled(_ documentMenu: UIDocumentMenuViewController) {
+        documentMenu.dismiss(animated: true, completion: nil)
+    }
+}
+
 // MARK:- MessageInputBarDelegate
 extension ChatViewController: MessageInputBarDelegate {
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
@@ -653,9 +689,19 @@ extension ChatViewController: MessageCellDelegate {
         case .video(let videoURL, let thumbnail):
             let videoViewController = VideoViewController(videoURL: videoURL)
             self.present(videoViewController, animated: true, completion: nil)
+        case .document(let url):
+            let documentInteractionController = UIDocumentInteractionController(url: url)
+            documentInteractionController.delegate = self
+            documentInteractionController.presentPreview(animated: true)
         default:
             break
         }
+    }
+}
+
+extension ChatViewController: UIDocumentInteractionControllerDelegate {
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
     }
 }
 
@@ -783,6 +829,19 @@ extension ChatViewController: MessagesDisplayDelegate {
                 containerView.fillSuperview()
             }
             return .writingView(configurationClosure)
+        case .document(let url):
+            let configurationClosure = { (containerView: UIImageView) in
+                containerView.layer.cornerRadius = 4
+                containerView.layer.masksToBounds = true
+                containerView.layer.borderWidth = 1
+                containerView.layer.borderColor = UIColor.lightGray.cgColor
+                
+                let documentView = DocumentView().loadFromNib() as! DocumentView
+                documentView.documentNameLabel.text = url.lastPathComponent
+                containerView.addSubview(documentView)
+                documentView.fillSuperview()
+            }
+            return .document(configurationClosure)
         default:
             return .bubble
         }
@@ -868,8 +927,6 @@ class SQLiteDatabase {
         }
     }
 }
-
-
 
 extension SQLiteDatabase {
     func prepareStatement(sql: String) throws -> OpaquePointer? {

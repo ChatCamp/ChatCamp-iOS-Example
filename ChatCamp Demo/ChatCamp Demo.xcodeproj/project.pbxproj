@@ -16,6 +16,9 @@
 		092C99EB2062C81000281982 /* LoadingDots.xib in Resources */ = {isa = PBXBuildFile; fileRef = 092C99EA2062C81000281982 /* LoadingDots.xib */; };
 		092C99ED2062CC3600281982 /* DelayMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092C99EC2062CC3600281982 /* DelayMethod.swift */; };
 		096F143D208C927C0073ADCA /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096F143C208C927C0073ADCA /* ProfileViewController.swift */; };
+		09746B9720AAF6CA0029460C /* DocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09746B9620AAF6CA0029460C /* DocumentView.xib */; };
+		09746B9920AB00340029460C /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09746B9820AB00340029460C /* DocumentView.swift */; };
+		09746B9B20AB02EE0029460C /* DocumentMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09746B9A20AB02EE0029460C /* DocumentMessageCell.swift */; };
 		09E78CA7208DEFA6004DCC53 /* ChannelProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E78CA6208DEFA6004DCC53 /* ChannelProfileViewController.swift */; };
 		09E78CA9208DF34D004DCC53 /* ChannelProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E78CA8208DF34D004DCC53 /* ChannelProfileTableViewCell.swift */; };
 		7F79F56F3DC92F0751644531 /* Pods_ChatCamp_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1792827B812DA8708996D7B5 /* Pods_ChatCamp_Demo.framework */; };
@@ -117,6 +120,9 @@
 		092C99EA2062C81000281982 /* LoadingDots.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingDots.xib; sourceTree = "<group>"; };
 		092C99EC2062CC3600281982 /* DelayMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelayMethod.swift; sourceTree = "<group>"; };
 		096F143C208C927C0073ADCA /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		09746B9620AAF6CA0029460C /* DocumentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentView.xib; sourceTree = "<group>"; };
+		09746B9820AB00340029460C /* DocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
+		09746B9A20AB02EE0029460C /* DocumentMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentMessageCell.swift; sourceTree = "<group>"; };
 		09E78CA6208DEFA6004DCC53 /* ChannelProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelProfileViewController.swift; sourceTree = "<group>"; };
 		09E78CA8208DF34D004DCC53 /* ChannelProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelProfileTableViewCell.swift; sourceTree = "<group>"; };
 		1792827B812DA8708996D7B5 /* Pods_ChatCamp_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatCamp_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -438,6 +444,9 @@
 				C052C029203717EF00ADED74 /* CustomMessageContentView.swift */,
 				C052C0272037178B00ADED74 /* CustomMessageContentView.xib */,
 				090F17D1206557F100A627CD /* WritingMessageCell.swift */,
+				09746B9620AAF6CA0029460C /* DocumentView.xib */,
+				09746B9820AB00340029460C /* DocumentView.swift */,
+				09746B9A20AB02EE0029460C /* DocumentMessageCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -555,6 +564,9 @@
 							com.apple.Push = {
 								enabled = 1;
 							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -589,6 +601,7 @@
 				C052C0282037178B00ADED74 /* CustomMessageContentView.xib in Resources */,
 				C08D21F0202F22DC00BD059D /* ChatTableViewCell.xib in Resources */,
 				C03F7428202F00F300423969 /* Login.storyboard in Resources */,
+				09746B9720AAF6CA0029460C /* DocumentView.xib in Resources */,
 				C03F742A202F017C00423969 /* Home.storyboard in Resources */,
 				C052C01F2036DB3A00ADED74 /* Info.plist in Resources */,
 				C052C0222036DC4000ADED74 /* MessageKitAssets.bundle in Resources */,
@@ -689,6 +702,7 @@
 				C052C0242036E04F00ADED74 /* CustomMessageCell.swift in Sources */,
 				C052C01D2036DB3A00ADED74 /* PlayButtonView.swift in Sources */,
 				C052C0182036DB3A00ADED74 /* InputTextView.swift in Sources */,
+				09746B9920AB00340029460C /* DocumentView.swift in Sources */,
 				C052C02A203717EF00ADED74 /* CustomMessageContentView.swift in Sources */,
 				C052C0162036DB3A00ADED74 /* InputBarItem.swift in Sources */,
 				C052BFFA2036DB3A00ADED74 /* LabelAlignment.swift in Sources */,
@@ -752,6 +766,7 @@
 				C052C0072036DB3A00ADED74 /* UIColor+Extensions.swift in Sources */,
 				C052C01E2036DB3A00ADED74 /* SeparatorLine.swift in Sources */,
 				C052C00F2036DB3A00ADED74 /* LocationMessageCell.swift in Sources */,
+				09746B9B20AB02EE0029460C /* DocumentMessageCell.swift in Sources */,
 				C052C0052036DB3A00ADED74 /* String+Extensions.swift in Sources */,
 				09142C3A209B023500323BC5 /* RecordButton.swift in Sources */,
 				C0AD50782032D4FC003CE2E8 /* SettingsViewController.swift in Sources */,

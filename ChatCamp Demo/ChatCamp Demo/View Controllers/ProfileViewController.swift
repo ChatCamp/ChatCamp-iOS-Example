@@ -29,6 +29,8 @@ class ProfileViewController: UIViewController {
         let avatarUrl = participant?.getAvatarUrl()
         if avatarUrl != nil {
             profileImageView.downloadedFrom(link: avatarUrl!)
+        } else {
+            profileImageView.image = #imageLiteral(resourceName: "user_placeholder")
         }
         
         if participant?.getIsOnline() ?? false {
