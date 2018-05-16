@@ -37,6 +37,10 @@ extension UIViewController {
     static func cameraViewController() -> CameraViewController {
         return UIStoryboard.home().instantiateViewController(withIdentifier: CameraViewController.string()) as! CameraViewController
     }
+    
+    static func imagePreviewViewController() -> ImagePreviewViewController {
+        return UIStoryboard.home().instantiateViewController(withIdentifier: ImagePreviewViewController.string()) as! ImagePreviewViewController
+    }
 }
 
 // MARK:- Alerts

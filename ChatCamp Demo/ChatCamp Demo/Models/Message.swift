@@ -58,20 +58,18 @@ class Message: NSObject, MessageType {
                     }
                 }
             } else if ccpMessage.getAttachment()?.isVideo() ?? false {
-                DispatchQueue.global().async {
-                    if let attachement = ccpMessage.getAttachment(), let dataURL = URL(string: attachement.getUrl()) {
-                        self.data = MessageData.video(file: dataURL, thumbnail: #imageLiteral(resourceName: "chat_image_placeholder"))
-                        let documentUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first as URL!
-                        let destinationFileUrl = documentUrl.appendingPathComponent(attachement.getName())
-                        if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
-                            DispatchQueue.main.async {
-                                self.data = MessageData.video(file: destinationFileUrl, thumbnail: ImageManager.getThumbnailFrom(path: destinationFileUrl)!)
-                                self.delegate?.messageDidUpdateWithImage(message: self)
-                            }
-                        } else {
-                            let sessionConfig = URLSessionConfiguration.default
-                            let session = URLSession(configuration: sessionConfig)
-                            let request = URLRequest(url: dataURL)
+                if let attachement = ccpMessage.getAttachment(), let dataURL = URL(string: attachement.getUrl()) {
+                    self.data = MessageData.video(file: dataURL, thumbnail: #imageLiteral(resourceName: "chat_image_placeholder"))
+                    let documentUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first as URL!
+                    let destinationFileUrl = documentUrl.appendingPathComponent(attachement.getName())
+                    if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
+                        self.data = MessageData.video(file: destinationFileUrl, thumbnail: ImageManager.getThumbnailFrom(path: destinationFileUrl)!)
+                        self.delegate?.messageDidUpdateWithImage(message: self)
+                    } else {
+                        let sessionConfig = URLSessionConfiguration.default
+                        let session = URLSession(configuration: sessionConfig)
+                        let request = URLRequest(url: dataURL)
+                        DispatchQueue.global().async {
                             session.downloadTask(with: request) { (tempLocalUrl, response, error) in
                                 if let tempLocalUrl = tempLocalUrl, error == nil {
                                     do {

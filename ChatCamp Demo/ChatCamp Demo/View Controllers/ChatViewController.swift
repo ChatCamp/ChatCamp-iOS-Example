@@ -461,7 +461,7 @@ extension ChatViewController {
         messageInputBar.sendButton.setImage(#imageLiteral(resourceName: "chat_send_button"), for: .normal)
         
         let attachmentButton = InputBarButtonItem(frame: CGRect(x: 3, y: 2, width: 30, height: 30))
-        attachmentButton.setImage(#imageLiteral(resourceName: "chat_image_button"), for: .normal)
+        attachmentButton.setImage(#imageLiteral(resourceName: "attachment"), for: .normal)
         
         attachmentButton.onTouchUpInside { [unowned self] attachmentButton in
             self.presentAlertController()
@@ -689,6 +689,10 @@ extension ChatViewController: MessageCellDelegate {
         case .video(let videoURL, let thumbnail):
             let videoViewController = VideoViewController(videoURL: videoURL)
             self.present(videoViewController, animated: true, completion: nil)
+        case .photo(let image):
+            let imagePreviewViewController = UIViewController.imagePreviewViewController()
+            imagePreviewViewController.image = image
+            navigationController?.pushViewController(imagePreviewViewController, animated: true)
         case .document(let url):
             let documentInteractionController = UIDocumentInteractionController(url: url)
             documentInteractionController.delegate = self

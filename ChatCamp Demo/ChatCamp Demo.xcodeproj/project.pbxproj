@@ -19,6 +19,7 @@
 		09746B9720AAF6CA0029460C /* DocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09746B9620AAF6CA0029460C /* DocumentView.xib */; };
 		09746B9920AB00340029460C /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09746B9820AB00340029460C /* DocumentView.swift */; };
 		09746B9B20AB02EE0029460C /* DocumentMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09746B9A20AB02EE0029460C /* DocumentMessageCell.swift */; };
+		09746B9D20AC19830029460C /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09746B9C20AC19830029460C /* ImagePreviewViewController.swift */; };
 		09E78CA7208DEFA6004DCC53 /* ChannelProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E78CA6208DEFA6004DCC53 /* ChannelProfileViewController.swift */; };
 		09E78CA9208DF34D004DCC53 /* ChannelProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E78CA8208DF34D004DCC53 /* ChannelProfileTableViewCell.swift */; };
 		7F79F56F3DC92F0751644531 /* Pods_ChatCamp_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1792827B812DA8708996D7B5 /* Pods_ChatCamp_Demo.framework */; };
@@ -123,6 +124,7 @@
 		09746B9620AAF6CA0029460C /* DocumentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentView.xib; sourceTree = "<group>"; };
 		09746B9820AB00340029460C /* DocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
 		09746B9A20AB02EE0029460C /* DocumentMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentMessageCell.swift; sourceTree = "<group>"; };
+		09746B9C20AC19830029460C /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
 		09E78CA6208DEFA6004DCC53 /* ChannelProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelProfileViewController.swift; sourceTree = "<group>"; };
 		09E78CA8208DF34D004DCC53 /* ChannelProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelProfileTableViewCell.swift; sourceTree = "<group>"; };
 		1792827B812DA8708996D7B5 /* Pods_ChatCamp_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatCamp_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -308,6 +310,7 @@
 				09E78CA6208DEFA6004DCC53 /* ChannelProfileViewController.swift */,
 				09142C37209AEE5400323BC5 /* CameraViewController.swift */,
 				09142C3B209B238100323BC5 /* VideoViewController.swift */,
+				09746B9C20AC19830029460C /* ImagePreviewViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -742,6 +745,7 @@
 				C03D3030202F2EC200E3A85A /* OpenChannelsViewController.swift in Sources */,
 				C052C0042036DB3A00ADED74 /* NSAttributedString+Extensions.swift in Sources */,
 				09142C38209AEE5400323BC5 /* CameraViewController.swift in Sources */,
+				09746B9D20AC19830029460C /* ImagePreviewViewController.swift in Sources */,
 				C052C0202036DB3A00ADED74 /* MessageKit+Availability.swift in Sources */,
 				C052C00B2036DB3A00ADED74 /* MessagesViewController+Keyboard.swift in Sources */,
 				C052C0002036DB3A00ADED74 /* NSConstraintLayoutSet.swift in Sources */,

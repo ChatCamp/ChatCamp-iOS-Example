@@ -412,6 +412,49 @@
             </objects>
             <point key="canvasLocation" x="3788" y="175"/>
         </scene>
+        <!--Image Preview View Controller-->
+        <scene sceneID="XwT-CF-MZ8">
+            <objects>
+                <viewController storyboardIdentifier="ImagePreviewViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="buB-jg-mDf" customClass="ImagePreviewViewController" customModule="ChatCamp_Demo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bj0-RC-wjw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o8M-wo-16p">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="poC-mA-FOD">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="poC-mA-FOD" firstAttribute="leading" secondItem="o8M-wo-16p" secondAttribute="leading" id="L8o-qF-V5f"/>
+                                    <constraint firstItem="poC-mA-FOD" firstAttribute="centerX" secondItem="o8M-wo-16p" secondAttribute="centerX" id="Paf-hm-YvH"/>
+                                    <constraint firstAttribute="bottom" secondItem="poC-mA-FOD" secondAttribute="bottom" id="Xlu-VI-HIM"/>
+                                    <constraint firstItem="poC-mA-FOD" firstAttribute="centerY" secondItem="o8M-wo-16p" secondAttribute="centerY" id="fad-x3-VnJ"/>
+                                    <constraint firstItem="poC-mA-FOD" firstAttribute="top" secondItem="o8M-wo-16p" secondAttribute="top" id="hGO-PX-gjZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="poC-mA-FOD" secondAttribute="trailing" id="khK-JG-hyo"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="huK-IZ-Zdx" firstAttribute="bottom" secondItem="o8M-wo-16p" secondAttribute="bottom" id="6sK-SL-0ma"/>
+                            <constraint firstItem="o8M-wo-16p" firstAttribute="leading" secondItem="huK-IZ-Zdx" secondAttribute="leading" id="hJu-Bp-Avl"/>
+                            <constraint firstItem="o8M-wo-16p" firstAttribute="top" secondItem="huK-IZ-Zdx" secondAttribute="top" id="k58-rE-wJg"/>
+                            <constraint firstItem="huK-IZ-Zdx" firstAttribute="trailing" secondItem="o8M-wo-16p" secondAttribute="trailing" id="nUH-RH-Ho7"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="huK-IZ-Zdx"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="poC-mA-FOD" id="cpQ-BW-kSl"/>
+                        <outlet property="scrollView" destination="o8M-wo-16p" id="z3g-KI-AJE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cBE-bJ-HSS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4493.6000000000004" y="174.96251874062969"/>
+        </scene>
     </scenes>
     <resources>
         <image name="cancel" width="30" height="30"/>
