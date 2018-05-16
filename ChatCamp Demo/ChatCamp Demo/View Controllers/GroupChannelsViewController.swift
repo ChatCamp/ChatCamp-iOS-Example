@@ -32,6 +32,12 @@ class GroupChannelsViewController: UIViewController {
         loadChannels()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        loadChannels()
+    }
+    
     fileprivate func loadChannels() {
         let groupChannelsQuery = CCPGroupChannel.createGroupChannelListQuery()
         groupChannelsQuery.get { [unowned self] (channels, error) in
@@ -91,12 +97,16 @@ extension GroupChannelsViewController: UITableViewDataSource {
                     }
                 }
             }
+        } else {
+            cell.nameLabel.text = channel.getName()
         }
-        cell.nameLabel.text = channel.getName()
-        cell.messageLabel.text = ""
         cell.unreadCountLabel.text = String(channel.getUnreadMessageCount())
-        if let message = channel.getLastMessage() {
-            cell.messageLabel.text = message.getText()
+        if let message = channel.getLastMessage(), let displayName = channel.getLastMessage()?.getUser().getDisplayName() {
+            if message.getType() == "text" {
+                cell.messageLabel.text =  displayName + " : " + message.getText()
+            } else {
+                cell.messageLabel.text =  displayName + " : " + message.getType()
+            }
         }
         
         return cell
