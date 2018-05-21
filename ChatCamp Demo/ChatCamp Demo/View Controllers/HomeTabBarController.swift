@@ -27,6 +27,8 @@ extension HomeTabBarController: UITabBarControllerDelegate {
             title = TabName.groupChannels.rawValue
         case Tab.settings.rawValue:
             title = TabName.settings.rawValue
+        case Tab.users.rawValue:
+            title = TabName.users.rawValue
         default:
             break
         }

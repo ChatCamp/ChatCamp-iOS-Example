@@ -24,4 +24,10 @@ class ChatTableViewCell: UITableViewCell {
         }
     }
     
+    override func prepareForReuse() {
+        avatarImageView.image = #imageLiteral(resourceName: "user_placeholder")
+        nameLabel.text = ""
+        messageLabel.text = ""
+        unreadCountLabel.text = ""
+    }
 }

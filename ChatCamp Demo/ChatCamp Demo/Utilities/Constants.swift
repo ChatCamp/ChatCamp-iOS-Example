@@ -11,13 +11,15 @@ import Foundation
 enum Tab: Int {
     case openChannels = 0
     case groupChannels = 1
-    case settings = 2
+    case users = 2
+    case settings = 3
 }
 
 enum TabName: String {
     case openChannels = "Open Channels"
     case groupChannels = "Group Channels"
     case settings = "Settings"
+    case users = "Users"
 }
 
 let DefaultAnimationDuration: TimeInterval = 0.3
