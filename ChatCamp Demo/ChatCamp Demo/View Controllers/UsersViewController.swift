@@ -72,15 +72,20 @@ extension UsersViewController: UITableViewDataSource {
 // MARK:- UITableViewDelegate
 extension UsersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let user = users[indexPath.row]
         let userID = CCPClient.getCurrentUser().getId()
         let username = CCPClient.getCurrentUser().getDisplayName()
         
         let sender = Sender(id: userID, displayName: username!)
         
-        // TODO: Handle this channel thing here
-//        let chatViewController = ChatViewController(channel: channels[indexPath.row], sender: sender)
-        
-//        navigationController?.pushViewController(chatViewController, animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
+        CCPGroupChannel.create(name: user.getDisplayName() ?? "", userIds: [userID, user.getId()], isDistinct: true) { groupChannel, error in
+            if error == nil {
+                let chatViewController = ChatViewController(channel: groupChannel!, sender: sender)
+                self.navigationController?.pushViewController(chatViewController, animated: true)
+                tableView.deselectRow(at: indexPath, animated: true)
+            } else {
+                self.showAlert(title: "Error!", message: "Some error occured, please try again.", actionText: "OK")
+            }
+        }
     }
 }

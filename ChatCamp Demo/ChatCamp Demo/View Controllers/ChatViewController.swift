@@ -121,6 +121,8 @@ class ChatViewController: MessagesViewController {
                             let avatarUrl = participant.getAvatarUrl()
                             if avatarUrl != nil {
                                 imageView.downloadedFrom(link: avatarUrl!)
+                            } else {
+                                imageView.image = #imageLiteral(resourceName: "avatar_placeholder")
                             }
                             
                             let userNameBarButtonItem = UIBarButtonItem(title: participant.getDisplayName(), style: .plain, target: self, action: #selector(self.userProfileTapped))
