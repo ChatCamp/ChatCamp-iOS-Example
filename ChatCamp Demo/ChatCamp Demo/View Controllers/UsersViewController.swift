@@ -24,17 +24,18 @@ class UsersViewController: UIViewController {
     var users: [CCPUser] = []
     fileprivate var usersToFetch: Int = 5
     fileprivate var loadingUsers = false
-    let usersQuery = CCPUserListQuery()
+    var usersQuery: CCPUserListQuery!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        usersQuery = CCPClient.createUserListQuery()
         loadUsers(limit: 20)
     }
 
     fileprivate func loadUsers(limit: Int) {
         loadingUsers = true
-        usersQuery.get(limit: limit) { [unowned self] (users, error) in
+        usersQuery.load(limit: limit) { [unowned self] (users, error) in
             if error == nil && (users?.count ?? 0) > 0 {
                 guard let users = users else { return }
                 self.users.append(contentsOf: users.filter({ $0.getId() != CCPClient.getCurrentUser().getId() }))

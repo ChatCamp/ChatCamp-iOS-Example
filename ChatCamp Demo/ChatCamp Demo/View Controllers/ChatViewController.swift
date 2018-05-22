@@ -44,7 +44,6 @@ class ChatViewController: MessagesViewController {
                 self.channel = gC
             }
         }
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
