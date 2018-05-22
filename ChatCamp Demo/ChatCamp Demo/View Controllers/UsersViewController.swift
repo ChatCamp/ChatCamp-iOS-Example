@@ -22,26 +22,31 @@ class UsersViewController: UIViewController {
     }
     
     var users: [CCPUser] = []
+    fileprivate var usersToFetch: Int = 5
+    fileprivate var loadingUsers = false
+    let usersQuery = CCPUserListQuery()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadUsers()
+        loadUsers(limit: 20)
     }
 
-    fileprivate func loadUsers() {
-        let usersQuery = CCPUserListQuery()
-        usersQuery.get { [unowned self] (users, error) in
-            if error == nil {
-                guard let allUsers = users else { return }
-                self.users = allUsers.filter({ $0.getId() != CCPClient.getCurrentUser().getId() })
+    fileprivate func loadUsers(limit: Int) {
+        loadingUsers = true
+        usersQuery.get(limit: limit) { [unowned self] (users, error) in
+            if error == nil && (users?.count ?? 0) > 0 {
+                guard let users = users else { return }
+                self.users.append(contentsOf: users.filter({ $0.getId() != CCPClient.getCurrentUser().getId() }))
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    self.loadingUsers = false
                 }
             } else {
                 DispatchQueue.main.async {
                     self.showAlert(title: "Can't Load Users", message: "Unable to load Users right now. Please try later.", actionText: "Ok")
+                    self.loadingUsers = false
                 }
             }
         }
@@ -86,6 +91,15 @@ extension UsersViewController: UITableViewDelegate {
             } else {
                 self.showAlert(title: "Error!", message: "Some error occured, please try again.", actionText: "OK")
             }
+        }
+    }
+}
+
+// MARK:- ScrollView Delegate Methods
+extension UsersViewController {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if (tableView.indexPathsForVisibleRows?.contains([0, users.count - 1]) ?? false) && !loadingUsers && users.count >= 19 {
+            loadUsers(limit: usersToFetch)
         }
     }
 }

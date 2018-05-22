@@ -195,7 +195,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5Gy-UP-OHu"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Users" id="kWn-gL-Hlb"/>
+                    <tabBarItem key="tabBarItem" title="Users" image="tab-users-selected" id="kWn-gL-Hlb"/>
                     <connections>
                         <outlet property="tableView" destination="2G9-y4-L60" id="VN5-JU-xIU"/>
                     </connections>
@@ -496,5 +496,6 @@
         <image name="tab-group-selected" width="24" height="24"/>
         <image name="tab-home-selected" width="24" height="24"/>
         <image name="tab-settings-selected" width="24" height="24"/>
+        <image name="tab-users-selected" width="24" height="24"/>
     </resources>
 </document>
