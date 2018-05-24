@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		090F17D2206557F100A627CD /* WritingMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090F17D1206557F100A627CD /* WritingMessageCell.swift */; };
+		0913C5E420B2D0B000C945CF /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0913C5E320B2D0B000C945CF /* UsersViewController.swift */; };
 		09142C362097444300323BC5 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C352097444300323BC5 /* ImageManager.swift */; };
 		09142C38209AEE5400323BC5 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C37209AEE5400323BC5 /* CameraViewController.swift */; };
 		09142C3A209B023500323BC5 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C39209B023500323BC5 /* RecordButton.swift */; };
@@ -113,6 +114,7 @@
 
 /* Begin PBXFileReference section */
 		090F17D1206557F100A627CD /* WritingMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMessageCell.swift; sourceTree = "<group>"; };
+		0913C5E320B2D0B000C945CF /* UsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
 		09142C352097444300323BC5 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		09142C37209AEE5400323BC5 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		09142C39209B023500323BC5 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				09142C37209AEE5400323BC5 /* CameraViewController.swift */,
 				09142C3B209B238100323BC5 /* VideoViewController.swift */,
 				09746B9C20AC19830029460C /* ImagePreviewViewController.swift */,
+				0913C5E320B2D0B000C945CF /* UsersViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -696,6 +699,7 @@
 				C03F7414202EFEBA00423969 /* AppDelegate.swift in Sources */,
 				C052C0032036DB3A00ADED74 /* CGRect+Extensions.swift in Sources */,
 				C0AD50762032D4DC003CE2E8 /* GroupChannelsViewController.swift in Sources */,
+				0913C5E420B2D0B000C945CF /* UsersViewController.swift in Sources */,
 				C052BFFC2036DB3A00ADED74 /* MessageData.swift in Sources */,
 				09142C3C209B238100323BC5 /* VideoViewController.swift in Sources */,
 				C052C0112036DB3A00ADED74 /* MessageCollectionViewCell.swift in Sources */,

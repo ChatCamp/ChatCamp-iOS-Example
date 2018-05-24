@@ -173,6 +173,37 @@
             </objects>
             <point key="canvasLocation" x="1598" y="934"/>
         </scene>
+        <!--Users-->
+        <scene sceneID="FSN-MV-8ok">
+            <objects>
+                <viewController storyboardIdentifier="UsersViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ImQ-3q-ilU" customClass="UsersViewController" customModule="ChatCamp_Demo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="we6-jb-YPK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2G9-y4-L60">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="5Gy-UP-OHu" firstAttribute="trailing" secondItem="2G9-y4-L60" secondAttribute="trailing" id="Qfr-3Q-SQ1"/>
+                            <constraint firstItem="2G9-y4-L60" firstAttribute="top" secondItem="5Gy-UP-OHu" secondAttribute="top" id="cBH-9Z-6zX"/>
+                            <constraint firstItem="5Gy-UP-OHu" firstAttribute="bottom" secondItem="2G9-y4-L60" secondAttribute="bottom" id="eee-BO-xmo"/>
+                            <constraint firstItem="2G9-y4-L60" firstAttribute="leading" secondItem="5Gy-UP-OHu" secondAttribute="leading" id="lfF-On-dY6"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="5Gy-UP-OHu"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Users" image="tab-users-selected" id="kWn-gL-Hlb"/>
+                    <connections>
+                        <outlet property="tableView" destination="2G9-y4-L60" id="VN5-JU-xIU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RaP-z0-QBd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1604" y="1642"/>
+        </scene>
         <!--Open Channels-->
         <scene sceneID="OOH-z1-VNG">
             <objects>
@@ -218,7 +249,8 @@
                     <connections>
                         <segue destination="7XQ-SG-wxW" kind="relationship" relationship="viewControllers" id="2wb-IO-jtu"/>
                         <segue destination="RPn-FG-z2X" kind="relationship" relationship="viewControllers" id="57b-rD-kgo"/>
-                        <segue destination="RqO-Em-F6W" kind="relationship" relationship="viewControllers" id="Aac-Xk-nuy"/>
+                        <segue destination="ImQ-3q-ilU" kind="relationship" relationship="viewControllers" id="gV9-ia-2xW"/>
+                        <segue destination="RqO-Em-F6W" kind="relationship" relationship="viewControllers" id="0kU-Fh-dEy"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wSs-wh-E1s" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -464,5 +496,6 @@
         <image name="tab-group-selected" width="24" height="24"/>
         <image name="tab-home-selected" width="24" height="24"/>
         <image name="tab-settings-selected" width="24" height="24"/>
+        <image name="tab-users-selected" width="24" height="24"/>
     </resources>
 </document>

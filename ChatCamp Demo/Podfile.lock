@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.7.2)
-  - ChatCamp (0.1.8)
+  - ChatCamp (0.1.10)
   - DKCamera (1.5.1)
   - DKImagePickerController/Camera (4.0.0-beta):
     - DKCamera (= 1.5.1)
@@ -16,34 +16,34 @@ PODS:
     - DKImagePickerController/Core
     - DKPhotoGallery
   - DKImagePickerController/Resource (4.0.0-beta)
-  - DKPhotoGallery (0.0.3):
-    - DKPhotoGallery/Core (= 0.0.3)
-    - DKPhotoGallery/Model (= 0.0.3)
-    - DKPhotoGallery/Preview (= 0.0.3)
-    - DKPhotoGallery/Resource (= 0.0.3)
+  - DKPhotoGallery (0.0.4):
+    - DKPhotoGallery/Core (= 0.0.4)
+    - DKPhotoGallery/Model (= 0.0.4)
+    - DKPhotoGallery/Preview (= 0.0.4)
+    - DKPhotoGallery/Resource (= 0.0.4)
     - SDWebImage/GIF (~> 4.0)
-  - DKPhotoGallery/Core (0.0.3):
+  - DKPhotoGallery/Core (0.0.4):
     - DKPhotoGallery/Model
     - DKPhotoGallery/Preview
     - SDWebImage/GIF (~> 4.0)
-  - DKPhotoGallery/Model (0.0.3):
+  - DKPhotoGallery/Model (0.0.4):
     - SDWebImage/GIF (~> 4.0)
-  - DKPhotoGallery/Preview (0.0.3):
+  - DKPhotoGallery/Preview (0.0.4):
     - DKPhotoGallery/Model
     - DKPhotoGallery/Resource
     - SDWebImage/GIF (~> 4.0)
-  - DKPhotoGallery/Resource (0.0.3):
+  - DKPhotoGallery/Resource (0.0.4):
     - SDWebImage/GIF (~> 4.0)
   - FLAnimatedImage (1.0.12)
-  - SDWebImage/Core (4.3.0)
-  - SDWebImage/GIF (4.3.0):
+  - SDWebImage/Core (4.3.3)
+  - SDWebImage/GIF (4.3.3):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
   - SwiftyCam (2.6.0)
 
 DEPENDENCIES:
   - Alamofire
-  - ChatCamp (= 0.1.8)
+  - ChatCamp (= 0.1.10)
   - DKImagePickerController/Camera (= 4.0.0-beta)
   - DKImagePickerController/InlineCamera (= 4.0.0-beta)
   - DKImagePickerController/PhotoGallery (= 4.0.0-beta)
@@ -51,14 +51,14 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
-  ChatCamp: 7ef9364e7259cb162590613374ff3aab30ffccc5
+  ChatCamp: fee846f798ae82a00a0a3c8fa29cb817db7889c6
   DKCamera: 59e2879aa034264fd316111812a1ca9001b75a9f
   DKImagePickerController: 8abb5370913beced68cac281a0e2eee82000e832
-  DKPhotoGallery: 1c3a7fbd0b246861586bb63f422331b6c21dbdf8
+  DKPhotoGallery: 3664c4af6d0cbbb25fe57f63d53722b91ef68b75
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
-  SDWebImage: 6da6c8bca115addc4de8613362e1b15f66333825
+  SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
   SwiftyCam: 86c114177a1b1f5dc2c82384577d0c20b922a31b
 
-PODFILE CHECKSUM: 28e70e0ed313ba5ed76122f986b06c8f1a0b5d36
+PODFILE CHECKSUM: 825cafa5b1801151c60bd611e697e56802859b3d
 
 COCOAPODS: 1.4.0
