@@ -8,6 +8,7 @@
 
 import UIKit
 import ChatCamp
+import SDWebImage
 
 class GroupChannelsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView! {
@@ -28,8 +29,6 @@ class GroupChannelsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        loadChannels()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,10 +85,11 @@ extension GroupChannelsViewController: UITableViewDataSource {
                     let participants = gC.getParticipants()
                     for participant in participants {
                         if participant.getId() != CCPClient.getCurrentUser().getId() {
-                            let avatarUrl = participant.getAvatarUrl()
                             cell.nameLabel.text = participant.getDisplayName()
-                            if avatarUrl != nil {
-                                cell.avatarImageView.downloadedFrom(link: avatarUrl!)
+                            if let avatarUrl = participant.getAvatarUrl() {
+                                cell.avatarImageView?.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+                            } else {
+                                cell.avatarImageView.setImageForName(string: participant.getDisplayName() ?? "?", backgroundColor: nil, circular: true, textAttributes: nil)
                             }
                         } else {
                             continue
@@ -99,6 +99,11 @@ extension GroupChannelsViewController: UITableViewDataSource {
             }
         } else {
             cell.nameLabel.text = channel.getName()
+            if let avatarUrl = channel.getAvatarUrl() {
+                cell.avatarImageView?.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+            } else {
+                cell.avatarImageView.setImageForName(string: channel.getName(), circular: true, textAttributes: nil)
+            }
         }
         cell.unreadCountLabel.text = String(channel.getUnreadMessageCount())
         if let message = channel.getLastMessage(), let displayName = channel.getLastMessage()?.getUser().getDisplayName() {

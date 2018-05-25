@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import ChatCamp
+import SDWebImage
 
 class OpenChannelsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView! {
@@ -16,19 +18,57 @@ class OpenChannelsViewController: UIViewController {
             tableView.register(ChatTableViewCell.nib(), forCellReuseIdentifier: ChatTableViewCell.string())
         }
     }
+    
+    var channels: [CCPOpenChannel] = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        loadChannels()
+    }
+    
+    fileprivate func loadChannels() {
+        let openChannelsQuery = CCPOpenChannel.createOpenChannelListQuery()
+        openChannelsQuery.get { [unowned self] (channels, error) in
+            if error == nil {
+                self.channels = channels!
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Can't Load Open Channels", message: "Unable to load Open Channels right now. Please try later.", actionText: "Ok")
+                }
+            }
+        }
+    }
 }
 
 // MARK:- UITableViewDataSource
 extension OpenChannelsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 30
+        return channels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChatTableViewCell.string(), for: indexPath) as! ChatTableViewCell
         
-        cell.nameLabel.text = "My chat"
-        cell.messageLabel.text = "my messages are so unique that it extends to a long length so that it will truncate"
+        let channel = channels[indexPath.row]
+    
+        cell.messageLabel.isHidden = true
+        cell.unreadCountLabel.isHidden = true
+        cell.nameLabel.text = channel.getName()
+        
+        if let avatarUrl = channel.getAvatarUrl() {
+            cell.avatarImageView?.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+        } else {
+            cell.avatarImageView.setImageForName(string: channel.getName(), backgroundColor: nil, circular: true, textAttributes: nil)
+        }
         
         return cell
     }

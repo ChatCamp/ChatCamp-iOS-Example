@@ -8,6 +8,7 @@
 
 import UIKit
 import ChatCamp
+import SDWebImage
 
 class UsersViewController: UIViewController {
 
@@ -36,7 +37,7 @@ class UsersViewController: UIViewController {
     fileprivate func loadUsers(limit: Int) {
         loadingUsers = true
         usersQuery.load(limit: limit) { [unowned self] (users, error) in
-            if error == nil && (users?.count ?? 0) > 0 {
+            if error == nil {
                 guard let users = users else { return }
                 self.users.append(contentsOf: users.filter({ $0.getId() != CCPClient.getCurrentUser().getId() }))
                 
@@ -68,7 +69,9 @@ extension UsersViewController: UITableViewDataSource {
         cell.messageLabel.text = ""
         cell.unreadCountLabel.isHidden = true
         if let avatarUrl = user.getAvatarUrl() {
-            cell.avatarImageView.downloadedFrom(link: avatarUrl)
+            cell.avatarImageView?.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+        } else {
+            cell.avatarImageView.setImageForName(string: user.getDisplayName() ?? "?", circular: true, textAttributes: nil)
         }
         
         return cell

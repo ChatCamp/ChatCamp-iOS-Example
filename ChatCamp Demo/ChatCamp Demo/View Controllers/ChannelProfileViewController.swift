@@ -27,7 +27,11 @@ class ChannelProfileViewController: UIViewController, UITableViewDelegate, UITab
         
         title = "Group info"
         setupTableView()
-        channelAvatarImageView.image = #imageLiteral(resourceName: "user_placeholder")
+        if let avatarUrl = channel?.getAvatarUrl() {
+            channelAvatarImageView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+        } else {
+            channelAvatarImageView.setImageForName(string: channel?.getName() ?? "?", circular: true, textAttributes: nil)
+        }
     }
     
     func setupTableView() {
@@ -56,14 +60,13 @@ extension ChannelProfileViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChannelProfileCell", for: indexPath) as! ChannelProfileTableViewCell
         
         if indexPath.section == 0 {
-            cell.avatarImageView.image = #imageLiteral(resourceName: "user_placeholder")
+            cell.avatarImageView.setImageForName(string: channel?.getName() ?? "?", circular: true, textAttributes: nil)
             cell.displayNameLabel.text = channel?.getName()
-            cell.onlineStatusImageView.removeFromSuperview()
         } else {
             if let avatarURL = participants?[indexPath.row].getAvatarUrl() {
-                cell.avatarImageView.downloadedFrom(link: avatarURL)
+                cell.avatarImageView.sd_setImage(with: URL(string: avatarURL), completed: nil)
             } else {
-                cell.avatarImageView.image = #imageLiteral(resourceName: "user_placeholder")
+                cell.avatarImageView.setImageForName(string: participants?[indexPath.row].getDisplayName() ?? "?", circular: true, textAttributes: nil)
             }
             cell.displayNameLabel.text = participants?[indexPath.row].getDisplayName()
             if participants?[indexPath.row].getIsOnline() ?? false {

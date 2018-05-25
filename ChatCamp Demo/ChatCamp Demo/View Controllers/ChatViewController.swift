@@ -115,18 +115,19 @@ class ChatViewController: MessagesViewController {
                             self.participant = participant
                             self.title = nil
                             let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 30, height: 30))
-                            imageView.layer.cornerRadius = imageView.bounds.width/2
-                            imageView.layer.masksToBounds = true
-                            let avatarUrl = participant.getAvatarUrl()
-                            if avatarUrl != nil {
-                                imageView.downloadedFrom(link: avatarUrl!)
+                            
+                            if let avatarUrl = participant.getAvatarUrl() {
+                                imageView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
                             } else {
-                                imageView.image = #imageLiteral(resourceName: "avatar_placeholder")
+                                imageView.setImageForName(string: participant.getDisplayName() ?? "?", circular: true, textAttributes: nil)
                             }
+                            
+                            imageView.layer.masksToBounds = true
+                            imageView.layer.cornerRadius = imageView.bounds.width/2
                             
                             let userNameBarButtonItem = UIBarButtonItem(title: participant.getDisplayName(), style: .plain, target: self, action: #selector(self.userProfileTapped))
                             let profileImage = UIBarButtonItem(customView: imageView)
-                            
+
                             self.navigationItem.leftItemsSupplementBackButton = true
                             self.navigationItem.leftBarButtonItems = [profileImage, userNameBarButtonItem]
                         } else {
@@ -137,7 +138,16 @@ class ChatViewController: MessagesViewController {
             }
         } else {
             navigationController?.navigationBar.items?.first?.title = ""
-            let channelAvatarBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "avatar_placeholder"), style: .plain, target: self, action: nil)
+            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 30, height: 30))
+            imageView.contentMode = .scaleAspectFit
+            imageView.layer.masksToBounds = true
+            imageView.layer.cornerRadius = imageView.bounds.width/2
+            if let avatarUrl = channel.getAvatarUrl() {
+                imageView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+            } else {
+                imageView.setImageForName(string: channel.getName(), circular: true, textAttributes: nil)
+            }
+            let channelAvatarBarButtonItem = UIBarButtonItem(customView: imageView)
             let channelNameBarButtonItem = UIBarButtonItem(title: channel.getName(), style: .plain, target: self, action: #selector(channelProfileButtonTapped))
             navigationItem.leftItemsSupplementBackButton = true
             navigationItem.leftBarButtonItems = [channelAvatarBarButtonItem, channelNameBarButtonItem]
@@ -857,9 +867,8 @@ extension ChatViewController: MessagesDisplayDelegate {
         if message.messageId == "TYPING_INDICATOR" {
             if let participant = self.channel.getTypingParticipants().first {
                 avatarView.initials = String(describing: participant.getDisplayName()!.first!)
-                let avatarUrl = participant.getAvatarUrl()
-                if avatarUrl != nil {
-                    avatarView.downloadedFrom(link: avatarUrl!)
+                if let avatarUrl = participant.getAvatarUrl() {
+                    avatarView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
                 }
             }
             
@@ -872,7 +881,7 @@ extension ChatViewController: MessagesDisplayDelegate {
             
             let avatarUrl = ccpMessage.getUser().getAvatarUrl()
             if avatarUrl != nil {
-                avatarView.downloadedFrom(link: avatarUrl!)
+                avatarView.sd_setImage(with: URL(string: avatarUrl!), completed: nil)
             }
         }
     }

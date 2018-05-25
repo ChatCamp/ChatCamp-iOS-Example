@@ -25,7 +25,7 @@ class ChannelProfileTableViewCell: UITableViewCell {
     }
 
     func configure(avatarURL: String, displayName: String) {
-        avatarImageView.downloadedFrom(link: avatarURL)
+        avatarImageView.sd_setImage(with: URL(string: avatarURL), completed: nil)
         displayNameLabel.text = displayName
     }
 
