@@ -60,7 +60,11 @@ extension ChannelProfileViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChannelProfileCell", for: indexPath) as! ChannelProfileTableViewCell
         
         if indexPath.section == 0 {
-            cell.avatarImageView.setImageForName(string: channel?.getName() ?? "?", circular: true, textAttributes: nil)
+            if let avatarUrl = channel?.getAvatarUrl() {
+                cell.avatarImageView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+            } else {
+                cell.avatarImageView.setImageForName(string: channel?.getName() ?? "?", circular: true, textAttributes: nil)
+            }
             cell.displayNameLabel.text = channel?.getName()
         } else {
             if let avatarURL = participants?[indexPath.row].getAvatarUrl() {

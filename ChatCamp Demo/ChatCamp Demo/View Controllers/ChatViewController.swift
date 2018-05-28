@@ -114,22 +114,35 @@ class ChatViewController: MessagesViewController {
                         if participant.getId() != self.sender.id {
                             self.participant = participant
                             self.title = nil
-                            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 30, height: 30))
-                            
+                            self.navigationItem.leftItemsSupplementBackButton = true
+                            let userNameBarButtonItem = UIBarButtonItem(title: participant.getDisplayName(), style: .plain, target: self, action: #selector(self.userProfileTapped))
+                            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 35, height: 35))
+                            let profileButton = UIButton()
+                            profileButton.frame = CGRect(0, 0, 35, 35)
                             if let avatarUrl = participant.getAvatarUrl() {
                                 imageView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+                                if let image = imageView.image {
+                                    UIGraphicsBeginImageContextWithOptions(profileButton.frame.size, false, image.scale)
+                                    let rect  = CGRect(0, 0, profileButton.frame.size.width, profileButton.frame.size.height)
+                                    UIBezierPath(roundedRect: rect, cornerRadius: rect.width/2).addClip()
+                                    image.draw(in: rect)
+                                    
+                                    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+                                    UIGraphicsEndImageContext()
+                                    let color = UIColor(patternImage: newImage!)
+                                    profileButton.backgroundColor = color
+                                } else {
+                                    let color = UIColor(patternImage: UIImage(named: "avatar_placeholder")!)
+                                    profileButton.backgroundColor = color
+                                }
+                                profileButton.layer.cornerRadius = 0.5 * profileButton.bounds.size.width
+                                let profileImageBarButtonItem = UIBarButtonItem(customView: profileButton)
+                                self.navigationItem.leftBarButtonItems = [profileImageBarButtonItem, userNameBarButtonItem]
                             } else {
                                 imageView.setImageForName(string: participant.getDisplayName() ?? "?", circular: true, textAttributes: nil)
+                                let profileImageBarButtonItem = UIBarButtonItem(customView: imageView)
+                                self.navigationItem.leftBarButtonItems = [profileImageBarButtonItem, userNameBarButtonItem]
                             }
-                            
-                            imageView.layer.masksToBounds = true
-                            imageView.layer.cornerRadius = imageView.bounds.width/2
-                            
-                            let userNameBarButtonItem = UIBarButtonItem(title: participant.getDisplayName(), style: .plain, target: self, action: #selector(self.userProfileTapped))
-                            let profileImage = UIBarButtonItem(customView: imageView)
-
-                            self.navigationItem.leftItemsSupplementBackButton = true
-                            self.navigationItem.leftBarButtonItems = [profileImage, userNameBarButtonItem]
                         } else {
                             continue
                         }
@@ -138,19 +151,36 @@ class ChatViewController: MessagesViewController {
             }
         } else {
             navigationController?.navigationBar.items?.first?.title = ""
-            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 30, height: 30))
-            imageView.contentMode = .scaleAspectFit
-            imageView.layer.masksToBounds = true
-            imageView.layer.cornerRadius = imageView.bounds.width/2
+            navigationItem.leftItemsSupplementBackButton = true
+            let channelNameBarButtonItem = UIBarButtonItem(title: channel.getName(), style: .plain, target: self, action: #selector(channelProfileButtonTapped))
+
+            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 35, height: 35))
+            let profileButton = UIButton()
+            profileButton.frame = CGRect(0, 0, 35, 35)
             if let avatarUrl = channel.getAvatarUrl() {
                 imageView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+                if let image = imageView.image {
+                    UIGraphicsBeginImageContextWithOptions(profileButton.frame.size, false, image.scale)
+                    let rect  = CGRect(0, 0, profileButton.frame.size.width, profileButton.frame.size.height)
+                    UIBezierPath(roundedRect: rect, cornerRadius: rect.width/2).addClip()
+                    image.draw(in: rect)
+                    
+                    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+                    UIGraphicsEndImageContext()
+                    let color = UIColor(patternImage: newImage!)
+                    profileButton.backgroundColor = color
+                } else {
+                    let color = UIColor(patternImage: UIImage(named: "avatar_placeholder")!)
+                    profileButton.backgroundColor = color
+                }
+                profileButton.layer.cornerRadius = 0.5 * profileButton.bounds.size.width
+                let channelAvatarBarButtonItem = UIBarButtonItem(customView: profileButton)
+                navigationItem.leftBarButtonItems = [channelAvatarBarButtonItem, channelNameBarButtonItem]
             } else {
                 imageView.setImageForName(string: channel.getName(), circular: true, textAttributes: nil)
+                let channelAvatarBarButtonItem = UIBarButtonItem(customView: imageView)
+                navigationItem.leftBarButtonItems = [channelAvatarBarButtonItem, channelNameBarButtonItem]
             }
-            let channelAvatarBarButtonItem = UIBarButtonItem(customView: imageView)
-            let channelNameBarButtonItem = UIBarButtonItem(title: channel.getName(), style: .plain, target: self, action: #selector(channelProfileButtonTapped))
-            navigationItem.leftItemsSupplementBackButton = true
-            navigationItem.leftBarButtonItems = [channelAvatarBarButtonItem, channelNameBarButtonItem]
         }
     }
     
@@ -866,22 +896,20 @@ extension ChatViewController: MessagesDisplayDelegate {
         
         if message.messageId == "TYPING_INDICATOR" {
             if let participant = self.channel.getTypingParticipants().first {
-                avatarView.initials = String(describing: participant.getDisplayName()!.first!)
                 if let avatarUrl = participant.getAvatarUrl() {
                     avatarView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+                } else {
+                    avatarView.setImageForName(string: participant.getDisplayName() ?? "?", circular: true, textAttributes: nil)
                 }
             }
             
         }
         else {
-        
             let ccpMessage = self.messages[indexPath.section]
-            
-            avatarView.initials = String(describing: CCPClient.getCurrentUser().getDisplayName()!.first!)
-            
-            let avatarUrl = ccpMessage.getUser().getAvatarUrl()
-            if avatarUrl != nil {
-                avatarView.sd_setImage(with: URL(string: avatarUrl!), completed: nil)
+            if let avatarUrl = ccpMessage.getUser().getAvatarUrl() {
+                avatarView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+            } else {
+                avatarView.setImageForName(string: CCPClient.getCurrentUser().getDisplayName() ?? "?", circular: true, textAttributes: nil)
             }
         }
     }
