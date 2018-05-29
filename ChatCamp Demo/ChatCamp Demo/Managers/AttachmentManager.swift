@@ -24,11 +24,21 @@ class AttachmentManager {
 // MARK:- Helpers
 extension AttachmentManager {
     
-    func uploadAttachment(data: Data, channelID: String, fileName: String, fileType: String, completionHandler: @escaping (Bool, String?, String?, String?) -> Void) {
-        CCPGroupChannel.get(groupChannelId: channelID) { (groupChannel, error) in
-            groupChannel?.sendAttachment(file: data, fileName: fileName, fileType: fileType, completionHandler: { (message, error) in
-                print("final attachment response: \(message) with error: \(error)")
-            })
+    func uploadAttachment(data: Data, channel: CCPBaseChannel, fileName: String, fileType: String, completionHandler: @escaping (Bool, String?, String?, String?) -> Void) {
+        if channel.isGroupChannel() {
+            CCPGroupChannel.get(groupChannelId: channel.getId()) { (groupChannel, error) in
+                groupChannel?.sendAttachment(file: data, fileName: fileName, fileType: fileType, completionHandler: { (message, error) in
+                    print("final attachment response: \(message) with error: \(error)")
+                })
+            }
+        } else if channel.isOpenChannel() {
+            CCPOpenChannel.get(openChannelId: channel.getId()) { (groupChannel, error) in
+                groupChannel?.sendAttachment(file: data, fileName: fileName, fileType: fileType, completionHandler: { (message, error) in
+                    print("final attachment response: \(message) with error: \(error)")
+                })
+            }
+        } else {
+            // Do nothing for now.
         }
         
 //        let url = "https://api.chatcamp.io/api/1.0/attachment_upload/"

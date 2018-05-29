@@ -350,7 +350,7 @@ extension OpenChannelChatViewController: UIDocumentMenuDelegate, UIDocumentPicke
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         do {
             let documentData = try Data(contentsOf: url)
-            AttachmentManager.shared.uploadAttachment(data: documentData, channelID: self.channel.getId(), fileName: url.lastPathComponent, fileType: "application" + "/" + "\(url.pathExtension)") { (_, _, _, _) in
+            AttachmentManager.shared.uploadAttachment(data: documentData, channel: self.channel, fileName: url.lastPathComponent, fileType: "application" + "/" + "\(url.pathExtension)") { (_, _, _, _) in
                 // Do nothing for now. not getting any completion handler call here.
             }
         } catch  {
@@ -542,7 +542,7 @@ extension OpenChannelChatViewController {
                     if var originalData = data {
                         let image = UIImage(data: originalData)
                         originalData = self.compressImage(image: image!)!
-                        AttachmentManager.shared.uploadAttachment(data: originalData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
+                        AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
                             // Do nothing for now. not getting any completion handler call here.
                         }
                         
@@ -568,7 +568,7 @@ extension OpenChannelChatViewController {
                         if session.status == .completed {
                             do {
                                 let compressedData = try Data(contentsOf: compressedURL)
-                                AttachmentManager.shared.uploadAttachment(data: compressedData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
+                                AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
                                     // Do nothing for now. not getting any completion handler call here.
                                 }
                             } catch  {
@@ -599,7 +599,7 @@ extension OpenChannelChatViewController {
                 if var originalData = data {
                     let image = UIImage(data: originalData)
                     originalData = self.compressImage(image: image!)!
-                    AttachmentManager.shared.uploadAttachment(data: originalData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
+                    AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
                         // Do nothing for now. not getting any completion handler call here.
                     }
                     
@@ -625,7 +625,7 @@ extension OpenChannelChatViewController {
                 if session.status == .completed {
                     do {
                         let compressedData = try Data(contentsOf: compressedURL)
-                        AttachmentManager.shared.uploadAttachment(data: compressedData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
+                        AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
                             // Do nothing for now. not getting any completion handler call here.
                         }
                     } catch  {
