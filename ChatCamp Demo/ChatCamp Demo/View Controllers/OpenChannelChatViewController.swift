@@ -9,7 +9,10 @@
 import UIKit
 import ChatCamp
 import SafariServices
+import DKImagePickerController
+import Photos
 import SQLite3
+import MobileCoreServices
 
 class OpenChannelChatViewController: MessagesViewController {
     
@@ -232,10 +235,10 @@ extension OpenChannelChatViewController: MessageCellDelegate {
             let imagePreviewViewController = UIViewController.imagePreviewViewController()
             imagePreviewViewController.image = image
             navigationController?.pushViewController(imagePreviewViewController, animated: true)
-//        case .document(let url):
-//            let documentInteractionController = UIDocumentInteractionController(url: url)
-//            documentInteractionController.delegate = self
-//            documentInteractionController.presentPreview(animated: true)
+        case .document(let url):
+            let documentInteractionController = UIDocumentInteractionController(url: url)
+            documentInteractionController.delegate = self
+            documentInteractionController.presentPreview(animated: true)
         default:
             break
         }
@@ -337,21 +340,56 @@ extension OpenChannelChatViewController {
     }
 }
 
+// MARK: UIDocumentMenuDelegate, UIDocumentPickerDelegate
+extension OpenChannelChatViewController: UIDocumentMenuDelegate, UIDocumentPickerDelegate {
+    func documentMenu(_ documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+        documentPicker.delegate = self
+        present(documentPicker, animated: true, completion: nil)
+    }
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+        do {
+            let documentData = try Data(contentsOf: url)
+            AttachmentManager.shared.uploadAttachment(data: documentData, channelID: self.channel.getId(), fileName: url.lastPathComponent, fileType: "application" + "/" + "\(url.pathExtension)") { (_, _, _, _) in
+                // Do nothing for now. not getting any completion handler call here.
+            }
+        } catch  {
+            print("exception catch at block - while uploading document attachment")
+        }
+        
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func documentMenuWasCancelled(_ documentMenu: UIDocumentMenuViewController) {
+        documentMenu.dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: UIDocumentInteractionControllerDelegate
+extension OpenChannelChatViewController: UIDocumentInteractionControllerDelegate {
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
+}
+
 // MARK: Helper Methods
 extension OpenChannelChatViewController {
     fileprivate func setupMessageInputBar() {
         messageInputBar.sendButton.setTitle(nil, for: .normal)
         messageInputBar.sendButton.setImage(#imageLiteral(resourceName: "chat_send_button"), for: .normal)
         
-        //        let attachmentButton = InputBarButtonItem(frame: CGRect(x: 3, y: 2, width: 30, height: 30))
-        //        attachmentButton.setImage(#imageLiteral(resourceName: "attachment"), for: .normal)
-        //
-        //        attachmentButton.onTouchUpInside { [unowned self] attachmentButton in
-        //            self.presentAlertController()
-        //        }
-        //
-        //        messageInputBar.setLeftStackViewWidthConstant(to: 50, animated: false)
-        //        messageInputBar.leftStackView.addSubview(attachmentButton)
+        let attachmentButton = InputBarButtonItem(frame: CGRect(x: 3, y: 2, width: 30, height: 30))
+        attachmentButton.setImage(#imageLiteral(resourceName: "attachment"), for: .normal)
+
+        attachmentButton.onTouchUpInside { [unowned self] attachmentButton in
+            self.presentAlertController()
+        }
+
+        messageInputBar.setLeftStackViewWidthConstant(to: 50, animated: false)
+        messageInputBar.leftStackView.addSubview(attachmentButton)
     }
     
     fileprivate func setupNavigationItems() {
@@ -447,6 +485,215 @@ extension OpenChannelChatViewController {
                     }
                 }
             }
+        }
+    }
+    
+    fileprivate func presentAlertController() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let videoCameraAction = UIAlertAction(title: "Video Camera", style: .default) { (action) in
+            self.handleVideoCameraAction()
+        }
+        
+        let photoCameraAction = UIAlertAction(title: "Photo Camera", style: .default) { (action) in
+            self.handlePhotoCameraAction()
+        }
+        
+        let photoLibraryAction = UIAlertAction(title: "Photo & Video Library", style: .default) { (action) in
+            self.handleLibraryAction()
+        }
+        
+        let documentAction = UIAlertAction(title: "Document", style: .default) { (action) in
+            self.handleDocumentAction()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(videoCameraAction)
+        alertController.addAction(photoCameraAction)
+        alertController.addAction(photoLibraryAction)
+        alertController.addAction(documentAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    fileprivate func handleDocumentAction() {
+        let documentTypes = [kUTTypeItem as String]
+        let documentController = UIDocumentMenuViewController(documentTypes: documentTypes, in: .import)
+        documentController.delegate = self
+        self.present(documentController, animated: true, completion: nil)
+    }
+    
+    fileprivate func handleLibraryAction() {
+        let photoGalleryViewController = DKImagePickerController()
+        photoGalleryViewController.singleSelect = true
+        photoGalleryViewController.sourceType = .photo
+        photoGalleryViewController.showsCancelButton = true
+        
+        photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
+            if assets.first?.type == .photo {
+                // Asset is photo type
+                guard let pickedAsset = assets.first?.originalAsset else { return }
+                let requestOptions = PHImageRequestOptions()
+                requestOptions.deliveryMode = .fastFormat
+                requestOptions.resizeMode = .fast
+                requestOptions.version = .original
+                PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
+                    if var originalData = data {
+                        let image = UIImage(data: originalData)
+                        originalData = self.compressImage(image: image!)!
+                        AttachmentManager.shared.uploadAttachment(data: originalData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
+                            // Do nothing for now. not getting any completion handler call here.
+                        }
+                        
+                    } else {
+                        DispatchQueue.main.async {
+                            self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
+                        }
+                    }
+                })
+            } else {
+                // Asset is video type
+                guard let pickedAsset = assets.first?.originalAsset else { return }
+                let requestOptions = PHVideoRequestOptions()
+                requestOptions.deliveryMode = .fastFormat
+                requestOptions.version = .original
+                PHImageManager.default().requestAVAsset(forVideo: pickedAsset, options: requestOptions, resultHandler: { (asset, audioMix, info) in
+                    let asset = asset as? AVURLAsset
+                    let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
+                    self.compressVideo(inputURL: (asset?.url)!, outputURL: compressedURL) { (exportSession) in
+                        guard let session = exportSession else {
+                            return
+                        }
+                        if session.status == .completed {
+                            do {
+                                let compressedData = try Data(contentsOf: compressedURL)
+                                AttachmentManager.shared.uploadAttachment(data: compressedData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
+                                    // Do nothing for now. not getting any completion handler call here.
+                                }
+                            } catch  {
+                                print("exception catch at block - while uploading video")
+                            }
+                        }
+                    }
+                })
+            }
+        }
+        
+        self.present(photoGalleryViewController, animated: true, completion: nil)
+    }
+    
+    func handlePhotoCameraAction() {
+        let photoGalleryViewController = DKImagePickerController()
+        photoGalleryViewController.singleSelect = true
+        photoGalleryViewController.sourceType = .camera
+        photoGalleryViewController.showsCancelButton = true
+        
+        photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
+            guard let pickedAsset = assets.first?.originalAsset else { return }
+            let requestOptions = PHImageRequestOptions()
+            requestOptions.deliveryMode = .fastFormat
+            requestOptions.resizeMode = .fast
+            requestOptions.version = .original
+            PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
+                if var originalData = data {
+                    let image = UIImage(data: originalData)
+                    originalData = self.compressImage(image: image!)!
+                    AttachmentManager.shared.uploadAttachment(data: originalData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
+                        // Do nothing for now. not getting any completion handler call here.
+                    }
+                    
+                } else {
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
+                    }
+                }
+            })
+        }
+        
+        self.present(photoGalleryViewController, animated: true, completion: nil)
+    }
+    
+    func handleVideoCameraAction() {
+        let cameraViewController = UIViewController.cameraViewController()
+        cameraViewController.videoProcessed = { url in
+            let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
+            self.compressVideo(inputURL: url, outputURL: compressedURL) { (exportSession) in
+                guard let session = exportSession else {
+                    return
+                }
+                if session.status == .completed {
+                    do {
+                        let compressedData = try Data(contentsOf: compressedURL)
+                        AttachmentManager.shared.uploadAttachment(data: compressedData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
+                            // Do nothing for now. not getting any completion handler call here.
+                        }
+                    } catch  {
+                        print("exception catch at block - while uploading video")
+                    }
+                }
+            }
+        }
+        present(cameraViewController, animated: true, completion: nil)
+    }
+    
+    fileprivate func compressImage(image:UIImage) -> Data? {
+        // Reducing file size to a 10th
+        
+        var actualHeight : CGFloat = image.size.height
+        var actualWidth : CGFloat = image.size.width
+        let maxHeight : CGFloat = 1280.0
+        let maxWidth : CGFloat = 800.0
+        var imgRatio : CGFloat = actualWidth/actualHeight
+        let maxRatio : CGFloat = maxWidth/maxHeight
+        var compressionQuality : CGFloat = 0.5
+        
+        if (actualHeight > maxHeight || actualWidth > maxWidth){
+            if(imgRatio < maxRatio){
+                //adjust width according to maxHeight
+                imgRatio = maxHeight / actualHeight
+                actualWidth = imgRatio * actualWidth
+                actualHeight = maxHeight
+            }
+            else if(imgRatio > maxRatio){
+                //adjust height according to maxWidth
+                imgRatio = maxWidth / actualWidth
+                actualHeight = imgRatio * actualHeight
+                actualWidth = maxWidth
+            }
+            else{
+                actualHeight = maxHeight
+                actualWidth = maxWidth
+                compressionQuality = 1
+            }
+        }
+        
+        let rect = CGRect(x: 0.0, y: 0.0, width: actualWidth, height: actualHeight)
+        UIGraphicsBeginImageContext(rect.size)
+        image.draw(in: rect)
+        guard let img = UIGraphicsGetImageFromCurrentImageContext() else {
+            return nil
+        }
+        UIGraphicsEndImageContext()
+        guard let imageData = UIImageJPEGRepresentation(img, compressionQuality)else{
+            return nil
+        }
+        return imageData
+    }
+    
+    func compressVideo(inputURL: URL, outputURL: URL, handler:@escaping (_ exportSession: AVAssetExportSession?) -> Void) {
+        let urlAsset = AVURLAsset(url: inputURL, options: nil)
+        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetLowQuality) else {
+            handler(nil)
+            
+            return
+        }
+        
+        exportSession.outputURL = outputURL
+        exportSession.outputFileType = AVFileTypeQuickTimeMovie
+        exportSession.shouldOptimizeForNetworkUse = true
+        exportSession.exportAsynchronously { () -> Void in
+            handler(exportSession)
         }
     }
 }
