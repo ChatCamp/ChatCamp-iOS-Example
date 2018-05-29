@@ -63,7 +63,6 @@ extension OpenChannelsViewController: UITableViewDataSource {
         cell.messageLabel.isHidden = true
         cell.unreadCountLabel.isHidden = true
         cell.nameLabel.text = channel.getName()
-        
         if let avatarUrl = channel.getAvatarUrl() {
             cell.avatarImageView?.sd_setImage(with: URL(string: avatarUrl), completed: nil)
         } else {
@@ -77,6 +76,22 @@ extension OpenChannelsViewController: UITableViewDataSource {
 // MARK:- UITableViewDelegate
 extension OpenChannelsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let userID = CCPClient.getCurrentUser().getId()
+        let username = CCPClient.getCurrentUser().getDisplayName()
+        
+        let sender = Sender(id: userID, displayName: username!)
+        let channel = channels[indexPath.row]
+        
+        channel.join() { error in
+            if error == nil {
+                print("Channel Joined")
+                let openChannelChatViewController = OpenChannelChatViewController(channel: channel, sender: sender)
+                self.navigationController?.pushViewController(openChannelChatViewController, animated: true)
+            } else {
+                self.showAlert(title: "Error!", message: "Unable to join this open channel. Please try again.", actionText: "Ok")
+            }
+        }
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
