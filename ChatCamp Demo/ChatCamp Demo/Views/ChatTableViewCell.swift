@@ -19,8 +19,13 @@ class ChatTableViewCell: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var unreadCountLabel: UILabel! {
         didSet {
-            unreadCountLabel.layer.cornerRadius = 9
+            unreadCountLabel.layer.cornerRadius = unreadCountLabel.frame.width / 2
             unreadCountLabel.layer.masksToBounds = true
+        }
+    }
+    @IBOutlet weak var lastMessageLabel: UILabel! {
+        didSet {
+            lastMessageLabel.text = ""
         }
     }
     
@@ -28,6 +33,6 @@ class ChatTableViewCell: UITableViewCell {
         avatarImageView.image = #imageLiteral(resourceName: "user_placeholder")
         nameLabel.text = ""
         messageLabel.text = ""
-        unreadCountLabel.text = ""
+        lastMessageLabel.text = ""
     }
 }

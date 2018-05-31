@@ -227,7 +227,7 @@ extension OpenChannelChatViewController: MessageCellDelegate {
             let link = metadata["ImageURL"] as! String
             let safariViewController = SFSafariViewController(url: URL(string: link)!)
             present(safariViewController, animated: true, completion: nil)
-        case .video(let videoURL, let thumbnail):
+        case .video(let videoURL, _):
             let videoViewController = VideoViewController(videoURL: videoURL)
             self.present(videoViewController, animated: true, completion: nil)
         case .photo(let image):
@@ -544,7 +544,6 @@ extension OpenChannelChatViewController {
                         AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
                             // Do nothing for now. not getting any completion handler call here.
                         }
-                        
                     } else {
                         DispatchQueue.main.async {
                             self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")

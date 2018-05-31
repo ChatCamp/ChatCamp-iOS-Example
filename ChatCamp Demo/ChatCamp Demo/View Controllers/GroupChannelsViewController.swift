@@ -110,13 +110,27 @@ extension GroupChannelsViewController: UITableViewDataSource {
                 cell.avatarImageView.setImageForName(string: channel.getName(), circular: true, textAttributes: nil)
             }
         }
-        cell.unreadCountLabel.text = String(channel.getUnreadMessageCount())
+        let unreadMessageCount = channel.getUnreadMessageCount()
+        if unreadMessageCount > 0 {
+            cell.unreadCountLabel.isHidden = false
+            if unreadMessageCount < 10 {
+                cell.unreadCountLabel.text = String(unreadMessageCount)
+            } else {
+                cell.unreadCountLabel.text = "9+"
+            }
+        } else {
+            cell.unreadCountLabel.isHidden = true
+        }
         if let message = channel.getLastMessage(), let displayName = channel.getLastMessage()?.getUser().getDisplayName() {
             if message.getType() == "text" {
-                cell.messageLabel.text =  displayName + " : " + message.getText()
+                cell.messageLabel.text =  displayName + ": " + message.getText()
             } else {
-                cell.messageLabel.text =  displayName + " : " + message.getType()
+                cell.messageLabel.text =  displayName + ": " + message.getType()
             }
+        }
+        if let lastMessage = channel.getLastMessage() {
+            let lastMessageTimeInterval = lastMessage.getInsertedAt()
+            cell.lastMessageLabel.text = LastMessage.getDisplayableMessage(timeInterval: Double(lastMessageTimeInterval))
         }
         
         return cell
