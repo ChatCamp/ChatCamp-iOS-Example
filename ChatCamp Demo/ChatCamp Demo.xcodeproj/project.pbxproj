@@ -22,6 +22,7 @@
 		09746B9920AB00340029460C /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09746B9820AB00340029460C /* DocumentView.swift */; };
 		09746B9B20AB02EE0029460C /* DocumentMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09746B9A20AB02EE0029460C /* DocumentMessageCell.swift */; };
 		09746B9D20AC19830029460C /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09746B9C20AC19830029460C /* ImagePreviewViewController.swift */; };
+		09CADEBF20BFD92D002B1C90 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CADEBE20BFD92D002B1C90 /* DBManager.swift */; };
 		09E78CA7208DEFA6004DCC53 /* ChannelProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E78CA6208DEFA6004DCC53 /* ChannelProfileViewController.swift */; };
 		09E78CA9208DF34D004DCC53 /* ChannelProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E78CA8208DF34D004DCC53 /* ChannelProfileTableViewCell.swift */; };
 		7F79F56F3DC92F0751644531 /* Pods_ChatCamp_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1792827B812DA8708996D7B5 /* Pods_ChatCamp_Demo.framework */; };
@@ -129,6 +130,7 @@
 		09746B9820AB00340029460C /* DocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
 		09746B9A20AB02EE0029460C /* DocumentMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentMessageCell.swift; sourceTree = "<group>"; };
 		09746B9C20AC19830029460C /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
+		09CADEBE20BFD92D002B1C90 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		09E78CA6208DEFA6004DCC53 /* ChannelProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelProfileViewController.swift; sourceTree = "<group>"; };
 		09E78CA8208DF34D004DCC53 /* ChannelProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelProfileTableViewCell.swift; sourceTree = "<group>"; };
 		1792827B812DA8708996D7B5 /* Pods_ChatCamp_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatCamp_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -508,6 +510,7 @@
 				C0AD506F2032CF4B003CE2E8 /* WindowManager.swift */,
 				C0D8F985203834C00051ED77 /* AttachmentManager.swift */,
 				09142C352097444300323BC5 /* ImageManager.swift */,
+				09CADEBE20BFD92D002B1C90 /* DBManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -784,6 +787,7 @@
 				C052C0052036DB3A00ADED74 /* String+Extensions.swift in Sources */,
 				09142C3A209B023500323BC5 /* RecordButton.swift in Sources */,
 				C0AD50782032D4FC003CE2E8 /* SettingsViewController.swift in Sources */,
+				09CADEBF20BFD92D002B1C90 /* DBManager.swift in Sources */,
 				C052C00A2036DB3A00ADED74 /* MessagesViewController+Delegate.swift in Sources */,
 				C052C01A2036DB3A00ADED74 /* MessageInputBar.swift in Sources */,
 				C0328C5C20346B5A00BA4029 /* UIImageView+ChatCamp.swift in Sources */,

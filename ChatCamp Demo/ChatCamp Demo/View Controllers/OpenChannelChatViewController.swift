@@ -11,7 +11,6 @@ import ChatCamp
 import SafariServices
 import DKImagePickerController
 import Photos
-import SQLite3
 import MobileCoreServices
 
 class OpenChannelChatViewController: MessagesViewController {
@@ -72,7 +71,7 @@ class OpenChannelChatViewController: MessagesViewController {
             do {
                 try db.createTable(table: Chat.self)
             } catch {
-                print("could not create DB table")
+                print(db.errorMessage)
             }
         } catch SQLiteError.OpenDatabase(let message) {
             print("Unable to open database. Verify that you created the directory described in the Getting Started section.")
@@ -293,7 +292,7 @@ extension OpenChannelChatViewController: CCPChannelDelegate {
         do {
             try self.db.insertChat(channel: channel, message: message)
         } catch {
-            print("Error: Could not insert received message")
+            print(self.db.errorMessage)
         }
     }
     
@@ -325,7 +324,7 @@ extension OpenChannelChatViewController {
                             self.mkMessages.insert(Message(fromCCPMessage: message), at: 0)
                             self.mkMessages[0].delegate = self
                         } catch {
-                            print("Error, Scroll View: Could not insert message in DB")
+                            print(self.db.errorMessage)
                         }
                     }
                     
@@ -468,7 +467,7 @@ extension OpenChannelChatViewController {
                     do {
                         try self.db.insertChat(channel: self.channel, message: message)
                     } catch {
-                        print("Error: could not insert chat")
+                        print(self.db.errorMessage)
                     }
                 }
                 
