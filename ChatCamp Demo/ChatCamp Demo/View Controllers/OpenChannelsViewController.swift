@@ -9,6 +9,7 @@
 import UIKit
 import ChatCamp
 import SDWebImage
+import MBProgressHUD
 
 class OpenChannelsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView! {
@@ -23,17 +24,17 @@ class OpenChannelsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
         loadChannels()
     }
     
     fileprivate func loadChannels() {
+        let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        progressHud.label.text = "Loading..."
+        progressHud.contentColor = .black
         let openChannelsQuery = CCPOpenChannel.createOpenChannelListQuery()
         openChannelsQuery.get { [unowned self] (channels, error) in
+            progressHud.hide(animated: true)
             if error == nil {
                 self.channels = channels!
                 
@@ -81,7 +82,6 @@ extension OpenChannelsViewController: UITableViewDelegate {
         
         let sender = Sender(id: userID, displayName: username!)
         let channel = channels[indexPath.row]
-        
         channel.join() { error in
             if error == nil {
                 print("Channel Joined")

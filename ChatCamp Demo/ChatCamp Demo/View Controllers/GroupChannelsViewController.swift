@@ -9,6 +9,7 @@
 import UIKit
 import ChatCamp
 import SDWebImage
+import MBProgressHUD
 
 class GroupChannelsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView! {
@@ -38,8 +39,12 @@ class GroupChannelsViewController: UIViewController {
     }
     
     fileprivate func loadChannels() {
+        let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        progressHud.label.text = "Loading..."
+        progressHud.contentColor = .black
         let groupChannelsQuery = CCPGroupChannel.createGroupChannelListQuery()
         groupChannelsQuery.get { [unowned self] (channels, error) in
+            progressHud.hide(animated: true)
             if error == nil {
                 self.channels = channels!
                 

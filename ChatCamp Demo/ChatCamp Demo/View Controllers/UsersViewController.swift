@@ -9,6 +9,7 @@
 import UIKit
 import ChatCamp
 import SDWebImage
+import MBProgressHUD
 
 class UsersViewController: UIViewController {
 
@@ -35,8 +36,12 @@ class UsersViewController: UIViewController {
     }
 
     fileprivate func loadUsers(limit: Int) {
+        let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        progressHud.label.text = "Loading..."
+        progressHud.contentColor = .black
         loadingUsers = true
         usersQuery.load(limit: limit) { [unowned self] (users, error) in
+            progressHud.hide(animated: true)
             if error == nil {
                 guard let users = users else { return }
                 self.users.append(contentsOf: users.filter({ $0.getId() != CCPClient.getCurrentUser().getId() }))
