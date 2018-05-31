@@ -436,66 +436,6 @@ extension ChatViewController {
         }
     }
     
-    fileprivate func compressImage(image:UIImage) -> Data? {
-        // Reducing file size to a 10th
-        
-        var actualHeight : CGFloat = image.size.height
-        var actualWidth : CGFloat = image.size.width
-        let maxHeight : CGFloat = 1280.0
-        let maxWidth : CGFloat = 800.0
-        var imgRatio : CGFloat = actualWidth/actualHeight
-        let maxRatio : CGFloat = maxWidth/maxHeight
-        var compressionQuality : CGFloat = 0.5
-        
-        if (actualHeight > maxHeight || actualWidth > maxWidth){
-            if(imgRatio < maxRatio){
-                //adjust width according to maxHeight
-                imgRatio = maxHeight / actualHeight
-                actualWidth = imgRatio * actualWidth
-                actualHeight = maxHeight
-            }
-            else if(imgRatio > maxRatio){
-                //adjust height according to maxWidth
-                imgRatio = maxWidth / actualWidth
-                actualHeight = imgRatio * actualHeight
-                actualWidth = maxWidth
-            }
-            else{
-                actualHeight = maxHeight
-                actualWidth = maxWidth
-                compressionQuality = 1
-            }
-        }
-        
-        let rect = CGRect(x: 0.0, y: 0.0, width: actualWidth, height: actualHeight)
-        UIGraphicsBeginImageContext(rect.size)
-        image.draw(in: rect)
-        guard let img = UIGraphicsGetImageFromCurrentImageContext() else {
-            return nil
-        }
-        UIGraphicsEndImageContext()
-        guard let imageData = UIImageJPEGRepresentation(img, compressionQuality)else{
-            return nil
-        }
-        return imageData
-    }
-    
-    func compressVideo(inputURL: URL, outputURL: URL, handler:@escaping (_ exportSession: AVAssetExportSession?) -> Void) {
-        let urlAsset = AVURLAsset(url: inputURL, options: nil)
-        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetLowQuality) else {
-            handler(nil)
-            
-            return
-        }
-        
-        exportSession.outputURL = outputURL
-        exportSession.outputFileType = AVFileTypeQuickTimeMovie
-        exportSession.shouldOptimizeForNetworkUse = true
-        exportSession.exportAsynchronously { () -> Void in
-            handler(exportSession)
-        }
-    }
-    
     fileprivate func setupMessageInputBar() {
         messageInputBar.sendButton.setTitle(nil, for: .normal)
         messageInputBar.sendButton.setImage(#imageLiteral(resourceName: "chat_send_button"), for: .normal)
@@ -564,7 +504,7 @@ extension ChatViewController {
                 PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
                     if var originalData = data {
                         let image = UIImage(data: originalData)
-                        originalData = self.compressImage(image: image!)!
+                        originalData = AttachmentManager.shared.compressImage(image: image!)!
                         AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
                             // Do nothing for now. not getting any completion handler call here.
                         }
@@ -584,7 +524,7 @@ extension ChatViewController {
                 PHImageManager.default().requestAVAsset(forVideo: pickedAsset, options: requestOptions, resultHandler: { (asset, audioMix, info) in
                     let asset = asset as? AVURLAsset
                     let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
-                    self.compressVideo(inputURL: (asset?.url)!, outputURL: compressedURL) { (exportSession) in
+                    AttachmentManager.shared.compressVideo(inputURL: (asset?.url)!, outputURL: compressedURL) { (exportSession) in
                         guard let session = exportSession else {
                             return
                         }
@@ -621,7 +561,7 @@ extension ChatViewController {
             PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
                 if var originalData = data {
                     let image = UIImage(data: originalData)
-                    originalData = self.compressImage(image: image!)!
+                    originalData = AttachmentManager.shared.compressImage(image: image!)!
                     AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
                         // Do nothing for now. not getting any completion handler call here.
                     }
@@ -641,7 +581,7 @@ extension ChatViewController {
         let cameraViewController = UIViewController.cameraViewController()
         cameraViewController.videoProcessed = { url in
             let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
-            self.compressVideo(inputURL: url, outputURL: compressedURL) { (exportSession) in
+            AttachmentManager.shared.compressVideo(inputURL: url, outputURL: compressedURL) { (exportSession) in
                 guard let session = exportSession else {
                     return
                 }
@@ -726,7 +666,7 @@ extension ChatViewController: MessageCellDelegate {
             let link = metadata["ImageURL"] as! String
             let safariViewController = SFSafariViewController(url: URL(string: link)!)
             present(safariViewController, animated: true, completion: nil)
-        case .video(let videoURL, let thumbnail):
+        case .video(let videoURL, _):
             let videoViewController = VideoViewController(videoURL: videoURL)
             self.present(videoViewController, animated: true, completion: nil)
         case .photo(let image):
