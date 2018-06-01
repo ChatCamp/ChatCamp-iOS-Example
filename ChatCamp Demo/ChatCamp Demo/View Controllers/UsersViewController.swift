@@ -34,7 +34,7 @@ class UsersViewController: UIViewController {
         usersQuery = CCPClient.createUserListQuery()
         loadUsers(limit: 20)
     }
-
+    
     fileprivate func loadUsers(limit: Int) {
         let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
         progressHud.label.text = "Loading..."
@@ -68,7 +68,8 @@ extension UsersViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChatTableViewCell.string(), for: indexPath) as! ChatTableViewCell
-        
+        cell.nameLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
+
         let user = users[indexPath.row]
         cell.nameLabel.text = user.getDisplayName()
         cell.messageLabel.text = ""

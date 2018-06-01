@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.7.2)
-  - ChatCamp (0.1.10)
+  - ChatCamp (0.1.11)
   - DKCamera (1.5.1)
   - DKImagePickerController/Camera (4.0.0-beta):
     - DKCamera (= 1.5.1)
@@ -44,7 +44,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - ChatCamp (= 0.1.10)
+  - ChatCamp (= 0.1.11)
   - DKImagePickerController/Camera (= 4.0.0-beta)
   - DKImagePickerController/InlineCamera (= 4.0.0-beta)
   - DKImagePickerController/PhotoGallery (= 4.0.0-beta)
@@ -53,7 +53,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
-  ChatCamp: fee846f798ae82a00a0a3c8fa29cb817db7889c6
+  ChatCamp: 83a140129aab1b28b719006f14edb2615b871a20
   DKCamera: 59e2879aa034264fd316111812a1ca9001b75a9f
   DKImagePickerController: 8abb5370913beced68cac281a0e2eee82000e832
   DKPhotoGallery: 3664c4af6d0cbbb25fe57f63d53722b91ef68b75
@@ -62,6 +62,6 @@ SPEC CHECKSUMS:
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
   SwiftyCam: 86c114177a1b1f5dc2c82384577d0c20b922a31b
 
-PODFILE CHECKSUM: 5398cb3e729321dddbe0281c7640168ecb31781c
+PODFILE CHECKSUM: ce44ff3beee7db019a7bddd25fe536ddec6077e6
 
 COCOAPODS: 1.4.0

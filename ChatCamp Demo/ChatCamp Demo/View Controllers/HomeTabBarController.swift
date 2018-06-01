@@ -16,6 +16,23 @@ class HomeTabBarController: UITabBarController {
         title = TabName.groupChannels.rawValue
         selectedIndex = Tab.groupChannels.rawValue
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        switch selectedIndex {
+        case Tab.openChannels.rawValue:
+            title = TabName.openChannels.rawValue
+        case Tab.groupChannels.rawValue:
+            title = TabName.groupChannels.rawValue
+        case Tab.settings.rawValue:
+            title = TabName.settings.rawValue
+        case Tab.users.rawValue:
+            title = TabName.users.rawValue
+        default:
+            break
+        }
+    }
 }
 
 extension HomeTabBarController: UITabBarControllerDelegate {

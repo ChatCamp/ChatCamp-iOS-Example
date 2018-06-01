@@ -16,8 +16,7 @@ class ImagePreviewViewController: UIViewController {
     var image: UIImage!
     
     override func viewDidLoad() {
-        scrollView.minimumZoomScale = 0.5
-        scrollView.maximumZoomScale = 3.0
+        scrollView.maximumZoomScale = 2.0
         scrollView.contentSize = imageView.frame.size
         scrollView.delegate = self
         imageView.image = image

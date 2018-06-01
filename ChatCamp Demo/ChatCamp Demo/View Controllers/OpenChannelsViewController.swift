@@ -58,9 +58,9 @@ extension OpenChannelsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChatTableViewCell.string(), for: indexPath) as! ChatTableViewCell
+        cell.nameLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
         
         let channel = channels[indexPath.row]
-    
         cell.messageLabel.isHidden = true
         cell.unreadCountLabel.isHidden = true
         cell.nameLabel.text = channel.getName()

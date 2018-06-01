@@ -88,6 +88,7 @@ class OpenChannelChatViewController: MessagesViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         CCPClient.removeChannelDelegate(identifier: OpenChannelChatViewController.string())
     }
 }
