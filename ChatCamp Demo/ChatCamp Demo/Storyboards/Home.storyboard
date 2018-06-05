@@ -226,7 +226,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="seA-m7-prN"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Open Channels" image="tab-home-selected" id="X1V-ht-Hew"/>
+                    <tabBarItem key="tabBarItem" title="Open Channels" image="tab-open-channel-selected" id="X1V-ht-Hew"/>
                     <connections>
                         <outlet property="tableView" destination="8Qh-6p-QNw" id="xPU-we-APP"/>
                     </connections>
@@ -493,9 +493,9 @@
         <image name="fab_add" width="24" height="24"/>
         <image name="flashOutline" width="18" height="30"/>
         <image name="flipCamera" width="30" height="23"/>
-        <image name="tab-group-selected" width="24" height="24"/>
-        <image name="tab-home-selected" width="24" height="24"/>
+        <image name="tab-group-selected" width="30" height="30"/>
+        <image name="tab-open-channel-selected" width="30" height="30"/>
         <image name="tab-settings-selected" width="24" height="24"/>
-        <image name="tab-users-selected" width="24" height="24"/>
+        <image name="tab-users-selected" width="30" height="30"/>
     </resources>
 </document>

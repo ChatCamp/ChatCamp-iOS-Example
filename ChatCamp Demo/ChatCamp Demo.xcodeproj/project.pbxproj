@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		090F17D2206557F100A627CD /* WritingMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090F17D1206557F100A627CD /* WritingMessageCell.swift */; };
 		0913C5E420B2D0B000C945CF /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0913C5E320B2D0B000C945CF /* UsersViewController.swift */; };
+		0913C60A20BC15B300C945CF /* OpenChannelChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0913C60920BC15B300C945CF /* OpenChannelChatViewController.swift */; };
 		09142C362097444300323BC5 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C352097444300323BC5 /* ImageManager.swift */; };
 		09142C38209AEE5400323BC5 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C37209AEE5400323BC5 /* CameraViewController.swift */; };
 		09142C3A209B023500323BC5 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C39209B023500323BC5 /* RecordButton.swift */; };
@@ -21,6 +22,8 @@
 		09746B9920AB00340029460C /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09746B9820AB00340029460C /* DocumentView.swift */; };
 		09746B9B20AB02EE0029460C /* DocumentMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09746B9A20AB02EE0029460C /* DocumentMessageCell.swift */; };
 		09746B9D20AC19830029460C /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09746B9C20AC19830029460C /* ImagePreviewViewController.swift */; };
+		09CADEBF20BFD92D002B1C90 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CADEBE20BFD92D002B1C90 /* DBManager.swift */; };
+		09CADEC120C01B1F002B1C90 /* LastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CADEC020C01B1F002B1C90 /* LastMessage.swift */; };
 		09E78CA7208DEFA6004DCC53 /* ChannelProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E78CA6208DEFA6004DCC53 /* ChannelProfileViewController.swift */; };
 		09E78CA9208DF34D004DCC53 /* ChannelProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E78CA8208DF34D004DCC53 /* ChannelProfileTableViewCell.swift */; };
 		7F79F56F3DC92F0751644531 /* Pods_ChatCamp_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1792827B812DA8708996D7B5 /* Pods_ChatCamp_Demo.framework */; };
@@ -115,6 +118,7 @@
 /* Begin PBXFileReference section */
 		090F17D1206557F100A627CD /* WritingMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMessageCell.swift; sourceTree = "<group>"; };
 		0913C5E320B2D0B000C945CF /* UsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
+		0913C60920BC15B300C945CF /* OpenChannelChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelChatViewController.swift; sourceTree = "<group>"; };
 		09142C352097444300323BC5 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		09142C37209AEE5400323BC5 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		09142C39209B023500323BC5 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
@@ -127,6 +131,8 @@
 		09746B9820AB00340029460C /* DocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
 		09746B9A20AB02EE0029460C /* DocumentMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentMessageCell.swift; sourceTree = "<group>"; };
 		09746B9C20AC19830029460C /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
+		09CADEBE20BFD92D002B1C90 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
+		09CADEC020C01B1F002B1C90 /* LastMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastMessage.swift; sourceTree = "<group>"; };
 		09E78CA6208DEFA6004DCC53 /* ChannelProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelProfileViewController.swift; sourceTree = "<group>"; };
 		09E78CA8208DF34D004DCC53 /* ChannelProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelProfileTableViewCell.swift; sourceTree = "<group>"; };
 		1792827B812DA8708996D7B5 /* Pods_ChatCamp_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatCamp_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -314,6 +320,7 @@
 				09142C3B209B238100323BC5 /* VideoViewController.swift */,
 				09746B9C20AC19830029460C /* ImagePreviewViewController.swift */,
 				0913C5E320B2D0B000C945CF /* UsersViewController.swift */,
+				0913C60920BC15B300C945CF /* OpenChannelChatViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -482,6 +489,7 @@
 			children = (
 				C08D21EA202F1F2C00BD059D /* Constants.swift */,
 				092C99EC2062CC3600281982 /* DelayMethod.swift */,
+				09CADEC020C01B1F002B1C90 /* LastMessage.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -505,6 +513,7 @@
 				C0AD506F2032CF4B003CE2E8 /* WindowManager.swift */,
 				C0D8F985203834C00051ED77 /* AttachmentManager.swift */,
 				09142C352097444300323BC5 /* ImageManager.swift */,
+				09CADEBE20BFD92D002B1C90 /* DBManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -665,6 +674,7 @@
 				"${BUILT_PRODUCTS_DIR}/DKImagePickerController/DKImagePickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/DKPhotoGallery/DKPhotoGallery.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 			);
@@ -677,6 +687,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKImagePickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKPhotoGallery.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 			);
@@ -701,6 +712,7 @@
 				C0AD50762032D4DC003CE2E8 /* GroupChannelsViewController.swift in Sources */,
 				0913C5E420B2D0B000C945CF /* UsersViewController.swift in Sources */,
 				C052BFFC2036DB3A00ADED74 /* MessageData.swift in Sources */,
+				09CADEC120C01B1F002B1C90 /* LastMessage.swift in Sources */,
 				09142C3C209B238100323BC5 /* VideoViewController.swift in Sources */,
 				C052C0112036DB3A00ADED74 /* MessageCollectionViewCell.swift in Sources */,
 				C052C0062036DB3A00ADED74 /* UICollectionView+Extensions.swift in Sources */,
@@ -745,6 +757,7 @@
 				C052C0022036DB3A00ADED74 /* Bundle+Extensions.swift in Sources */,
 				C052BFFD2036DB3A00ADED74 /* MessageKitDateFormatter.swift in Sources */,
 				C0EC055D203318D1003DE23F /* UserDefaults+ChatCamp.swift in Sources */,
+				0913C60A20BC15B300C945CF /* OpenChannelChatViewController.swift in Sources */,
 				C052C01B2036DB3A00ADED74 /* MessageLabel.swift in Sources */,
 				C03D3030202F2EC200E3A85A /* OpenChannelsViewController.swift in Sources */,
 				C052C0042036DB3A00ADED74 /* NSAttributedString+Extensions.swift in Sources */,
@@ -778,6 +791,7 @@
 				C052C0052036DB3A00ADED74 /* String+Extensions.swift in Sources */,
 				09142C3A209B023500323BC5 /* RecordButton.swift in Sources */,
 				C0AD50782032D4FC003CE2E8 /* SettingsViewController.swift in Sources */,
+				09CADEBF20BFD92D002B1C90 /* DBManager.swift in Sources */,
 				C052C00A2036DB3A00ADED74 /* MessagesViewController+Delegate.swift in Sources */,
 				C052C01A2036DB3A00ADED74 /* MessageInputBar.swift in Sources */,
 				C0328C5C20346B5A00BA4029 /* UIImageView+ChatCamp.swift in Sources */,

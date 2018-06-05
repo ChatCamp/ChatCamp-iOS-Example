@@ -8,6 +8,8 @@
 
 import UIKit
 import ChatCamp
+import SDWebImage
+import MBProgressHUD
 
 class UsersViewController: UIViewController {
 
@@ -32,11 +34,15 @@ class UsersViewController: UIViewController {
         usersQuery = CCPClient.createUserListQuery()
         loadUsers(limit: 20)
     }
-
+    
     fileprivate func loadUsers(limit: Int) {
+        let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        progressHud.label.text = "Loading..."
+        progressHud.contentColor = .black
         loadingUsers = true
         usersQuery.load(limit: limit) { [unowned self] (users, error) in
-            if error == nil && (users?.count ?? 0) > 0 {
+            progressHud.hide(animated: true)
+            if error == nil {
                 guard let users = users else { return }
                 self.users.append(contentsOf: users.filter({ $0.getId() != CCPClient.getCurrentUser().getId() }))
                 
@@ -62,13 +68,16 @@ extension UsersViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChatTableViewCell.string(), for: indexPath) as! ChatTableViewCell
-        
+        cell.nameLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
+
         let user = users[indexPath.row]
         cell.nameLabel.text = user.getDisplayName()
         cell.messageLabel.text = ""
         cell.unreadCountLabel.isHidden = true
         if let avatarUrl = user.getAvatarUrl() {
-            cell.avatarImageView.downloadedFrom(link: avatarUrl)
+            cell.avatarImageView?.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+        } else {
+            cell.avatarImageView.setImageForName(string: user.getDisplayName() ?? "?", circular: true, textAttributes: nil)
         }
         
         return cell

@@ -11,7 +11,6 @@ import ChatCamp
 import SafariServices
 import DKImagePickerController
 import Photos
-import SQLite3
 import MobileCoreServices
 
 class ChatViewController: MessagesViewController {
@@ -89,6 +88,7 @@ class ChatViewController: MessagesViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         CCPClient.removeChannelDelegate(identifier: ChatViewController.string())
     }
     
@@ -114,21 +114,35 @@ class ChatViewController: MessagesViewController {
                         if participant.getId() != self.sender.id {
                             self.participant = participant
                             self.title = nil
-                            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 30, height: 30))
-                            imageView.layer.cornerRadius = imageView.bounds.width/2
-                            imageView.layer.masksToBounds = true
-                            let avatarUrl = participant.getAvatarUrl()
-                            if avatarUrl != nil {
-                                imageView.downloadedFrom(link: avatarUrl!)
-                            } else {
-                                imageView.image = #imageLiteral(resourceName: "avatar_placeholder")
-                            }
-                            
-                            let userNameBarButtonItem = UIBarButtonItem(title: participant.getDisplayName(), style: .plain, target: self, action: #selector(self.userProfileTapped))
-                            let profileImage = UIBarButtonItem(customView: imageView)
-                            
                             self.navigationItem.leftItemsSupplementBackButton = true
-                            self.navigationItem.leftBarButtonItems = [profileImage, userNameBarButtonItem]
+                            let userNameBarButtonItem = UIBarButtonItem(title: participant.getDisplayName(), style: .plain, target: self, action: #selector(self.userProfileTapped))
+                            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 35, height: 35))
+                            let profileButton = UIButton()
+                            profileButton.frame = CGRect(0, 0, 35, 35)
+                            if let avatarUrl = participant.getAvatarUrl() {
+                                imageView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+                                if let image = imageView.image {
+                                    UIGraphicsBeginImageContextWithOptions(profileButton.frame.size, false, image.scale)
+                                    let rect  = CGRect(0, 0, profileButton.frame.size.width, profileButton.frame.size.height)
+                                    UIBezierPath(roundedRect: rect, cornerRadius: rect.width/2).addClip()
+                                    image.draw(in: rect)
+                                    
+                                    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+                                    UIGraphicsEndImageContext()
+                                    let color = UIColor(patternImage: newImage!)
+                                    profileButton.backgroundColor = color
+                                } else {
+                                    let color = UIColor(patternImage: UIImage(named: "avatar_placeholder")!)
+                                    profileButton.backgroundColor = color
+                                }
+                                profileButton.layer.cornerRadius = 0.5 * profileButton.bounds.size.width
+                                let profileImageBarButtonItem = UIBarButtonItem(customView: profileButton)
+                                self.navigationItem.leftBarButtonItems = [profileImageBarButtonItem, userNameBarButtonItem]
+                            } else {
+                                imageView.setImageForName(string: participant.getDisplayName() ?? "?", circular: true, textAttributes: nil)
+                                let profileImageBarButtonItem = UIBarButtonItem(customView: imageView)
+                                self.navigationItem.leftBarButtonItems = [profileImageBarButtonItem, userNameBarButtonItem]
+                            }
                         } else {
                             continue
                         }
@@ -137,10 +151,36 @@ class ChatViewController: MessagesViewController {
             }
         } else {
             navigationController?.navigationBar.items?.first?.title = ""
-            let channelAvatarBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "avatar_placeholder"), style: .plain, target: self, action: nil)
-            let channelNameBarButtonItem = UIBarButtonItem(title: channel.getName(), style: .plain, target: self, action: #selector(channelProfileButtonTapped))
             navigationItem.leftItemsSupplementBackButton = true
-            navigationItem.leftBarButtonItems = [channelAvatarBarButtonItem, channelNameBarButtonItem]
+            let channelNameBarButtonItem = UIBarButtonItem(title: channel.getName(), style: .plain, target: self, action: #selector(channelProfileButtonTapped))
+
+            let imageView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 35, height: 35))
+            let profileButton = UIButton()
+            profileButton.frame = CGRect(0, 0, 35, 35)
+            if let avatarUrl = channel.getAvatarUrl() {
+                imageView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+                if let image = imageView.image {
+                    UIGraphicsBeginImageContextWithOptions(profileButton.frame.size, false, image.scale)
+                    let rect  = CGRect(0, 0, profileButton.frame.size.width, profileButton.frame.size.height)
+                    UIBezierPath(roundedRect: rect, cornerRadius: rect.width/2).addClip()
+                    image.draw(in: rect)
+                    
+                    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+                    UIGraphicsEndImageContext()
+                    let color = UIColor(patternImage: newImage!)
+                    profileButton.backgroundColor = color
+                } else {
+                    let color = UIColor(patternImage: UIImage(named: "avatar_placeholder")!)
+                    profileButton.backgroundColor = color
+                }
+                profileButton.layer.cornerRadius = 0.5 * profileButton.bounds.size.width
+                let channelAvatarBarButtonItem = UIBarButtonItem(customView: profileButton)
+                navigationItem.leftBarButtonItems = [channelAvatarBarButtonItem, channelNameBarButtonItem]
+            } else {
+                imageView.setImageForName(string: channel.getName(), circular: true, textAttributes: nil)
+                let channelAvatarBarButtonItem = UIBarButtonItem(customView: imageView)
+                navigationItem.leftBarButtonItems = [channelAvatarBarButtonItem, channelNameBarButtonItem]
+            }
         }
     }
     
@@ -397,66 +437,6 @@ extension ChatViewController {
         }
     }
     
-    fileprivate func compressImage(image:UIImage) -> Data? {
-        // Reducing file size to a 10th
-        
-        var actualHeight : CGFloat = image.size.height
-        var actualWidth : CGFloat = image.size.width
-        let maxHeight : CGFloat = 1280.0
-        let maxWidth : CGFloat = 800.0
-        var imgRatio : CGFloat = actualWidth/actualHeight
-        let maxRatio : CGFloat = maxWidth/maxHeight
-        var compressionQuality : CGFloat = 0.5
-        
-        if (actualHeight > maxHeight || actualWidth > maxWidth){
-            if(imgRatio < maxRatio){
-                //adjust width according to maxHeight
-                imgRatio = maxHeight / actualHeight
-                actualWidth = imgRatio * actualWidth
-                actualHeight = maxHeight
-            }
-            else if(imgRatio > maxRatio){
-                //adjust height according to maxWidth
-                imgRatio = maxWidth / actualWidth
-                actualHeight = imgRatio * actualHeight
-                actualWidth = maxWidth
-            }
-            else{
-                actualHeight = maxHeight
-                actualWidth = maxWidth
-                compressionQuality = 1
-            }
-        }
-        
-        let rect = CGRect(x: 0.0, y: 0.0, width: actualWidth, height: actualHeight)
-        UIGraphicsBeginImageContext(rect.size)
-        image.draw(in: rect)
-        guard let img = UIGraphicsGetImageFromCurrentImageContext() else {
-            return nil
-        }
-        UIGraphicsEndImageContext()
-        guard let imageData = UIImageJPEGRepresentation(img, compressionQuality)else{
-            return nil
-        }
-        return imageData
-    }
-    
-    func compressVideo(inputURL: URL, outputURL: URL, handler:@escaping (_ exportSession: AVAssetExportSession?) -> Void) {
-        let urlAsset = AVURLAsset(url: inputURL, options: nil)
-        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetLowQuality) else {
-            handler(nil)
-            
-            return
-        }
-        
-        exportSession.outputURL = outputURL
-        exportSession.outputFileType = AVFileTypeQuickTimeMovie
-        exportSession.shouldOptimizeForNetworkUse = true
-        exportSession.exportAsynchronously { () -> Void in
-            handler(exportSession)
-        }
-    }
-    
     fileprivate func setupMessageInputBar() {
         messageInputBar.sendButton.setTitle(nil, for: .normal)
         messageInputBar.sendButton.setImage(#imageLiteral(resourceName: "chat_send_button"), for: .normal)
@@ -525,8 +505,8 @@ extension ChatViewController {
                 PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
                     if var originalData = data {
                         let image = UIImage(data: originalData)
-                        originalData = self.compressImage(image: image!)!
-                        AttachmentManager.shared.uploadAttachment(data: originalData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
+                        originalData = AttachmentManager.shared.compressImage(image: image!)!
+                        AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
                             // Do nothing for now. not getting any completion handler call here.
                         }
 
@@ -545,14 +525,14 @@ extension ChatViewController {
                 PHImageManager.default().requestAVAsset(forVideo: pickedAsset, options: requestOptions, resultHandler: { (asset, audioMix, info) in
                     let asset = asset as? AVURLAsset
                     let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
-                    self.compressVideo(inputURL: (asset?.url)!, outputURL: compressedURL) { (exportSession) in
+                    AttachmentManager.shared.compressVideo(inputURL: (asset?.url)!, outputURL: compressedURL) { (exportSession) in
                         guard let session = exportSession else {
                             return
                         }
                         if session.status == .completed {
                             do {
                                 let compressedData = try Data(contentsOf: compressedURL)
-                                AttachmentManager.shared.uploadAttachment(data: compressedData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
+                                AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
                                     // Do nothing for now. not getting any completion handler call here.
                                 }
                             } catch  {
@@ -582,8 +562,8 @@ extension ChatViewController {
             PHImageManager.default().requestImageData(for: pickedAsset, options: requestOptions, resultHandler: { [unowned self] (data, string, orientation, info) in
                 if var originalData = data {
                     let image = UIImage(data: originalData)
-                    originalData = self.compressImage(image: image!)!
-                    AttachmentManager.shared.uploadAttachment(data: originalData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
+                    originalData = AttachmentManager.shared.compressImage(image: image!)!
+                    AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
                         // Do nothing for now. not getting any completion handler call here.
                     }
                     
@@ -602,14 +582,14 @@ extension ChatViewController {
         let cameraViewController = UIViewController.cameraViewController()
         cameraViewController.videoProcessed = { url in
             let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
-            self.compressVideo(inputURL: url, outputURL: compressedURL) { (exportSession) in
+            AttachmentManager.shared.compressVideo(inputURL: url, outputURL: compressedURL) { (exportSession) in
                 guard let session = exportSession else {
                     return
                 }
                 if session.status == .completed {
                     do {
                         let compressedData = try Data(contentsOf: compressedURL)
-                        AttachmentManager.shared.uploadAttachment(data: compressedData, channelID: self.channel.getId(), fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
+                        AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
                             // Do nothing for now. not getting any completion handler call here.
                         }
                     } catch  {
@@ -632,7 +612,7 @@ extension ChatViewController: UIDocumentMenuDelegate, UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         do {
             let documentData = try Data(contentsOf: url)
-            AttachmentManager.shared.uploadAttachment(data: documentData, channelID: self.channel.getId(), fileName: url.lastPathComponent, fileType: "application" + "/" + "\(url.pathExtension)") { (_, _, _, _) in
+            AttachmentManager.shared.uploadAttachment(data: documentData, channel: self.channel, fileName: url.lastPathComponent, fileType: "application" + "/" + "\(url.pathExtension)") { (_, _, _, _) in
                 // Do nothing for now. not getting any completion handler call here.
             }
         } catch  {
@@ -687,7 +667,7 @@ extension ChatViewController: MessageCellDelegate {
             let link = metadata["ImageURL"] as! String
             let safariViewController = SFSafariViewController(url: URL(string: link)!)
             present(safariViewController, animated: true, completion: nil)
-        case .video(let videoURL, let thumbnail):
+        case .video(let videoURL, _):
             let videoViewController = VideoViewController(videoURL: videoURL)
             self.present(videoViewController, animated: true, completion: nil)
         case .photo(let image):
@@ -856,211 +836,22 @@ extension ChatViewController: MessagesDisplayDelegate {
         
         if message.messageId == "TYPING_INDICATOR" {
             if let participant = self.channel.getTypingParticipants().first {
-                avatarView.initials = String(describing: participant.getDisplayName()!.first!)
-                let avatarUrl = participant.getAvatarUrl()
-                if avatarUrl != nil {
-                    avatarView.downloadedFrom(link: avatarUrl!)
+                if let avatarUrl = participant.getAvatarUrl() {
+                    avatarView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+                } else {
+                    avatarView.setImageForName(string: participant.getDisplayName() ?? "?", circular: true, textAttributes: nil)
                 }
             }
             
         }
         else {
-        
             let ccpMessage = self.messages[indexPath.section]
-            
-            avatarView.initials = String(describing: CCPClient.getCurrentUser().getDisplayName()!.first!)
-            
-            let avatarUrl = ccpMessage.getUser().getAvatarUrl()
-            if avatarUrl != nil {
-                avatarView.downloadedFrom(link: avatarUrl!)
-            }
-        }
-    }
-}
-
-
-
-enum SQLiteError: Error {
-    case OpenDatabase(message: String)
-    case Prepare(message: String)
-    case Step(message: String)
-    case Bind(message: String)
-}
-
-class SQLiteDatabase {
-    
-    fileprivate var errorMessage: String {
-        if let errorPointer = sqlite3_errmsg(dbPointer) {
-            let errorMessage = String(cString: errorPointer)
-            return errorMessage
-        } else {
-            return "No error message provided from sqlite."
-        }
-    }
-    
-    fileprivate let dbPointer: OpaquePointer?
-    
-    fileprivate init(dbPointer: OpaquePointer?) {
-        self.dbPointer = dbPointer
-    }
-    
-    deinit {
-        sqlite3_close(dbPointer)
-        print("Successfully closed connection to database.")
-    }
-    
-    static func open(path: String) throws -> SQLiteDatabase {
-        var db: OpaquePointer? = nil
-        // 1
-        if sqlite3_open(path, &db) == SQLITE_OK {
-            // 2
-            return SQLiteDatabase(dbPointer: db)
-        } else {
-            // 3
-            defer {
-                if db != nil {
-                    sqlite3_close(db)
-                }
-            }
-            
-            if let errorPointer = sqlite3_errmsg(db) {
-                let message = String.init(cString: errorPointer)
-                throw SQLiteError.OpenDatabase(message: message)
+            if let avatarUrl = ccpMessage.getUser().getAvatarUrl() {
+                avatarView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
             } else {
-                throw SQLiteError.OpenDatabase(message: "No error message provided from sqlite.")
+                avatarView.setImageForName(string: CCPClient.getCurrentUser().getDisplayName() ?? "?", circular: true, textAttributes: nil)
             }
         }
-    }
-}
-
-extension SQLiteDatabase {
-    func prepareStatement(sql: String) throws -> OpaquePointer? {
-        var statement: OpaquePointer? = nil
-        guard sqlite3_prepare_v2(dbPointer, sql, -1, &statement, nil) == SQLITE_OK else {
-            throw SQLiteError.Prepare(message: errorMessage)
-        }
-        
-        return statement
-    }
-    
-    func createTable(table: SQLTable.Type) throws {
-        // 1
-        let createTableStatement = try prepareStatement(sql: table.createStatement)
-        // 2
-        defer {
-            sqlite3_finalize(createTableStatement)
-        }
-        // 3
-        guard sqlite3_step(createTableStatement) == SQLITE_DONE else {
-            throw SQLiteError.Step(message: errorMessage)
-        }
-        print("\(table) table created.")
-    }
-    
-    func insertChat(channel: CCPBaseChannel, message: CCPMessage) throws {
-        let chat = Chat(
-            messageId: message.getId() as NSString,
-            channelType: (channel.isGroupChannel() ? "group" : "open") as NSString,
-            channelId: channel.getId() as NSString,
-            timestamp: Int32(message.getInsertedAt()),
-            data: message.serialize() as! NSString)
-        let insertSql = "INSERT OR REPLACE INTO Chat (messageId, channelType, channelId, timestamp, data) VALUES (?, ?, ?, ?, ?);"
-        let insertStatement = try prepareStatement(sql: insertSql)
-        defer {
-            sqlite3_finalize(insertStatement)
-        }
-        let messageId: NSString = chat.messageId
-        let channelType: NSString = chat.channelType
-        let channelId: NSString = chat.channelId
-        let timestamp: Int32 = chat.timestamp
-        let data: NSString = chat.data
-        guard sqlite3_bind_text(insertStatement, 1, chat.messageId.utf8String, -1, nil) == SQLITE_OK  &&
-            sqlite3_bind_text(insertStatement, 2, chat.channelType.utf8String, -1, nil) == SQLITE_OK  &&
-            sqlite3_bind_text(insertStatement, 3, chat.channelId.utf8String, -1, nil) == SQLITE_OK  &&
-            sqlite3_bind_int(insertStatement, 4, chat.timestamp) == SQLITE_OK  &&
-            sqlite3_bind_text(insertStatement, 5, chat.data.utf8String, -1, nil) == SQLITE_OK else {
-                throw SQLiteError.Bind(message: errorMessage)
-        }
-        
-        guard sqlite3_step(insertStatement) == SQLITE_DONE else {
-            throw SQLiteError.Step(message: errorMessage)
-        }
-        
-        print("Successfully inserted row.")
-    }
-    
-    func chat(channel: CCPBaseChannel) -> [CCPMessage]? {
-        let channelType = (channel.isGroupChannel() ? "group" : "open")
-        let channelId = channel.getId()
-        let querySql = "SELECT * FROM Chat WHERE channelType = '\(channelType)' AND channelId = '\(channelId)' ORDER BY timestamp DESC LIMIT 30;"
-        
-        guard let queryStatement = try? prepareStatement(sql: querySql) else {
-            return nil
-        }
-        
-        defer {
-            sqlite3_finalize(queryStatement)
-        }
-        
-        //            guard sqlite3_bind_text(queryStatement, 1, channelId, -1, nil) == SQLITE_OK  else {
-        //                return nil
-        //            }
-        
-        var m = [CCPMessage]()
-        
-        
-        while (sqlite3_step(queryStatement) == SQLITE_ROW) {
-            //                let queryResultCol0 = sqlite3_column_text(queryStatement, 0)
-            //                let messageId = String(cString: queryResultCol0!) as NSString
-            //
-            //                let queryResultCol1 = sqlite3_column_text(queryStatement, 1)
-            //                let channelType = String(cString: queryResultCol1!) as NSString
-            //
-            //                let queryResultCol2 = sqlite3_column_text(queryStatement, 2)
-            //                let channelId = String(cString: queryResultCol2!) as NSString
-            //
-            //                let timestamp = sqlite3_column_int(queryStatement, 3)
-            
-            let queryResultCol4 = sqlite3_column_text(queryStatement, 4)
-            let data = String(cString: queryResultCol4!) as NSString
-            print("HERE::: \(data)")
-            
-            let cm = CCPMessage.createfromSerializedData(jsonString: data as! String)
-            m.append(cm!)
-            
-        }
-        
-        return m
-        
-    }
-}
-
-struct Chat {
-    let messageId: NSString
-    let channelType: NSString
-    let channelId: NSString
-    let timestamp: Int32
-    let data: NSString
-}
-
-protocol SQLTable {
-    static var createStatement: String { get }
-}
-
-extension Chat: SQLTable {
-    static var createStatement: String {
-        return """
-        CREATE TABLE IF NOT EXISTS Chat(
-        messageId TEXT PRIMARY KEY NOT NULL,
-        channelType TEXT NOT NULL,
-        channelId TEXT NOT NULL,
-        timestamp INT NOT NULL,
-        data TEXT NOT NULL
-        ); CREATE IF NOT EXISTS INDEX messageId_1 Chat(messageId);
-        CREATE IF NOT EXISTS INDEX channelType_2 Chat(channelType);
-        CREATE IF NOT EXISTS INDEX channelId_3 Chat(channelId);
-        CREATE IF NOT EXISTS INDEX timestamp_4 Chat(timestamp);
-        """
     }
 }
 

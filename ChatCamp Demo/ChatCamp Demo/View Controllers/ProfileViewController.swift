@@ -26,11 +26,10 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         title = "Contact Info"
-        let avatarUrl = participant?.getAvatarUrl()
-        if avatarUrl != nil {
-            profileImageView.downloadedFrom(link: avatarUrl!)
+        if let avatarUrl = participant?.getAvatarUrl() {
+            profileImageView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
         } else {
-            profileImageView.image = #imageLiteral(resourceName: "user_placeholder")
+            profileImageView.setImageForName(string: participant?.getDisplayName() ?? "?", circular: true, textAttributes: nil)
         }
         
         if participant?.getIsOnline() ?? false {

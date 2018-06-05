@@ -8,6 +8,8 @@
 
 import UIKit
 import ChatCamp
+import SDWebImage
+import MBProgressHUD
 
 class GroupChannelsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView! {
@@ -28,19 +30,21 @@ class GroupChannelsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        loadChannels()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         
         loadChannels()
     }
     
     fileprivate func loadChannels() {
+        let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        progressHud.label.text = "Loading..."
+        progressHud.contentColor = .black
         let groupChannelsQuery = CCPGroupChannel.createGroupChannelListQuery()
         groupChannelsQuery.get { [unowned self] (channels, error) in
+            progressHud.hide(animated: true)
             if error == nil {
                 self.channels = channels!
                 
@@ -86,10 +90,11 @@ extension GroupChannelsViewController: UITableViewDataSource {
                     let participants = gC.getParticipants()
                     for participant in participants {
                         if participant.getId() != CCPClient.getCurrentUser().getId() {
-                            let avatarUrl = participant.getAvatarUrl()
                             cell.nameLabel.text = participant.getDisplayName()
-                            if avatarUrl != nil {
-                                cell.avatarImageView.downloadedFrom(link: avatarUrl!)
+                            if let avatarUrl = participant.getAvatarUrl() {
+                                cell.avatarImageView?.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+                            } else {
+                                cell.avatarImageView.setImageForName(string: participant.getDisplayName() ?? "?", backgroundColor: nil, circular: true, textAttributes: nil)
                             }
                         } else {
                             continue
@@ -99,14 +104,33 @@ extension GroupChannelsViewController: UITableViewDataSource {
             }
         } else {
             cell.nameLabel.text = channel.getName()
+            if let avatarUrl = channel.getAvatarUrl() {
+                cell.avatarImageView?.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+            } else {
+                cell.avatarImageView.setImageForName(string: channel.getName(), circular: true, textAttributes: nil)
+            }
         }
-        cell.unreadCountLabel.text = String(channel.getUnreadMessageCount())
+        let unreadMessageCount = channel.getUnreadMessageCount()
+        if unreadMessageCount > 0 {
+            cell.unreadCountLabel.isHidden = false
+            if unreadMessageCount < 10 {
+                cell.unreadCountLabel.text = String(unreadMessageCount)
+            } else {
+                cell.unreadCountLabel.text = "9+"
+            }
+        } else {
+            cell.unreadCountLabel.isHidden = true
+        }
         if let message = channel.getLastMessage(), let displayName = channel.getLastMessage()?.getUser().getDisplayName() {
             if message.getType() == "text" {
-                cell.messageLabel.text =  displayName + " : " + message.getText()
+                cell.messageLabel.text =  displayName + ": " + message.getText()
             } else {
-                cell.messageLabel.text =  displayName + " : " + message.getType()
+                cell.messageLabel.text =  displayName + ": " + message.getType()
             }
+        }
+        if let lastMessage = channel.getLastMessage() {
+            let lastMessageTimeInterval = lastMessage.getInsertedAt()
+            cell.lastMessageLabel.text = LastMessage.getDisplayableMessage(timeInterval: Double(lastMessageTimeInterval))
         }
         
         return cell

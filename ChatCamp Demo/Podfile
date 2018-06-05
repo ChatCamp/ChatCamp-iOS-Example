@@ -1,8 +1,9 @@
 target 'ChatCamp Demo' do
     use_frameworks!
 
-    pod 'ChatCamp', '0.1.10'
+    pod 'ChatCamp', '0.1.11'
     pod 'DKImagePickerController', '4.0.0-beta', :subspecs => ['PhotoGallery', 'Camera', 'InlineCamera']
     pod 'Alamofire'
     pod 'SwiftyCam'
+    pod 'MBProgressHUD', '~> 1.1.0'
 end
