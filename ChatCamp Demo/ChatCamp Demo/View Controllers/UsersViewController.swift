@@ -24,7 +24,7 @@ class UsersViewController: UIViewController {
     }
     
     var users: [CCPUser] = []
-    fileprivate var usersToFetch: Int = 5
+    fileprivate var usersToFetch: Int = 20
     fileprivate var loadingUsers = false
     var usersQuery: CCPUserListQuery!
 
@@ -32,7 +32,7 @@ class UsersViewController: UIViewController {
         super.viewDidLoad()
 
         usersQuery = CCPClient.createUserListQuery()
-        loadUsers(limit: 20)
+        loadUsers(limit: usersToFetch)
     }
     
     fileprivate func loadUsers(limit: Int) {

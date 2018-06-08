@@ -12,6 +12,7 @@ import SDWebImage
 import MBProgressHUD
 
 class OpenChannelsViewController: UIViewController {
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.delegate = self
@@ -21,29 +22,36 @@ class OpenChannelsViewController: UIViewController {
     }
     
     var channels: [CCPOpenChannel] = []
-    
+    fileprivate var channelsToFetch: Int = 20
+    fileprivate var loadingChannels = false
+    var openChannelsQuery: CCPOpenChannelListQuery!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadChannels()
+        openChannelsQuery = CCPOpenChannel.createOpenChannelListQuery()
+        loadChannels(limit: channelsToFetch)
     }
     
-    fileprivate func loadChannels() {
+    fileprivate func loadChannels(limit: Int) {
         let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
         progressHud.label.text = "Loading..."
         progressHud.contentColor = .black
-        let openChannelsQuery = CCPOpenChannel.createOpenChannelListQuery()
-        openChannelsQuery.get { [unowned self] (channels, error) in
+        loadingChannels = true
+        openChannelsQuery.get(limit: limit) { [unowned self] (channels, error) in
             progressHud.hide(animated: true)
             if error == nil {
-                self.channels = channels!
+                guard let channels = channels else { return }
+                self.channels.append(contentsOf: channels)
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    self.loadingChannels = false
                 }
             } else {
                 DispatchQueue.main.async {
                     self.showAlert(title: "Can't Load Open Channels", message: "Unable to load Open Channels right now. Please try later.", actionText: "Ok")
+                    self.loadingChannels = false
                 }
             }
         }
@@ -93,5 +101,14 @@ extension OpenChannelsViewController: UITableViewDelegate {
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK:- ScrollView Delegate Methods
+extension OpenChannelsViewController {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if (tableView.indexPathsForVisibleRows?.contains([0, channels.count - 1]) ?? false) && !loadingChannels && channels.count >= 20 {
+            loadChannels(limit: channelsToFetch)
+        }
     }
 }

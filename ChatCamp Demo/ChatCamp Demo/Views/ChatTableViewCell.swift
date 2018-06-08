@@ -30,6 +30,8 @@ class ChatTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         avatarImageView.image = #imageLiteral(resourceName: "user_placeholder")
         nameLabel.text = ""
         messageLabel.text = ""
