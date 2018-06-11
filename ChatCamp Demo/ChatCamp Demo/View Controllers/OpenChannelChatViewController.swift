@@ -12,6 +12,7 @@ import SafariServices
 import DKImagePickerController
 import Photos
 import MobileCoreServices
+import AVFoundation
 
 class OpenChannelChatViewController: MessagesViewController {
     
@@ -23,6 +24,8 @@ class OpenChannelChatViewController: MessagesViewController {
     fileprivate var loadingMessages: Bool
     fileprivate var previousMessagesQuery: CCPPreviousMessageListQuery
     fileprivate var messageCount: Int = 30
+    var recordingSession: AVAudioSession!
+    var audioRecorder: AVAudioRecorder!
     
     init(channel: CCPOpenChannel, sender: Sender) {
         self.channel = channel
@@ -381,15 +384,23 @@ extension OpenChannelChatViewController {
         messageInputBar.sendButton.setTitle(nil, for: .normal)
         messageInputBar.sendButton.setImage(#imageLiteral(resourceName: "chat_send_button"), for: .normal)
         
-        let attachmentButton = InputBarButtonItem(frame: CGRect(x: 3, y: 2, width: 30, height: 30))
+        let attachmentButton = InputBarButtonItem(frame: CGRect(x: 30, y: 0, width: 30, height: 30))
         attachmentButton.setImage(#imageLiteral(resourceName: "attachment"), for: .normal)
 
         attachmentButton.onTouchUpInside { [unowned self] attachmentButton in
             self.presentAlertController()
         }
+        
+        let audioButton = InputBarButtonItem(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        audioButton.setImage(#imageLiteral(resourceName: "microphone"), for: .normal)
 
-        messageInputBar.setLeftStackViewWidthConstant(to: 50, animated: false)
+        audioButton.onTouchUpInside { [unowned self] audioButton in
+            self.handleAudioMessageAction(audioButton: audioButton)
+        }
+        
+        messageInputBar.setLeftStackViewWidthConstant(to: 70, animated: false)
         messageInputBar.leftStackView.addSubview(attachmentButton)
+        messageInputBar.leftStackView.addSubview(audioButton)
     }
     
     fileprivate func setupNavigationItems() {
@@ -634,5 +645,79 @@ extension OpenChannelChatViewController {
             }
         }
         present(cameraViewController, animated: true, completion: nil)
+    }
+    
+    func handleAudioMessageAction(audioButton: InputBarButtonItem) {
+        recordingSession = AVAudioSession.sharedInstance()
+        
+        do {
+            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try recordingSession.setActive(true)
+            recordingSession.requestRecordPermission() { [unowned self] allowed in
+                DispatchQueue.main.async {
+                    if allowed {
+                        if self.audioRecorder == nil {
+                            self.startRecording(audioButton: audioButton)
+                        } else {
+                            self.finishRecording(success: true)
+                            audioButton.setImage(#imageLiteral(resourceName: "microphone"), for: .normal)
+                        }
+                    } else {
+                        // failed to record!
+                        // TODO: Show an alert here
+                    }
+                }
+            }
+        } catch {
+            // Show an alert here
+        }
+    }
+    
+    func startRecording(audioButton: InputBarButtonItem) {
+        let audioFilename = getDocumentsDirectory().appendingPathComponent(UUID().uuidString + ".m4a")
+        
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 12000,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+        
+        do {
+            audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+            audioRecorder.delegate = self
+            audioRecorder.record()
+            audioButton.setImage(#imageLiteral(resourceName: "stop_recording"), for: .normal)
+        } catch {
+            finishRecording(success: false)
+        }
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    func finishRecording(success: Bool) {
+        audioRecorder.stop()
+        audioRecorder = nil
+    }
+}
+
+extension OpenChannelChatViewController: AVAudioRecorderDelegate {
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        if !flag {
+            finishRecording(success: false)
+        } else {
+            do {
+                let audioData = try Data(contentsOf: recorder.url)
+                AttachmentManager.shared.uploadAttachment(data: audioData, channel: self.channel, fileName: recorder.url.lastPathComponent, fileType: "audio" + "/" + "\(recorder.url.pathExtension)") { (_, _, _, _) in
+                    // Do nothing for now. not getting any completion handler call here.
+                }
+            }
+            catch  {
+                print("exception catch at block - while uploading audio message")
+            }
+        }
     }
 }
