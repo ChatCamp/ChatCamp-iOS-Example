@@ -103,6 +103,7 @@ class Message: NSObject, MessageType {
                         let destinationFileUrl = documentUrl.appendingPathComponent(attachement.getName())
                         if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
                             self.data = MessageData.document(destinationFileUrl)
+                            self.delegate?.messageDidUpdateWithImage(message: self)
                         } else {
                             let sessionConfig = URLSessionConfiguration.default
                             let session = URLSession(configuration: sessionConfig)
@@ -114,6 +115,7 @@ class Message: NSObject, MessageType {
                                             try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
                                             DispatchQueue.main.async {
                                                 self.data = MessageData.document(destinationFileUrl)
+                                                self.delegate?.messageDidUpdateWithImage(message: self)
                                             }
                                         } catch (let writeError) {
                                             print("Error creating a file \(destinationFileUrl) : \(writeError)")
@@ -130,9 +132,10 @@ class Message: NSObject, MessageType {
                 if let attachment = ccpMessage.getAttachment(), let dataURL = URL(string: attachment.getUrl()) {
                     self.data = MessageData.audio(dataURL)
                     let documentUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first as URL!
-                    let destinationFileUrl = documentUrl.appendingPathComponent(attachment.getName())
+                    let destinationFileUrl = documentUrl.appendingPathComponent(dataURL.lastPathComponent)
                     if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
                         self.data = MessageData.audio(destinationFileUrl)
+                        self.delegate?.messageDidUpdateWithImage(message: self)
                     } else {
                         let sessionConfig = URLSessionConfiguration.default
                         let session = URLSession(configuration: sessionConfig)
@@ -144,6 +147,7 @@ class Message: NSObject, MessageType {
                                         try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
                                         DispatchQueue.main.async {
                                             self.data = MessageData.audio(destinationFileUrl)
+                                            self.delegate?.messageDidUpdateWithImage(message: self)
                                         }
                                     } catch (let writeError) {
                                         print("Error creating a file \(destinationFileUrl) : \(writeError)")

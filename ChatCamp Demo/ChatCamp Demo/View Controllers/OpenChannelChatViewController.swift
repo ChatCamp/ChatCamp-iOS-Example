@@ -256,27 +256,9 @@ extension OpenChannelChatViewController: MessageCellDelegate {
             documentInteractionController.delegate = self
             documentInteractionController.presentPreview(animated: true)
         case .audio(let audioURL):
-//            do {
-                if let audioView = (cell.messageContainerView.subviews.first) as? AudioView {
-                    audioView.playAudio()
-//                    audioView.playButton.isSelected = !audioView.playButton.isSelected
-//                    if audioView.playButton.isSelected {
-//                        audioPlayer = try AVAudioPlayer(contentsOf: audioURL)
-//                        audioPlayer?.numberOfLoops = -1
-//                        audioPlayer?.play()
-//                        audioView.audioTimeLabel.text = "\(audioPlayer?.currentTime)"
-//
-//                        displayLink = CADisplayLink(target: self, selector: #selector(OpenChannelChatViewController.updateSliderProgress))
-//                        displayLink.frameInterval = 1
-//                        displayLink.add(to: .current, forMode: .commonModes)
-//                    } else {
-//                        audioPlayer?.stop()
-//                        displayLink.invalidate()
-//                    }
-                }
-//            } catch {
-//                // couldn't load file :(
-//            }
+            if let audioView = (cell.messageContainerView.subviews.first) as? AudioView {
+                audioView.playAudio(audioURL)
+            }
         default:
             break
         }
@@ -739,6 +721,7 @@ extension OpenChannelChatViewController {
     }
 }
 
+// MARK: AVAudioRecorderDelegate
 extension OpenChannelChatViewController: AVAudioRecorderDelegate {
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         if !flag {

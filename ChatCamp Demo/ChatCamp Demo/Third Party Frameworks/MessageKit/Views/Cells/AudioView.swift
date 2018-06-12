@@ -27,22 +27,15 @@ class AudioView: UIView {
     var displayLink : CADisplayLink! = nil
     var timeCount: Int = 0
     
-    deinit {
-        audioPlayer = nil
-        displayLink = nil
-    }
-    
-    func playAudio() {
+    func playAudio(_ audioUrl: URL) {
         do {
             playButton.isSelected = !playButton.isSelected
             if playButton.isSelected {
                 playButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
-                if audioPlayer == nil {
-                    audioPlayer = try AVAudioPlayer(contentsOf: audioFileURL)
-                }
+                audioPlayer = try AVAudioPlayer(contentsOf: audioUrl)
                 audioPlayer?.numberOfLoops = 0
-                audioPlayer?.play()
                 audioPlayer?.delegate = self
+                audioPlayer?.play()
                 
                 displayLink = CADisplayLink(target: self, selector: #selector(updateSliderProgress))
                 displayLink.frameInterval = 1
@@ -50,7 +43,9 @@ class AudioView: UIView {
             } else {
                 playButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
                 audioPlayer?.pause()
-                displayLink.invalidate()
+                if displayLink != nil {
+                    displayLink.invalidate()
+                }
             }
         } catch {
             // couldn't load file :(

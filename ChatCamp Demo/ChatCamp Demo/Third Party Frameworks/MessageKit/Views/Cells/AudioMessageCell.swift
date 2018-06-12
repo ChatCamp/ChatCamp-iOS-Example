@@ -16,11 +16,7 @@ open class AudioMessageCell: MessageCollectionViewCell {
         super.configure(with: message, at: indexPath, and: messagesCollectionView)
     }
     
-    class func sideViewWidth() -> CGFloat {
-        return 30
-    }
-    
-    class func paddingHeight() -> CGFloat {
-        return 10
+    open override func prepareForReuse() {
+        super.prepareForReuse()
     }
 }
