@@ -58,7 +58,7 @@ public enum MessageData {
 
     // MARK: - Not supported yet
 
-//    case audio(Data)
+    case audio(URL)
 //
 //    case system(String)
 //    

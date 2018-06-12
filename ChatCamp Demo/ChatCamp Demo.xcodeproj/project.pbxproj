@@ -14,6 +14,9 @@
 		09142C38209AEE5400323BC5 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C37209AEE5400323BC5 /* CameraViewController.swift */; };
 		09142C3A209B023500323BC5 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C39209B023500323BC5 /* RecordButton.swift */; };
 		09142C3C209B238100323BC5 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09142C3B209B238100323BC5 /* VideoViewController.swift */; };
+		091E456A20CFE1FE001987AF /* AudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091E456920CFE1FE001987AF /* AudioView.swift */; };
+		091E456C20CFE213001987AF /* AudioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 091E456B20CFE213001987AF /* AudioView.xib */; };
+		091E456E20CFEB1B001987AF /* AudioMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091E456D20CFEB1B001987AF /* AudioMessageCell.swift */; };
 		092C99E92062C7E500281982 /* LoadingDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092C99E82062C7E500281982 /* LoadingDots.swift */; };
 		092C99EB2062C81000281982 /* LoadingDots.xib in Resources */ = {isa = PBXBuildFile; fileRef = 092C99EA2062C81000281982 /* LoadingDots.xib */; };
 		092C99ED2062CC3600281982 /* DelayMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092C99EC2062CC3600281982 /* DelayMethod.swift */; };
@@ -123,6 +126,9 @@
 		09142C37209AEE5400323BC5 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		09142C39209B023500323BC5 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		09142C3B209B238100323BC5 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		091E456920CFE1FE001987AF /* AudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioView.swift; sourceTree = "<group>"; };
+		091E456B20CFE213001987AF /* AudioView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioView.xib; sourceTree = "<group>"; };
+		091E456D20CFEB1B001987AF /* AudioMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMessageCell.swift; sourceTree = "<group>"; };
 		092C99E82062C7E500281982 /* LoadingDots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDots.swift; sourceTree = "<group>"; };
 		092C99EA2062C81000281982 /* LoadingDots.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingDots.xib; sourceTree = "<group>"; };
 		092C99EC2062CC3600281982 /* DelayMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelayMethod.swift; sourceTree = "<group>"; };
@@ -460,6 +466,9 @@
 				09746B9620AAF6CA0029460C /* DocumentView.xib */,
 				09746B9820AB00340029460C /* DocumentView.swift */,
 				09746B9A20AB02EE0029460C /* DocumentMessageCell.swift */,
+				091E456920CFE1FE001987AF /* AudioView.swift */,
+				091E456B20CFE213001987AF /* AudioView.xib */,
+				091E456D20CFEB1B001987AF /* AudioMessageCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -618,6 +627,7 @@
 				C03F7428202F00F300423969 /* Login.storyboard in Resources */,
 				09746B9720AAF6CA0029460C /* DocumentView.xib in Resources */,
 				C03F742A202F017C00423969 /* Home.storyboard in Resources */,
+				091E456C20CFE213001987AF /* AudioView.xib in Resources */,
 				C052C01F2036DB3A00ADED74 /* Info.plist in Resources */,
 				C052C0222036DC4000ADED74 /* MessageKitAssets.bundle in Resources */,
 				C0D8F98C203843020051ED77 /* image1.png in Resources */,
@@ -733,7 +743,9 @@
 				096F143D208C927C0073ADCA /* ProfileViewController.swift in Sources */,
 				C052C0172036DB3A00ADED74 /* InputStackView.swift in Sources */,
 				C052BFFF2036DB3A00ADED74 /* MessageStyle.swift in Sources */,
+				091E456E20CFEB1B001987AF /* AudioMessageCell.swift in Sources */,
 				09E78CA9208DF34D004DCC53 /* ChannelProfileTableViewCell.swift in Sources */,
+				091E456A20CFE1FE001987AF /* AudioView.swift in Sources */,
 				092C99ED2062CC3600281982 /* DelayMethod.swift in Sources */,
 				C052C01C2036DB3A00ADED74 /* MessagesCollectionView.swift in Sources */,
 				C052BFF12036DB3A00ADED74 /* MessageInputBarDelegate.swift in Sources */,

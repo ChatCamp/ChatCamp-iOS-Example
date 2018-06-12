@@ -126,7 +126,36 @@ class Message: NSObject, MessageType {
                         }
                 }
             }
-            else {
+            else if ccpMessage.getAttachment()?.isAudio() ?? false {
+                if let attachment = ccpMessage.getAttachment(), let dataURL = URL(string: attachment.getUrl()) {
+                    self.data = MessageData.audio(dataURL)
+                    let documentUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first as URL!
+                    let destinationFileUrl = documentUrl.appendingPathComponent(attachment.getName())
+                    if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
+                        self.data = MessageData.audio(destinationFileUrl)
+                    } else {
+                        let sessionConfig = URLSessionConfiguration.default
+                        let session = URLSession(configuration: sessionConfig)
+                        let request = URLRequest(url: dataURL)
+                        DispatchQueue.global().async {
+                            session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+                                if let tempLocalUrl = tempLocalUrl, error == nil {
+                                    do {
+                                        try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
+                                        DispatchQueue.main.async {
+                                            self.data = MessageData.audio(destinationFileUrl)
+                                        }
+                                    } catch (let writeError) {
+                                        print("Error creating a file \(destinationFileUrl) : \(writeError)")
+                                    }
+                                } else {
+                                    print("Error took place while downloading a file. Error description: %@", error?.localizedDescription);
+                                }
+                                }.resume()
+                        }
+                    }
+                }
+            } else {
                 data = MessageData.text(ccpMessage.getAttachment()!.getUrl())
             }
         } else if ccpMessage.getType() == "text" && ccpMessage.getCustomType() == "action_link" {

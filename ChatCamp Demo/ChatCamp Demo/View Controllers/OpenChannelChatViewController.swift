@@ -205,6 +205,19 @@ extension OpenChannelChatViewController: MessagesDisplayDelegate {
                 documentView.fillSuperview()
             }
             return .document(configurationClosure)
+        case .audio(let url):
+            let configurationClosure = { (containerView: UIImageView) in
+                containerView.layer.cornerRadius = 4
+                containerView.layer.masksToBounds = true
+                containerView.layer.borderWidth = 1
+                containerView.layer.borderColor = UIColor.lightGray.cgColor
+                
+                let audioView = AudioView().loadFromNib() as! AudioView
+                audioView.audioFileURL = url
+                containerView.addSubview(audioView)
+                audioView.fillSuperview()
+            }
+            return .audio(configurationClosure)
         default:
             return .bubble
         }
@@ -242,6 +255,28 @@ extension OpenChannelChatViewController: MessageCellDelegate {
             let documentInteractionController = UIDocumentInteractionController(url: url)
             documentInteractionController.delegate = self
             documentInteractionController.presentPreview(animated: true)
+        case .audio(let audioURL):
+//            do {
+                if let audioView = (cell.messageContainerView.subviews.first) as? AudioView {
+                    audioView.playAudio()
+//                    audioView.playButton.isSelected = !audioView.playButton.isSelected
+//                    if audioView.playButton.isSelected {
+//                        audioPlayer = try AVAudioPlayer(contentsOf: audioURL)
+//                        audioPlayer?.numberOfLoops = -1
+//                        audioPlayer?.play()
+//                        audioView.audioTimeLabel.text = "\(audioPlayer?.currentTime)"
+//
+//                        displayLink = CADisplayLink(target: self, selector: #selector(OpenChannelChatViewController.updateSliderProgress))
+//                        displayLink.frameInterval = 1
+//                        displayLink.add(to: .current, forMode: .commonModes)
+//                    } else {
+//                        audioPlayer?.stop()
+//                        displayLink.invalidate()
+//                    }
+                }
+//            } catch {
+//                // couldn't load file :(
+//            }
         default:
             break
         }
@@ -384,7 +419,7 @@ extension OpenChannelChatViewController {
         messageInputBar.sendButton.setTitle(nil, for: .normal)
         messageInputBar.sendButton.setImage(#imageLiteral(resourceName: "chat_send_button"), for: .normal)
         
-        let attachmentButton = InputBarButtonItem(frame: CGRect(x: 30, y: 0, width: 30, height: 30))
+        let attachmentButton = InputBarButtonItem(frame: CGRect(x: 40, y: 0, width: 30, height: 30))
         attachmentButton.setImage(#imageLiteral(resourceName: "attachment"), for: .normal)
 
         attachmentButton.onTouchUpInside { [unowned self] attachmentButton in
@@ -398,7 +433,7 @@ extension OpenChannelChatViewController {
             self.handleAudioMessageAction(audioButton: audioButton)
         }
         
-        messageInputBar.setLeftStackViewWidthConstant(to: 70, animated: false)
+        messageInputBar.setLeftStackViewWidthConstant(to: 80, animated: false)
         messageInputBar.leftStackView.addSubview(attachmentButton)
         messageInputBar.leftStackView.addSubview(audioButton)
     }
