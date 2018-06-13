@@ -462,7 +462,7 @@ private extension MessagesCollectionViewFlowLayout {
             messageContainerSize.width += attributes.messageLabelHorizontalInsets + DocumentMessageCell.sideViewWidth()
             messageContainerSize.height += attributes.messageLabelVerticalInsets + DocumentMessageCell.paddingHeight()
         case .audio:
-            messageContainerSize = CGSize(width: 240, height: 50)
+            messageContainerSize = CGSize(width: 120, height: 40)
         }
 
         return messageContainerSize

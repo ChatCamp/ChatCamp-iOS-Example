@@ -16,15 +16,11 @@ open class AudioMessageCell: MessageCollectionViewCell {
         super.configure(with: message, at: indexPath, and: messagesCollectionView)
     }
     
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        let audioView = (self.messageContainerView.subviews.first) as? AudioView
-        audioView?.audioPlayer = nil
-        audioView?.displayLink = nil
-        audioView?.audioTimeLabel.text = nil
-        audioView?.audioTimeSlider.removeTarget(nil, action: nil, for: .allEvents)
-        audioView?.audioTimeSlider.isHidden = true
-        audioView?.playButton.isHidden = true
+    class func sideViewWidth() -> CGFloat {
+        return 30
+    }
+    
+    class func paddingHeight() -> CGFloat {
+        return 10
     }
 }
