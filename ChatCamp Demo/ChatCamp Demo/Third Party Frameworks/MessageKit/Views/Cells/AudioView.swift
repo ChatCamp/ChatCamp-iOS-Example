@@ -32,10 +32,14 @@ class AudioView: UIView {
             playButton.isSelected = !playButton.isSelected
             if playButton.isSelected {
                 playButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
-                audioPlayer = try AVAudioPlayer(contentsOf: audioUrl)
-                audioPlayer?.numberOfLoops = 0
-                audioPlayer?.delegate = self
-                audioPlayer?.play()
+                if audioPlayer == nil {
+                    audioPlayer = try AVAudioPlayer(contentsOf: audioUrl)
+                    audioPlayer?.numberOfLoops = 0
+                    audioPlayer?.delegate = self
+                    audioPlayer?.play()
+                } else {
+                    audioPlayer?.play()
+                }
                 
                 displayLink = CADisplayLink(target: self, selector: #selector(updateSliderProgress))
                 displayLink.frameInterval = 1
@@ -48,6 +52,7 @@ class AudioView: UIView {
                 }
             }
         } catch {
+            playButton.isSelected = !playButton.isSelected
             // couldn't load file :(
         }
     }
