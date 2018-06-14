@@ -84,7 +84,7 @@ class CreateChannelViewController: UIViewController {
         }
         
         if viewModel.selectedItems.isEmpty || viewModel.selectedItems.count == 1 {
-            showAlert(title: "Empty Participants!", message: "Minimum 2 participant ids are required to create a channel.", actionText: "OK")
+            showAlert(title: "Empty Participants!", message: "Minimum 2 participants are required to create a channel.", actionText: "OK")
 
             return
         }
