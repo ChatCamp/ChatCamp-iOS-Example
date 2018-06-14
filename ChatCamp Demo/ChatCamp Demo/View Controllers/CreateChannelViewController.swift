@@ -2,111 +2,104 @@
 //  CreateChannelViewController.swift
 //  ChatCamp Demo
 //
-//  Created by Tanmay Khandelwal on 11/02/18.
+//  Created by Saurabh Gupta on 14/06/18.
 //  Copyright © 2018 iFlyLabs Inc. All rights reserved.
 //
 
+import Foundation
+
 import UIKit
 import ChatCamp
+import MBProgressHUD
 
 class CreateChannelViewController: UIViewController {
-    @IBOutlet weak var cancelButton: UIBarButtonItem!
-    @IBOutlet weak var createButton: UIBarButtonItem!
     
-    @IBOutlet weak var optionOpen: UIButton! {
-        didSet {
-            optionOpen.isSelected = true
-            optionOpen.layer.cornerRadius = 4
-            optionOpen.layer.masksToBounds = true
-        }
-    }
-    @IBOutlet weak var optionGroup: UIButton! {
-        didSet {
-            optionGroup.layer.cornerRadius = 4
-            optionGroup.layer.masksToBounds = true
-        }
-    }
-    
+    @IBOutlet weak var tableView: UITableView?
+    @IBOutlet weak var creatButton: UIBarButtonItem!
     @IBOutlet weak var channelNameTextField: UITextField!
-    @IBOutlet weak var participantsTextField: UITextField!
-    @IBOutlet weak var isDistinctCheckboxImageView: UIImageView!
-    @IBOutlet weak var isDistinctCheckboxButton: UIButton!
-    var isDistinct = false {
-        didSet {
-            isDistinctCheckboxImageView.image = isDistinct ? #imageLiteral(resourceName: "checkbox_checked") : #imageLiteral(resourceName: "checkbox_unchecked")
-            isDistinctCheckboxButton.isSelected = isDistinct
+    
+    var viewModel = ParticipantViewModel()
+    
+    var users: [CCPUser] = []
+    fileprivate var usersToFetch: Int = 20
+    fileprivate var loadingUsers = false
+    var usersQuery: CCPUserListQuery!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView?.register(ChatTableViewCell.nib(), forCellReuseIdentifier: ChatTableViewCell.identifier)
+        tableView?.estimatedRowHeight = 100
+        tableView?.rowHeight = UITableViewAutomaticDimension
+        tableView?.allowsMultipleSelection = true
+        tableView?.dataSource = viewModel
+        tableView?.delegate = viewModel
+        
+        usersQuery = CCPClient.createUserListQuery()
+        loadUsers(limit: usersToFetch)
+        
+        viewModel.didToggleSelection = { [weak self] hasSelection in
+            self?.creatButton.isEnabled = hasSelection
         }
-    }
-    var particpantList = [String]()
-    var channelCreated: (() -> ())?
-}
-
-// MARK:- Actions
-extension CreateChannelViewController {
-    @IBAction func didTapOnOptionOpen(_ sender: UIButton) {
-        if !sender.isSelected {
-            sender.isSelected = true
-            optionGroup.isSelected = false
-        }
-    }
-
-    @IBAction func didTapOnOptionGroup(_ sender: UIButton) {
-        if !sender.isSelected {
-            sender.isSelected = true
-            optionOpen.isSelected = false
+        
+        viewModel.loadMoreUsers = {
+            if (self.tableView?.indexPathsForVisibleRows?.contains([0, self.users.count - 1]) ?? false) && !self.loadingUsers && self.users.count >= 19 {
+                self.loadUsers(limit: self.usersToFetch)
+            }
         }
     }
     
-    @IBAction func didTapOnIsDistinct(_ sender: UIButton) {
-        isDistinct = !sender.isSelected
+    fileprivate func loadUsers(limit: Int) {
+        let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        progressHud.label.text = "Loading..."
+        progressHud.contentColor = .black
+        loadingUsers = true
+        usersQuery.load(limit: limit) { [unowned self] (users, error) in
+            progressHud.hide(animated: true)
+            if error == nil {
+                guard let users = users else { return }
+                self.users.append(contentsOf: users.filter({ $0.getId() != CCPClient.getCurrentUser().getId() }))
+                
+                DispatchQueue.main.async {
+                    self.viewModel.users.append(contentsOf: users.map { ParticipantViewModelItem(user: $0) })
+                    self.loadingUsers = false
+                    self.tableView?.reloadData()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Can't Load Users", message: "Unable to load Users right now. Please try later.", actionText: "Ok")
+                    self.loadingUsers = false
+                }
+            }
+        }
     }
     
     @IBAction func didTapOnCreate(_ sender: UIBarButtonItem) {
         let channelName = channelNameTextField.text ?? ""
-        let participants = participantsTextField.text ?? ""
-        let participantsArray = participants.components(separatedBy: ",")
+        
         if channelName.isEmpty {
             showAlert(title: "Empty Channel Name!", message: "Channel Name cannot be blank", actionText: "OK")
             
             return
         }
         
-        if participants.isEmpty || participantsArray.count == 1 {
-            showAlert(title: "Empty Participants!", message: "Minimum 2 participant ids are required in comma seperated list to create a channel (e.g. 1, 2, 3).", actionText: "OK")
+        if viewModel.selectedItems.isEmpty || viewModel.selectedItems.count == 1 {
+            showAlert(title: "Empty Participants!", message: "Minimum 2 participant ids are required to create a channel.", actionText: "OK")
 
             return
         }
         
-        if participantsArray.count > 1 {
-            for participant in participantsArray {
-                let element = participant.replacingOccurrences(of: " ", with: "")
-                particpantList.append(element)
-            }
-        }
-        
-        
-        if optionGroup.isSelected {
-            CCPGroupChannel.create(name: channelName, userIds: particpantList, isDistinct: isDistinct) { groupChannel, error in
-                if error == nil {
-                    self.channelCreated?()
-                    self.dismiss(animated: true, completion: nil)
-                } else {
-                    self.showAlert(title: "Error!", message: "Some error occured, please try again.", actionText: "OK")
-                }
-            }
-        } else if optionOpen.isSelected {
-            CCPOpenChannel.create(name: channelName) { openChannel, error in
-                if error == nil {
-                    self.channelCreated?()
-                    self.dismiss(animated: true, completion: nil)
-                } else {
-                    self.showAlert(title: "Error!", message: "Some error occured, please try again.", actionText: "OK")
-                }
+        CCPGroupChannel.create(name: channelName, userIds: viewModel.selectedItems.map { $0.userId }, isDistinct: false) { groupChannel, error in
+            if error == nil {
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                self.showAlert(title: "Error!", message: "Some error occured, please try again.", actionText: "OK")
             }
         }
     }
     
     @IBAction func didTapOnCancel(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 }
+

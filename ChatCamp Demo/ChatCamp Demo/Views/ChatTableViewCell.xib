@@ -95,6 +95,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="accessoryLabel" destination="ByZ-5I-0tH" id="vFr-zs-dIf"/>
                 <outlet property="avatarImageView" destination="rAf-ma-RYb" id="g6W-Qu-3fT"/>
                 <outlet property="lastMessageLabel" destination="sr1-3T-Yiz" id="mDw-Em-FoJ"/>
                 <outlet property="messageLabel" destination="glb-Ey-0hk" id="u3n-KQ-BuI"/>
