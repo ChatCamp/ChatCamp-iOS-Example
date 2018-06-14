@@ -63,12 +63,7 @@ class GroupChannelsViewController: UIViewController {
 // MARK:- Actions
 extension GroupChannelsViewController {
     @IBAction func didTapOnAddChannelFAB(_ sender: UIButton) {
-        let createChannelViewController = UIViewController.createChannelViewController()
-        
-        (createChannelViewController.viewControllers.first as? CreateChannelViewController)?.channelCreated = {
-            self.loadChannels()
-        }
-        
+        let createChannelViewController = UIViewController.createChannelViewController()        
         present(createChannelViewController, animated: true, completion: nil)
     }
 }

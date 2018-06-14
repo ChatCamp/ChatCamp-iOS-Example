@@ -396,7 +396,7 @@ extension ChatViewController {
             
             DispatchQueue.main.async {
                 self.messagesCollectionView.reloadData()
-                self.messagesCollectionView.scrollToBottom(animated: false)
+                self.messagesCollectionView.scrollToBottom(animated: true)
             }
         }
         
@@ -433,7 +433,7 @@ extension ChatViewController {
                     
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToBottom(animated: false)
+                        self.messagesCollectionView.scrollToBottom(animated: true)
                     }
                 }
             }

@@ -17,6 +17,7 @@ class ChatTableViewCell: UITableViewCell {
     }
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var accessoryLabel: UILabel!
     @IBOutlet weak var unreadCountLabel: UILabel! {
         didSet {
             unreadCountLabel.layer.cornerRadius = unreadCountLabel.frame.width / 2
@@ -29,6 +30,17 @@ class ChatTableViewCell: UITableViewCell {
         }
     }
     
+    var user: ParticipantViewModelItem? {
+        didSet {
+            nameLabel?.text = user?.displayName
+            if let avatarUrl = user?.avatarURL {
+                avatarImageView?.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+            } else {
+                avatarImageView.setImageForName(string: user?.displayName ?? "?", circular: true, textAttributes: nil)
+            }
+        }
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -36,5 +48,22 @@ class ChatTableViewCell: UITableViewCell {
         nameLabel.text = ""
         messageLabel.text = ""
         lastMessageLabel.text = ""
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        selectionStyle = .none
+    }
+    
+    static var identifier: String {
+        return String(describing: self)
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        // update UI
+        accessoryType = selected ? .checkmark : .none
     }
 }
