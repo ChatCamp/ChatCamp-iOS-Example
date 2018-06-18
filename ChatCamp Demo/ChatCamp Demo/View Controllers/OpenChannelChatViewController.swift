@@ -331,9 +331,9 @@ extension OpenChannelChatViewController: CCPChannelDelegate {
 
 // MARK:- UploadAttachmentDelegate
 extension OpenChannelChatViewController: UploadAttachmentDelegate {
-    func onUploadProgress(progress: Double) {
+    func onUploadProgress(progress: Float) {
         DispatchQueue.main.async {
-            self.progressView.progress = Float(progress)
+            self.progressView.progress = progress
         }
     }
     
