@@ -396,7 +396,8 @@ extension OpenChannelChatViewController: UIDocumentMenuDelegate, UIDocumentPicke
         do {
             addProgressView()
             let documentData = try Data(contentsOf: url)
-            AttachmentManager.shared.uploadAttachment(data: documentData, channel: self.channel, fileName: url.lastPathComponent, fileType: "application" + "/" + "\(url.pathExtension)", uploadProgressHandler: { progress in
+            AttachmentManager.shared.uploadAttachment(data: documentData, channel: self.channel, fileName: url.lastPathComponent, fileType: "application" + "/" + "\(url.pathExtension)", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
+                let progress = totalBytesSent/totalBytesExpectedToSend
                 self.updateUploadProgress(with: progress)
             }) { (_, _) in
                 self.removeProgressView()
@@ -509,7 +510,7 @@ extension OpenChannelChatViewController {
 
             DispatchQueue.main.async {
                 self.messagesCollectionView.reloadData()
-                self.messagesCollectionView.scrollToBottom(animated: false)
+                self.messagesCollectionView.scrollToBottom(animated: true)
             }
         }
         
@@ -538,7 +539,7 @@ extension OpenChannelChatViewController {
                     
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToBottom(animated: false)
+                        self.messagesCollectionView.scrollToBottom(animated: true)
                     }
                 }
             }
@@ -600,7 +601,8 @@ extension OpenChannelChatViewController {
                     if var originalData = data {
                         let image = UIImage(data: originalData)
                         originalData = AttachmentManager.shared.compressImage(image: image!)!
-                        AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg", uploadProgressHandler: { progress in
+                        AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
+                            let progress = totalBytesSent/totalBytesExpectedToSend
                             self.updateUploadProgress(with: progress)
                         }) { (_, _) in
                             self.removeProgressView()
@@ -629,7 +631,8 @@ extension OpenChannelChatViewController {
                         if session.status == .completed {
                             do {
                                 let compressedData = try Data(contentsOf: compressedURL)
-                                AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov", uploadProgressHandler: { progress in
+                                AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
+                                    let progress = totalBytesSent/totalBytesExpectedToSend
                                     self.updateUploadProgress(with: progress)
                                 }) { (_, _) in
                                     self.removeProgressView()
@@ -664,7 +667,8 @@ extension OpenChannelChatViewController {
                 if var originalData = data {
                     let image = UIImage(data: originalData)
                     originalData = AttachmentManager.shared.compressImage(image: image!)!
-                    AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg", uploadProgressHandler: { progress in
+                    AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
+                        let progress = totalBytesSent/totalBytesExpectedToSend
                         self.updateUploadProgress(with: progress)
                     }) { (_, _) in
                         self.removeProgressView()
@@ -695,7 +699,8 @@ extension OpenChannelChatViewController {
                 if session.status == .completed {
                     do {
                         let compressedData = try Data(contentsOf: compressedURL)
-                        AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov", uploadProgressHandler: { progress in
+                        AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov", uploadProgressHandler: {  totalBytesSent, totalBytesExpectedToSend in
+                            let progress = totalBytesSent/totalBytesExpectedToSend
                             self.updateUploadProgress(with: progress)
                         }) { (_, _) in
                             self.removeProgressView()
@@ -776,7 +781,8 @@ extension OpenChannelChatViewController: AVAudioRecorderDelegate {
             do {
                 self.addProgressView()
                 let audioData = try Data(contentsOf: recorder.url)
-                AttachmentManager.shared.uploadAttachment(data: audioData, channel: self.channel, fileName: recorder.url.lastPathComponent, fileType: "audio" + "/" + "\(recorder.url.pathExtension)", uploadProgressHandler: { progress in
+                AttachmentManager.shared.uploadAttachment(data: audioData, channel: self.channel, fileName: recorder.url.lastPathComponent, fileType: "audio" + "/" + "\(recorder.url.pathExtension)", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
+                    let progress = totalBytesSent/totalBytesExpectedToSend
                     self.updateUploadProgress(with: progress)
                 }) { (_, _) in
                     self.removeProgressView()

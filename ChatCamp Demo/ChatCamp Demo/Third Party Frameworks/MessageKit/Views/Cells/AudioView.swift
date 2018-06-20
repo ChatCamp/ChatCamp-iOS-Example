@@ -16,10 +16,20 @@ class AudioView: UIView {
     
     func playAudio(_ audioUrl: URL) {
         do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setActive(true)
             audioPlayer = try AVAudioPlayer(contentsOf: audioUrl)
+            audioPlayer?.delegate = self
             audioPlayer?.play()
         } catch {
-            // couldn't load file :(
+            print("Could not load file")
         }
+    }
+}
+
+extension AudioView: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        audioPlayer = nil
+        print("finished playing")
     }
 }
