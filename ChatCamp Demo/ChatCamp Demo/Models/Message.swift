@@ -63,7 +63,8 @@ class Message: NSObject, MessageType {
                     let documentUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first as URL!
                     let destinationFileUrl = documentUrl.appendingPathComponent(attachement.getName())
                     if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
-                        self.data = MessageData.video(file: destinationFileUrl, thumbnail: ImageManager.getThumbnailFrom(path: destinationFileUrl)!)
+                        guard let thumbnail = ImageManager.getThumbnailFrom(path: destinationFileUrl) else { return }
+                        self.data = MessageData.video(file: destinationFileUrl, thumbnail: thumbnail)
                         self.delegate?.messageDidUpdateWithImage(message: self)
                     } else {
                         let sessionConfig = URLSessionConfiguration.default
@@ -75,7 +76,8 @@ class Message: NSObject, MessageType {
                                     do {
                                         try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
                                         DispatchQueue.main.async {
-                                            self.data = MessageData.video(file: destinationFileUrl, thumbnail: ImageManager.getThumbnailFrom(path: destinationFileUrl)!)
+                                            guard let thumbnail = ImageManager.getThumbnailFrom(path: destinationFileUrl) else { return }
+                                            self.data = MessageData.video(file: destinationFileUrl, thumbnail: thumbnail)
                                             self.delegate?.messageDidUpdateWithImage(message: self)
                                         }
                                         PHPhotoLibrary.shared().performChanges({
