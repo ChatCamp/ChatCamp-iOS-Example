@@ -97,11 +97,11 @@ extension UsersViewController: UITableViewDelegate {
             if error == nil {
                 let chatViewController = ChatViewController(channel: groupChannel!, sender: sender)
                 self.navigationController?.pushViewController(chatViewController, animated: true)
-                tableView.deselectRow(at: indexPath, animated: true)
             } else {
                 self.showAlert(title: "Error!", message: "Some error occured, please try again.", actionText: "OK")
             }
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
