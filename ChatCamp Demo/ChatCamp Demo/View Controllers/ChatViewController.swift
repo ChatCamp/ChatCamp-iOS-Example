@@ -524,7 +524,16 @@ extension ChatViewController {
     }
     
     fileprivate func handleLibraryAction() {
-        let photoGalleryViewController = DKImagePickerController()
+        let groupDataManagerConfiguration = DKImageGroupDataManagerConfiguration()
+        if #available(iOS 11.0, *) {
+            groupDataManagerConfiguration.assetGroupTypes = [.smartAlbumUserLibrary, .smartAlbumGeneric, .smartAlbumFavorites, .smartAlbumVideos, .smartAlbumSelfPortraits, .smartAlbumLivePhotos, .smartAlbumPanoramas, .smartAlbumTimelapses, .smartAlbumSlomoVideos, .smartAlbumDepthEffect, .smartAlbumBursts, .smartAlbumScreenshots, .smartAlbumAnimated, .albumRegular]
+        } else {
+            groupDataManagerConfiguration.assetGroupTypes = [.smartAlbumUserLibrary, .smartAlbumGeneric, .smartAlbumFavorites, .smartAlbumVideos, .smartAlbumSelfPortraits, .smartAlbumPanoramas, .smartAlbumTimelapses, .smartAlbumSlomoVideos, .smartAlbumBursts, .smartAlbumScreenshots, .albumRegular]
+        }
+        
+        let groupDataManager = DKImageGroupDataManager(configuration: groupDataManagerConfiguration)
+        
+        let photoGalleryViewController = DKImagePickerController(groupDataManager: groupDataManager)
         photoGalleryViewController.singleSelect = true
         photoGalleryViewController.sourceType = .photo
         photoGalleryViewController.showsCancelButton = true
@@ -563,9 +572,12 @@ extension ChatViewController {
                 requestOptions.deliveryMode = .fastFormat
                 requestOptions.version = .original
                 PHImageManager.default().requestAVAsset(forVideo: pickedAsset, options: requestOptions, resultHandler: { (asset, audioMix, info) in
-                    let asset = asset as? AVURLAsset
-                    let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
-                    AttachmentManager.shared.compressVideo(inputURL: (asset?.url)!, outputURL: compressedURL) { (exportSession) in
+                    guard let asset = asset as? AVURLAsset else {
+                        self.removeProgressView()
+                        return
+                    }
+                    let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + asset.url.lastPathComponent)
+                    AttachmentManager.shared.compressVideo(inputURL: asset.url, outputURL: compressedURL) { (exportSession) in
                         guard let session = exportSession else {
                             self.removeProgressView()
                             return
@@ -573,7 +585,7 @@ extension ChatViewController {
                         if session.status == .completed {
                             do {
                                 let compressedData = try Data(contentsOf: compressedURL)
-                                AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
+                                AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: compressedURL.lastPathComponent, fileType: "video" + "/" + "\(compressedURL.pathExtension)", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
                                     let progress = totalBytesSent/totalBytesExpectedToSend
                                     self.updateUploadProgress(with: progress)
                                 }) { (_, _) in
@@ -631,8 +643,8 @@ extension ChatViewController {
     func handleVideoCameraAction() {
         let cameraViewController = UIViewController.cameraViewController()
         cameraViewController.videoProcessed = { url in
-            self.addProgressView()
-            let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
+			self.addProgressView()
+            let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + url.lastPathComponent)
             AttachmentManager.shared.compressVideo(inputURL: url, outputURL: compressedURL) { (exportSession) in
                 guard let session = exportSession else {
                     self.removeProgressView()
@@ -641,7 +653,7 @@ extension ChatViewController {
                 if session.status == .completed {
                     do {
                         let compressedData = try Data(contentsOf: compressedURL)
-                        AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
+                        AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: compressedURL.lastPathComponent, fileType: "video" + "/" + "\(compressedURL.pathExtension)", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
                             let progress = totalBytesSent/totalBytesExpectedToSend
                             self.updateUploadProgress(with: progress)
                         }) { (_, _) in
@@ -1007,7 +1019,7 @@ extension ChatViewController: MessagesDisplayDelegate {
             if let avatarUrl = ccpMessage.getUser().getAvatarUrl() {
                 avatarView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
             } else {
-                avatarView.setImageForName(string: CCPClient.getCurrentUser().getDisplayName() ?? "?", circular: true, textAttributes: nil)
+                avatarView.setImageForName(string: ccpMessage.getUser().getDisplayName() ?? "?", circular: true, textAttributes: nil)
             }
         }
     }
