@@ -228,7 +228,7 @@ extension OpenChannelChatViewController: MessagesDisplayDelegate {
         if let avatarUrl = ccpMessage.getUser().getAvatarUrl() {
             avatarView.sd_setImage(with: URL(string: avatarUrl), completed: nil)
         } else {
-            avatarView.setImageForName(string: CCPClient.getCurrentUser().getDisplayName() ?? "?", circular: true, textAttributes: nil)
+            avatarView.setImageForName(string: ccpMessage.getUser().getDisplayName() ?? "?", circular: true, textAttributes: nil)
         }
     }
 }
