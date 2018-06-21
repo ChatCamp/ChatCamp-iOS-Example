@@ -630,7 +630,10 @@ extension OpenChannelChatViewController {
                 requestOptions.deliveryMode = .fastFormat
                 requestOptions.version = .original
                 PHImageManager.default().requestAVAsset(forVideo: pickedAsset, options: requestOptions, resultHandler: { (asset, audioMix, info) in
-                    guard let asset = asset as? AVURLAsset else { return }
+                    guard let asset = asset as? AVURLAsset else {
+                        self.removeProgressView()
+                        return
+                    }
                     let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + asset.url.lastPathComponent)
                     AttachmentManager.shared.compressVideo(inputURL: asset.url, outputURL: compressedURL) { (exportSession) in
                         guard let session = exportSession else {
