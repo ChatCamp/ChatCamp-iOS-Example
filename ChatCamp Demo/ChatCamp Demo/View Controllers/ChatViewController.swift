@@ -32,6 +32,7 @@ class ChatViewController: MessagesViewController {
     let loadingDotsAnimationDelay : TimeInterval = 0.5
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
+    let progressView = UIProgressView()
     
     init(channel: CCPGroupChannel, sender: Sender) {
         self.channel = channel
@@ -317,6 +318,29 @@ extension ChatViewController: CCPChannelDelegate {
     }
 }
 
+extension ChatViewController {
+    func updateUploadProgress(with progress: Float) {
+        DispatchQueue.main.async {
+            self.progressView.progress = progress
+        }
+    }
+    
+    func addProgressView() {
+        progressView.progress = 0.0
+        progressView.progressTintColor = UIColor(red: 48/255, green: 58/255, blue: 165/255, alpha: 1.0)
+        progressView.frame = view.bounds
+        messageInputBar.topStackView.addArrangedSubview(progressView)
+        messageInputBar.topStackView.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        messageInputBar.topStackViewPadding.bottom = 6
+        messageInputBar.backgroundColor = messageInputBar.backgroundView.backgroundColor
+    }
+    
+    func removeProgressView() {
+        messageInputBar.topStackView.arrangedSubviews.first?.removeFromSuperview()
+        messageInputBar.topStackViewPadding = .zero
+    }
+}
+
 // MARK:- Helpers
 extension ChatViewController {
     
@@ -506,6 +530,7 @@ extension ChatViewController {
         photoGalleryViewController.showsCancelButton = true
         
         photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
+            self.addProgressView()
             if assets.first?.type == .photo {
                 // Asset is photo type
                 guard let pickedAsset = assets.first?.originalAsset else { return }
@@ -517,13 +542,17 @@ extension ChatViewController {
                     if var originalData = data {
                         let image = UIImage(data: originalData)
                         originalData = AttachmentManager.shared.compressImage(image: image!)!
-                        AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
-                            // Do nothing for now. not getting any completion handler call here.
+                        AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
+                            let progress = totalBytesSent/totalBytesExpectedToSend
+                            self.updateUploadProgress(with: progress)
+                        }) { (_, _) in
+                            self.removeProgressView()
                         }
 
                     } else {
                         DispatchQueue.main.async {
                             self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
+                            self.removeProgressView()
                         }
                     }
                 })
@@ -538,16 +567,21 @@ extension ChatViewController {
                     let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
                     AttachmentManager.shared.compressVideo(inputURL: (asset?.url)!, outputURL: compressedURL) { (exportSession) in
                         guard let session = exportSession else {
+                            self.removeProgressView()
                             return
                         }
                         if session.status == .completed {
                             do {
                                 let compressedData = try Data(contentsOf: compressedURL)
-                                AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
-                                    // Do nothing for now. not getting any completion handler call here.
+                                AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
+                                    let progress = totalBytesSent/totalBytesExpectedToSend
+                                    self.updateUploadProgress(with: progress)
+                                }) { (_, _) in
+                                    self.removeProgressView()
                                 }
                             } catch  {
                                 print("exception catch at block - while uploading video")
+                                self.removeProgressView()
                             }
                         }
                     }
@@ -565,6 +599,7 @@ extension ChatViewController {
         photoGalleryViewController.showsCancelButton = true
         
         photoGalleryViewController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
+            self.addProgressView()
             guard let pickedAsset = assets.first?.originalAsset else { return }
             let requestOptions = PHImageRequestOptions()
             requestOptions.deliveryMode = .fastFormat
@@ -574,13 +609,17 @@ extension ChatViewController {
                 if var originalData = data {
                     let image = UIImage(data: originalData)
                     originalData = AttachmentManager.shared.compressImage(image: image!)!
-                    AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg") { (_, _, _, _) in
-                        // Do nothing for now. not getting any completion handler call here.
+                    AttachmentManager.shared.uploadAttachment(data: originalData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).jpeg", fileType: "image/jpeg", uploadProgressHandler: {  totalBytesSent, totalBytesExpectedToSend in
+                        let progress = totalBytesSent/totalBytesExpectedToSend
+                        self.updateUploadProgress(with: progress)
+                    }) { (_, _) in
+                        self.removeProgressView()
                     }
                     
                 } else {
                     DispatchQueue.main.async {
                         self.showAlert(title: "Unable to get image", message: "An error occurred while getting the image.", actionText: "Ok")
+                        self.removeProgressView()
                     }
                 }
             })
@@ -592,19 +631,25 @@ extension ChatViewController {
     func handleVideoCameraAction() {
         let cameraViewController = UIViewController.cameraViewController()
         cameraViewController.videoProcessed = { url in
+            self.addProgressView()
             let compressedURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mov")
             AttachmentManager.shared.compressVideo(inputURL: url, outputURL: compressedURL) { (exportSession) in
                 guard let session = exportSession else {
+                    self.removeProgressView()
                     return
                 }
                 if session.status == .completed {
                     do {
                         let compressedData = try Data(contentsOf: compressedURL)
-                        AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov") { (_, _, _, _) in
-                            // Do nothing for now. not getting any completion handler call here.
+                        AttachmentManager.shared.uploadAttachment(data: compressedData, channel: self.channel, fileName: "\(Date().timeIntervalSince1970).mov", fileType: "video/mov", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
+                            let progress = totalBytesSent/totalBytesExpectedToSend
+                            self.updateUploadProgress(with: progress)
+                        }) { (_, _) in
+                            self.removeProgressView()
                         }
                     } catch  {
                         print("exception catch at block - while uploading video")
+                        self.removeProgressView()
                     }
                 }
             }
@@ -677,12 +722,17 @@ extension ChatViewController: AVAudioRecorderDelegate {
         } else {
             do {
                 let audioData = try Data(contentsOf: recorder.url)
-                AttachmentManager.shared.uploadAttachment(data: audioData, channel: self.channel, fileName: recorder.url.lastPathComponent, fileType: "audio" + "/" + "\(recorder.url.pathExtension)") { (_, _, _, _) in
-                    // Do nothing for now. not getting any completion handler call here.
+                self.addProgressView()
+                AttachmentManager.shared.uploadAttachment(data: audioData, channel: self.channel, fileName: recorder.url.lastPathComponent, fileType: "audio" + "/" + "\(recorder.url.pathExtension)", uploadProgressHandler: {  totalBytesSent, totalBytesExpectedToSend in
+                    let progress = totalBytesSent/totalBytesExpectedToSend
+                    self.updateUploadProgress(with: progress)
+                }) { (_, _) in
+                    self.addProgressView()
                 }
             }
             catch  {
                 print("exception catch at block - while uploading audio message")
+                self.addProgressView()
             }
         }
     }
@@ -698,11 +748,16 @@ extension ChatViewController: UIDocumentMenuDelegate, UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         do {
             let documentData = try Data(contentsOf: url)
-            AttachmentManager.shared.uploadAttachment(data: documentData, channel: self.channel, fileName: url.lastPathComponent, fileType: "application" + "/" + "\(url.pathExtension)") { (_, _, _, _) in
-                // Do nothing for now. not getting any completion handler call here.
+            self.addProgressView()
+            AttachmentManager.shared.uploadAttachment(data: documentData, channel: self.channel, fileName: url.lastPathComponent, fileType: "application" + "/" + "\(url.pathExtension)", uploadProgressHandler: { totalBytesSent, totalBytesExpectedToSend in
+                let progress = totalBytesSent/totalBytesExpectedToSend
+                self.updateUploadProgress(with: progress)
+            }) { (_, _) in
+                self.addProgressView()
             }
         } catch  {
             print("exception catch at block - while uploading document attachment")
+            self.addProgressView()
         }
         
     }
