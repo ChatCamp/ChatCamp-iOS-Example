@@ -8,6 +8,7 @@
 
 import UIKit
 import ChatCamp
+import ChatCampUIKit
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var userIDTextField: UITextField!

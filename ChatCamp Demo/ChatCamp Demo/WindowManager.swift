@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import ChatCampUIKit
 
-class WindowManager {
-    class var shared: WindowManager {
+public class WindowManager {
+    public class var shared: WindowManager {
         struct Singleton {
             static let instance = WindowManager()
         }
@@ -17,13 +18,13 @@ class WindowManager {
         return Singleton.instance
     }
     
-    var window: UIWindow
+    public var window: UIWindow
     
-    init() {
+    public init() {
         window = UIWindow(frame: UIScreen.main.bounds)
     }
     
-    func prepareWindow(isLoggedIn: Bool) {
+    public func prepareWindow(isLoggedIn: Bool) {
         window.rootViewController = initialRootViewController(isLoggedIn: isLoggedIn)
         window.makeKeyAndVisible()
     }
@@ -31,18 +32,18 @@ class WindowManager {
 
 // MARK:- API
 extension WindowManager {
-    func showLoginWithAnimation() {
+    public func showLoginWithAnimation() {
         makeRootViewController(viewController: UIViewController.loginViewController())
     }
     
-    func showHomeWithAnimation() {
+    public func showHomeWithAnimation() {
         makeRootViewController(viewController: UIViewController.homeTabBarNavigationController())
     }
 }
 
 // MARK:- Helpers
 extension WindowManager {
-    fileprivate func initialRootViewController(isLoggedIn: Bool) -> UIViewController {
+    public func initialRootViewController(isLoggedIn: Bool) -> UIViewController {
         if isLoggedIn {
             return UIViewController.homeTabBarNavigationController()
         } else {
@@ -50,7 +51,7 @@ extension WindowManager {
         }
     }
     
-    internal func makeRootViewController(viewController: UIViewController) {
+    public func makeRootViewController(viewController: UIViewController) {
         viewController.view.alpha = 0
         
         UIView.animate(withDuration: DefaultAnimationDuration,

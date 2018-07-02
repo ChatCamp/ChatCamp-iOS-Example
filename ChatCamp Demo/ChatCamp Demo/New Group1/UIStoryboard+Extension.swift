@@ -1,5 +1,5 @@
 //
-//  UIStoryboard+ChatCamp.swift
+//  UIStoryboard+Extension.swift
 //  ChatCamp Demo
 //
 //  Created by Tanmay Khandelwal on 11/02/18.
@@ -13,11 +13,11 @@ extension UIStoryboard {
         return UIStoryboard(name: "Login", bundle: nil)
     }
     
-    static func home() -> UIStoryboard {
-        return UIStoryboard(name: "Home", bundle: nil)
-    }
-    
-    static func createChannel() -> UIStoryboard {
-        return UIStoryboard(name: "CreateChannel", bundle: nil)
-    }
+//    static func home() -> UIStoryboard {
+//        return UIStoryboard(name: "Home", bundle: nil)
+//    }
+//    
+//    static func createChannel() -> UIStoryboard {
+//        return UIStoryboard(name: "CreateChannel", bundle: nil)
+//    }
 }

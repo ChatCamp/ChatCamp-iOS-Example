@@ -1,9 +1,8 @@
-target 'ChatCamp Demo' do
-    use_frameworks!
+platform :ios, '9.0'
 
-    pod 'ChatCamp', '0.1.13'
-    pod 'DKImagePickerController', '4.0.0-beta', :subspecs => ['PhotoGallery', 'Camera', 'InlineCamera']
-    pod 'Alamofire'
-    pod 'SwiftyCam'
-    pod 'MBProgressHUD', '~> 1.1.0'
+use_frameworks!
+
+target 'ChatCamp Demo' do
+    pod 'ChatCampUIKit', :path => '/Users/saurabh/Documents/Library'
+
 end

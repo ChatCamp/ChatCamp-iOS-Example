@@ -9,6 +9,7 @@
 import UIKit
 import ChatCamp
 import UserNotifications
+import ChatCampUIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
