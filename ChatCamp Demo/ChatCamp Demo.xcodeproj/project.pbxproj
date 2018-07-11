@@ -568,7 +568,6 @@
 				C03F740D202EFEBA00423969 /* Frameworks */,
 				C03F740E202EFEBA00423969 /* Resources */,
 				E9F70F2D6D98B494C29A1094 /* [CP] Embed Pods Frameworks */,
-				4EDC9F5FFAA8DC33CD2F5CA8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -648,21 +647,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4EDC9F5FFAA8DC33CD2F5CA8 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		7645D0F571DF30236DFF2FB6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
