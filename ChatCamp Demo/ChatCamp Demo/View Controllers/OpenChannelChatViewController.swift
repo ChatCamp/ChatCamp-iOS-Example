@@ -60,6 +60,7 @@ class OpenChannelChatViewController: MessagesViewController {
         
         setupNavigationItems()
         setupMessageInputBar()
+        setupNotifications()
         
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
@@ -376,7 +377,9 @@ extension OpenChannelChatViewController {
                     
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToItem(at:IndexPath(row: 0, section: count - 1), at: .top, animated: false)
+                        if messages?.count ?? 0 > 0 {
+                            self.messagesCollectionView.scrollToItem(at:IndexPath(row: 0, section: count - 1), at: .top, animated: false)
+                        }
                         self.loadingMessages = false
                     }
                 }
@@ -484,6 +487,10 @@ extension OpenChannelChatViewController {
         }
     }
     
+    func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    }
+    
     @objc func channelProfileButtonTapped() {
         let channelProfileViewController = UIViewController.channelProfileViewController()
         //        channelProfileViewController.channel = self.channel
@@ -494,6 +501,10 @@ extension OpenChannelChatViewController {
 //                self.navigationController?.pushViewController(channelProfileViewController, animated: true)
 //            }
 //        }
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        messagesCollectionView.scrollToBottom(animated: true)
     }
     
     fileprivate func loadMessages(count: Int) {
