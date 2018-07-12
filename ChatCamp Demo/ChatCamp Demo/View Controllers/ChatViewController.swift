@@ -14,6 +14,8 @@ import Photos
 import MobileCoreServices
 import AVFoundation
 
+var currentChannelId = ""
+
 class ChatViewController: MessagesViewController {
     fileprivate var participant: CCPParticipant?
     fileprivate var allParticipants: [CCPParticipant]?
@@ -56,6 +58,7 @@ class ChatViewController: MessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        currentChannelId = channel.getId()
         setupNavigationItems()
         setupMessageInputBar()
         setupNotifications()
@@ -95,6 +98,7 @@ class ChatViewController: MessagesViewController {
         super.viewWillDisappear(animated)
         
         CCPClient.removeChannelDelegate(identifier: ChatViewController.string())
+        currentChannelId = ""
     }
     
     //    override func viewDidDisappear(_ animated: Bool) {

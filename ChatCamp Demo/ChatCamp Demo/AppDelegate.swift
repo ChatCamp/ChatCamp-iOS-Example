@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setupAppearances()
         initializeNotificationServices()
+        CCPClient.addChannelDelegate(channelDelegate: self, identifier: AppDelegate.string())
         WindowManager.shared.prepareWindow(isLoggedIn: false)
         
         return true
@@ -86,6 +87,55 @@ extension AppDelegate {
 
     fileprivate func setupAppearances() {
         UINavigationBar.appearance().tintColor = UIColor(red: 63/255, green: 81/255, blue: 180/255, alpha: 1.0)
+    }
+}
+
+// MARK:- CCPChannelDelegate
+extension AppDelegate: CCPChannelDelegate {
+    func channelDidReceiveMessage(channel: CCPBaseChannel, message: CCPMessage) {
+        if CCPClient.getCurrentUser().getId() != message.getUser().getId() && channel.getId() != currentChannelId && channel.isGroupChannel() {
+            
+            //get the notification center
+            let center = UNUserNotificationCenter.current()
+            
+            center.delegate = self
+            //create the content for the notification
+            let content = UNMutableNotificationContent()
+            content.title = message.getUser().getDisplayName() ?? ""
+            content.body = message.getText()
+            content.sound = UNNotificationSound.default()
+            
+            //notification trigger can be based on time, calendar or location
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.01, repeats: false)
+            
+            //create request to display
+            let request = UNNotificationRequest(identifier: message.getId(), content: content, trigger: trigger)
+            
+            //add request to notification center
+            center.add(request) { (error) in
+                if error != nil {
+                    print("error \(String(describing: error))")
+                }
+            }
+        }
+    }
+    
+    func channelDidChangeTypingStatus(channel: CCPBaseChannel) {
+        // Not applicable
+    }
+    
+    func channelDidUpdateReadStatus(channel: CCPBaseChannel) {
+        // Not applicable
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        completionHandler()
+    }
+    
+    public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound, .badge]) //required to show notification when in foreground
     }
 }
 
