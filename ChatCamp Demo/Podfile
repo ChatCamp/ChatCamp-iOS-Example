@@ -1,7 +1,8 @@
 target 'ChatCamp Demo' do
     use_frameworks!
 
-    pod 'ChatCamp', '0.1.14'
+    pod 'ChatCamp', :path => '/Users/saurabh/Documents/Library'
+    #pod 'ChatCamp', '0.1.14'
     pod 'DKImagePickerController', '4.0.0-beta', :subspecs => ['PhotoGallery', 'Camera', 'InlineCamera']
     pod 'Alamofire'
     pod 'SwiftyCam'

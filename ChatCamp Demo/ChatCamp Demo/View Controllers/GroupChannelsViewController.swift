@@ -35,7 +35,14 @@ class GroupChannelsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        CCPClient.addChannelDelegate(channelDelegate: self, identifier: GroupChannelsViewController.string())
         loadChannels()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        CCPClient.removeChannelDelegate(identifier: GroupChannelsViewController.string())
     }
     
     fileprivate func loadChannels() {
@@ -145,3 +152,28 @@ extension GroupChannelsViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+
+// MARK:- CCPChannelDelegate
+extension GroupChannelsViewController: CCPChannelDelegate {
+    func channelDidReceiveMessage(channel: CCPBaseChannel, message: CCPMessage) {
+        if let index = channels.index(where: { (groupChannel) -> Bool in
+            groupChannel.getId() == channel.getId()
+        }) {
+            channels.remove(at: index)
+            channels.insert(channel as! CCPGroupChannel, at: 0)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    func channelDidChangeTypingStatus(channel: CCPBaseChannel) {
+        // Not applicable
+    }
+    
+    func channelDidUpdateReadStatus(channel: CCPBaseChannel) {
+        // Not applicable
+    }
+}
+
+
