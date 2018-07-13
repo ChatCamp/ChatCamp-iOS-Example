@@ -14,6 +14,8 @@ import Photos
 import MobileCoreServices
 import AVFoundation
 
+var currentChannelId = ""
+
 class ChatViewController: MessagesViewController {
     fileprivate var participant: CCPParticipant?
     fileprivate var allParticipants: [CCPParticipant]?
@@ -56,9 +58,11 @@ class ChatViewController: MessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        currentChannelId = channel.getId()
         setupNavigationItems()
         setupMessageInputBar()
-
+        setupNotifications()
+        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
@@ -94,6 +98,7 @@ class ChatViewController: MessagesViewController {
         super.viewWillDisappear(animated)
         
         CCPClient.removeChannelDelegate(identifier: ChatViewController.string())
+        currentChannelId = ""
     }
     
     //    override func viewDidDisappear(_ animated: Bool) {
@@ -225,6 +230,10 @@ class ChatViewController: MessagesViewController {
         }
     }
     
+    func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    }
+    
     @objc func userProfileTapped() {
         let profileViewController = UIViewController.profileViewController()
         profileViewController.participant = self.participant
@@ -241,6 +250,10 @@ class ChatViewController: MessagesViewController {
                 self.navigationController?.pushViewController(channelProfileViewController, animated: true)
             }
         }
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        messagesCollectionView.scrollToBottom(animated: true)
     }
 }
 
@@ -389,7 +402,9 @@ extension ChatViewController {
                         DispatchQueue.main.async {
                             
                             self.messagesCollectionView.reloadData()
-                            self.messagesCollectionView.scrollToItem(at:IndexPath(row: 0, section: count - 1), at: .top, animated: false)
+                            if messages?.count ?? 0 > 0 {
+                                self.messagesCollectionView.scrollToItem(at:IndexPath(row: 0, section: count - 1), at: .top, animated: false)
+                            }
                             self.loadingMessages = false
                         }
                     
