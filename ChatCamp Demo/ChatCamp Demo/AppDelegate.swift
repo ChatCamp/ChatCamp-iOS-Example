@@ -67,13 +67,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func initializeNotificationServices() -> Void {
-        let settings = UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil)
-        UIApplication.shared.registerUserNotificationSettings(settings)
+        UNUserNotificationCenter.current().delegate = self
         
-        // This is an asynchronous method to retrieve a Device Token
-        // Callbacks are in AppDelegate.swift
-        // Success = didRegisterForRemoteNotificationsWithDeviceToken
-        // Fail = didFailToRegisterForRemoteNotificationsWithError
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {_, _ in })
+        
         UIApplication.shared.registerForRemoteNotifications()
     }
 
