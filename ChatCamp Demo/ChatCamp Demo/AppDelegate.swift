@@ -76,7 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.shared.registerForRemoteNotifications()
     }
-
 }
 
 // MARK - Setup
@@ -151,13 +150,14 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         let username = CCPClient.getCurrentUser().getDisplayName()
         
         let sender = Sender(id: userID, displayName: username!)
-        if let channelId = (response.notification.request.content.userInfo as? [String: Any])?.first?.value as? String{
-            CCPGroupChannel.get(groupChannelId: channelId) {(groupChannel, error) in
-                if let channel = groupChannel {
-                    let chatViewController = ChatViewController(channel: channel, sender: sender)
-                    let homeTabBarController = UIViewController.homeTabBarNavigationController()
-                    WindowManager.shared.window.rootViewController = homeTabBarController
-                    homeTabBarController.pushViewController(chatViewController, animated: true)
+        if let userInfo = response.notification.request.content.userInfo as? [String: Any], let channelId = userInfo["channelId"] as? String{                DispatchQueue.main.async {
+                CCPGroupChannel.get(groupChannelId: channelId) {(groupChannel, error) in
+                    if let channel = groupChannel {
+                        let chatViewController = ChatViewController(channel: channel, sender: sender)
+                        let homeTabBarController = UIViewController.homeTabBarNavigationController()
+                        WindowManager.shared.window.rootViewController = homeTabBarController
+                        homeTabBarController.pushViewController(chatViewController, animated: true)
+                    }
                 }
             }
         }
