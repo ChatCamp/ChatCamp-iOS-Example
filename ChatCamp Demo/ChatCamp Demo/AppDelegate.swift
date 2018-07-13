@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupAppearances()
         initializeNotificationServices()
         CCPClient.addChannelDelegate(channelDelegate: self, identifier: AppDelegate.string())
-        WindowManager.shared.prepareWindow(isLoggedIn: false)
+        routeUser()
         
         return true
     }
@@ -87,6 +87,27 @@ extension AppDelegate {
 
     fileprivate func setupAppearances() {
         UINavigationBar.appearance().tintColor = UIColor(red: 63/255, green: 81/255, blue: 180/255, alpha: 1.0)
+    }
+    
+    fileprivate func routeUser() {
+        if let userID = UserDefaults.standard.userID() {
+            CCPClient.connect(uid: userID) { [unowned self] (user, error) in
+                DispatchQueue.main.async {
+                    if error == nil {
+                        if let deviceToken = UserDefaults.standard.deviceToken() {
+                            CCPClient.updateUserPushToken(token: deviceToken) { (_,_) in
+                                print("update device token on the server.")
+                            }
+                        }
+                        WindowManager.shared.prepareWindow(isLoggedIn: true)
+                    } else {
+                        WindowManager.shared.prepareWindow(isLoggedIn: false)
+                    }
+                }
+            }
+        } else {
+            WindowManager.shared.prepareWindow(isLoggedIn: false)
+        }
     }
 }
 
