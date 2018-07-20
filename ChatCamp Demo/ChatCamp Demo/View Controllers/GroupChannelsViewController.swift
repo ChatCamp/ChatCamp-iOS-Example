@@ -26,10 +26,14 @@ class GroupChannelsViewController: UIViewController {
         }
     }
     
+    fileprivate var loadingChannels = false
     var channels: [CCPGroupChannel] = []
+    var groupChannelsQuery: CCPGroupChannelListQuery!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        groupChannelsQuery = CCPGroupChannel.createGroupChannelListQuery()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,18 +53,21 @@ class GroupChannelsViewController: UIViewController {
         let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
         progressHud.label.text = "Loading..."
         progressHud.contentColor = .black
-        let groupChannelsQuery = CCPGroupChannel.createGroupChannelListQuery()
+        loadingChannels = true
         groupChannelsQuery.get { [unowned self] (channels, error) in
             progressHud.hide(animated: true)
             if error == nil {
-                self.channels = channels!
+                guard let channels = channels else { return }
+                self.channels.append(contentsOf: channels)
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    self.loadingChannels = false
                 }
             } else {
                 DispatchQueue.main.async {
                     self.showAlert(title: "Can't Load Group Channels", message: "Unable to load Group Channels right now. Please try later.", actionText: "Ok")
+                    self.loadingChannels = false
                 }
             }
         }
@@ -173,6 +180,15 @@ extension GroupChannelsViewController: CCPChannelDelegate {
     
     func channelDidUpdateReadStatus(channel: CCPBaseChannel) {
         // Not applicable
+    }
+}
+
+// MARK:- ScrollView Delegate Methods
+extension GroupChannelsViewController {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if (tableView.indexPathsForVisibleRows?.contains([0, channels.count - 1]) ?? false) && !loadingChannels && channels.count >= 20 {
+            loadChannels()
+        }
     }
 }
 
