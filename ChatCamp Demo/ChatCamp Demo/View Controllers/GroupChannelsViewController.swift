@@ -34,8 +34,6 @@ class GroupChannelsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        groupChannelsQuery = CCPGroupChannel.createGroupChannelListQuery()
-        
         do {
             let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
                 .appendingPathComponent("ChatDatabase.sqlite")
@@ -50,13 +48,15 @@ class GroupChannelsViewController: UIViewController {
             print("Unable to open database. Verify that you created the directory described in the Getting Started section.")
         }
         
-        loadChannels()
+        loadChannelsFromLocalStorage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         CCPClient.addChannelDelegate(channelDelegate: self, identifier: GroupChannelsViewController.string())
+        groupChannelsQuery = CCPGroupChannel.createGroupChannelListQuery()
+        loadChannelsFromAPI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -65,7 +65,7 @@ class GroupChannelsViewController: UIViewController {
         CCPClient.removeChannelDelegate(identifier: GroupChannelsViewController.string())
     }
     
-    fileprivate func loadChannels() {
+    fileprivate func loadChannelsFromLocalStorage() {
         if let loadedChannels = self.db.getGroupChannels() {
             if loadedChannels.count > 0 {
                 
@@ -76,13 +76,11 @@ class GroupChannelsViewController: UIViewController {
                 }
             }
         }
-        
-//        let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
-//        progressHud.label.text = "Loading..."
-//        progressHud.contentColor = .black
+    }
+    
+    func loadChannelsFromAPI() {
         loadingChannels = true
         groupChannelsQuery.get { [unowned self] (channels, error) in
-//            progressHud.hide(animated: true)
             if error == nil {
                 guard let channels = channels else { return }
                 self.channels = channels
@@ -128,21 +126,17 @@ extension GroupChannelsViewController: UITableViewDataSource {
         let channel = channels[indexPath.row]
         
         if channel.getParticipantsCount() == 2 && channel.isDistinct() {
-            CCPGroupChannel.get(groupChannelId: channel.getId()) { (groupChannel, error) in
-                if let gC = groupChannel {
-                    let participants = gC.getParticipants()
-                    for participant in participants {
-                        if participant.getId() != CCPClient.getCurrentUser().getId() {
-                            cell.nameLabel.text = participant.getDisplayName()
-                            if let avatarUrl = participant.getAvatarUrl() {
-                                cell.avatarImageView?.sd_setImage(with: URL(string: avatarUrl), completed: nil)
-                            } else {
-                                cell.avatarImageView.setImageForName(string: participant.getDisplayName() ?? "?", backgroundColor: nil, circular: true, textAttributes: nil)
-                            }
-                        } else {
-                            continue
-                        }
+            let participants = channel.getParticipants()
+            for participant in participants {
+                if participant.getId() != CCPClient.getCurrentUser().getId() {
+                    cell.nameLabel.text = participant.getDisplayName()
+                    if let avatarUrl = participant.getAvatarUrl() {
+                        cell.avatarImageView?.sd_setImage(with: URL(string: avatarUrl), completed: nil)
+                    } else {
+                        cell.avatarImageView.setImageForName(string: participant.getDisplayName() ?? "?", backgroundColor: nil, circular: true, textAttributes: nil)
                     }
+                } else {
+                    continue
                 }
             }
         } else {
