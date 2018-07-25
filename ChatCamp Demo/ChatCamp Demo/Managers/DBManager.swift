@@ -127,23 +127,32 @@ extension SQLiteDatabase {
         print("Successfully inserted row.")
     }
     
-    func insertGroupChannel(channel: CCPGroupChannel) throws {
-        let channel = Channel(groupChannel: channel.serialize() as! NSString)
-        let insertSql = "INSERT OR REPLACE INTO Channel (groupChannel) VALUES (?);"
-        let insertStatement = try prepareStatement(sql: insertSql)
-        defer {
-            sqlite3_finalize(insertStatement)
-        }
-        
-        guard sqlite3_bind_text(insertStatement, 1, channel.groupChannel.utf8String, -1, nil) == SQLITE_OK else {
-            throw SQLiteError.Bind(message: errorMessage)
-        }
-        
-        guard sqlite3_step(insertStatement) == SQLITE_DONE else {
+    func insertGroupChannels(channels: [CCPGroupChannel]) throws {
+        let deleteSql = "DELETE FROM Channel"
+        let deleteStatement = try prepareStatement(sql: deleteSql)
+        guard sqlite3_step(deleteStatement) == SQLITE_DONE else {
             throw SQLiteError.Step(message: errorMessage)
         }
-        
-        print("Successfully inserted row.")
+        sqlite3_finalize(deleteStatement)
+
+        for channel in channels {
+            let channel = Channel(groupChannel: channel.serialize() as! NSString)
+            let insertSql = "INSERT OR REPLACE INTO Channel (groupChannel) VALUES (?);"
+            let insertStatement = try prepareStatement(sql: insertSql)
+            defer {
+                sqlite3_finalize(insertStatement)
+            }
+            
+            guard sqlite3_bind_text(insertStatement, 1, channel.groupChannel.utf8String, -1, nil) == SQLITE_OK else {
+                throw SQLiteError.Bind(message: errorMessage)
+            }
+            
+            guard sqlite3_step(insertStatement) == SQLITE_DONE else {
+                throw SQLiteError.Step(message: errorMessage)
+            }
+            
+            print("Successfully inserted channel in DB.")
+        }
     }
     
     func getGroupChannels() -> [CCPGroupChannel]? {

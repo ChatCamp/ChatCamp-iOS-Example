@@ -27,6 +27,7 @@ class GroupChannelsViewController: UIViewController {
     }
     
     fileprivate var loadingChannels = false
+    fileprivate var db: SQLiteDatabase!
     var channels: [CCPGroupChannel] = []
     var groupChannelsQuery: CCPGroupChannelListQuery!
     
@@ -34,13 +35,28 @@ class GroupChannelsViewController: UIViewController {
         super.viewDidLoad()
         
         groupChannelsQuery = CCPGroupChannel.createGroupChannelListQuery()
+        
+        do {
+            let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                .appendingPathComponent("ChatDatabase.sqlite")
+            db = try! SQLiteDatabase.open(path: fileURL.path)
+            print("Successfully opened connection to database.")
+            do {
+                try db.createTable(table: Channel.self)
+            } catch {
+                print(db.errorMessage)
+            }
+        } catch SQLiteError.OpenDatabase(let message) {
+            print("Unable to open database. Verify that you created the directory described in the Getting Started section.")
+        }
+        
+        loadChannels()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         CCPClient.addChannelDelegate(channelDelegate: self, identifier: GroupChannelsViewController.string())
-        loadChannels()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -50,20 +66,38 @@ class GroupChannelsViewController: UIViewController {
     }
     
     fileprivate func loadChannels() {
-        let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
-        progressHud.label.text = "Loading..."
-        progressHud.contentColor = .black
+        if let loadedChannels = self.db.getGroupChannels() {
+            if loadedChannels.count > 0 {
+                
+                self.channels = loadedChannels
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        
+//        let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        progressHud.label.text = "Loading..."
+//        progressHud.contentColor = .black
         loadingChannels = true
         groupChannelsQuery.get { [unowned self] (channels, error) in
-            progressHud.hide(animated: true)
+//            progressHud.hide(animated: true)
             if error == nil {
                 guard let channels = channels else { return }
-                self.channels.append(contentsOf: channels)
+                self.channels = channels
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                     self.loadingChannels = false
                 }
+                
+                do {
+                    try self.db.insertGroupChannels(channels: channels)
+                } catch {
+                    print(self.db.errorMessage)
+                }
+                
             } else {
                 DispatchQueue.main.async {
                     self.showAlert(title: "Can't Load Group Channels", message: "Unable to load Group Channels right now. Please try later.", actionText: "Ok")
@@ -187,7 +221,23 @@ extension GroupChannelsViewController: CCPChannelDelegate {
 extension GroupChannelsViewController {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (tableView.indexPathsForVisibleRows?.contains([0, channels.count - 1]) ?? false) && !loadingChannels && channels.count >= 20 {
-            loadChannels()
+            loadingChannels = true
+            groupChannelsQuery.get { [unowned self] (channels, error) in
+                if error == nil {
+                    guard let channels = channels else { return }
+                    self.channels.append(contentsOf: channels)
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        self.loadingChannels = false
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Can't Load Group Channels", message: "Unable to load Group Channels right now. Please try later.", actionText: "Ok")
+                        self.loadingChannels = false
+                    }
+                }
+            }
         }
     }
 }
