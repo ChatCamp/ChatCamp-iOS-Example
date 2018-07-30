@@ -25,6 +25,10 @@ struct Chat {
     let data: NSString
 }
 
+struct Channel {
+    let groupChannel: NSString
+}
+
 class SQLiteDatabase {
     
     var errorMessage: String {
@@ -123,6 +127,58 @@ extension SQLiteDatabase {
         print("Successfully inserted row.")
     }
     
+    func insertGroupChannels(channels: [CCPGroupChannel]) throws {
+        let deleteSql = "DELETE FROM Channel"
+        let deleteStatement = try prepareStatement(sql: deleteSql)
+        guard sqlite3_step(deleteStatement) == SQLITE_DONE else {
+            throw SQLiteError.Step(message: errorMessage)
+        }
+        sqlite3_finalize(deleteStatement)
+
+        for channel in channels {
+            let channel = Channel(groupChannel: channel.serialize() as! NSString)
+            let insertSql = "INSERT OR REPLACE INTO Channel (groupChannel) VALUES (?);"
+            let insertStatement = try prepareStatement(sql: insertSql)
+            defer {
+                sqlite3_finalize(insertStatement)
+            }
+            
+            guard sqlite3_bind_text(insertStatement, 1, channel.groupChannel.utf8String, -1, nil) == SQLITE_OK else {
+                throw SQLiteError.Bind(message: errorMessage)
+            }
+            
+            guard sqlite3_step(insertStatement) == SQLITE_DONE else {
+                throw SQLiteError.Step(message: errorMessage)
+            }
+            
+            print("Successfully inserted channel in DB.")
+        }
+    }
+    
+    func getGroupChannels() -> [CCPGroupChannel]? {
+        let querySql = "SELECT * FROM Channel"
+        
+        guard let queryStatement = try? prepareStatement(sql: querySql) else {
+            return nil
+        }
+        
+        defer {
+            sqlite3_finalize(queryStatement)
+        }
+        
+        var groupChannels = [CCPGroupChannel]()
+        
+        while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+            let queryResult = sqlite3_column_text(queryStatement, 0)
+            let data = String(cString: queryResult!) as NSString
+
+            let groupChannel = CCPGroupChannel.createfromSerializedData(jsonString: data as String)
+            groupChannels.append(groupChannel!)
+        }
+        
+        return groupChannels
+    }
+    
     func chat(channel: CCPBaseChannel) -> [CCPMessage]? {
         let channelType = (channel.isGroupChannel() ? "group" : "open")
         let channelId = channel.getId()
@@ -186,6 +242,16 @@ extension Chat: SQLTable {
         CREATE IF NOT EXISTS INDEX channelType_2 Chat(channelType);
         CREATE IF NOT EXISTS INDEX channelId_3 Chat(channelId);
         CREATE IF NOT EXISTS INDEX timestamp_4 Chat(timestamp);
+        """
+    }
+}
+
+extension Channel: SQLTable {
+    static var createStatement: String {
+        return """
+        CREATE TABLE IF NOT EXISTS Channel(
+        groupChannel TEXT NOT NULL
+        );
         """
     }
 }
