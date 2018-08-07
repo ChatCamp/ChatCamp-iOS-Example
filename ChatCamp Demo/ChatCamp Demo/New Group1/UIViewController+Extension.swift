@@ -14,34 +14,6 @@ extension UIViewController {
     static func loginViewController() -> LoginViewController {
         return UIStoryboard.login().instantiateViewController(withIdentifier: LoginViewController.string()) as! LoginViewController
     }
-    
-//    static func homeTabBarNavigationController() -> UINavigationController {
-//        return UIStoryboard.home().instantiateViewController(withIdentifier: UINavigationController.string()) as! UINavigationController
-//    }
-//    
-//    static func chatViewController(channel: CCPGroupChannel, sender: Sender) -> ChatViewController {
-//        return ChatViewController(channel:channel, sender: sender)
-//    }
-//    
-//    static func createChannelViewController() -> UINavigationController {
-//        return UIStoryboard.createChannel().instantiateViewController(withIdentifier: UINavigationController.string()) as! UINavigationController
-//    }
-//    
-//    static func profileViewController() -> ProfileViewController {
-//        return UIStoryboard.home().instantiateViewController(withIdentifier: ProfileViewController.string()) as! ProfileViewController
-//    }
-//    
-//    static func channelProfileViewController() -> ChannelProfileViewController {
-//        return UIStoryboard.home().instantiateViewController(withIdentifier: ChannelProfileViewController.string()) as! ChannelProfileViewController
-//    }
-//    
-//    static func cameraViewController() -> CameraViewController {
-//        return UIStoryboard.home().instantiateViewController(withIdentifier: CameraViewController.string()) as! CameraViewController
-//    }
-//    
-//    static func imagePreviewViewController() -> ImagePreviewViewController {
-//        return UIStoryboard.home().instantiateViewController(withIdentifier: ImagePreviewViewController.string()) as! ImagePreviewViewController
-//    }
 }
 
 // MARK:- Alerts
