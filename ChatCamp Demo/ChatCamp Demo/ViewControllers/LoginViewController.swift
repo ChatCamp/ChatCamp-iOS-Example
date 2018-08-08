@@ -46,15 +46,19 @@ extension LoginViewController {
                         alertController.dismiss(animated: true, completion: nil)
                     })
                     alertController.addAction(okAction)
-                    
                     self.present(alertController, animated: true, completion: nil)
+                    
                     return
                 } else {
                     UserDefaults.standard.setUserID(userID: userID)
-                    UserDefaults.standard.setUsername(username: username)
                     if let deviceToken = UserDefaults.standard.deviceToken() {
                         CCPClient.updateUserPushToken(token: deviceToken) { (_,_) in
                             print("update device token on the server.")
+                        }
+                    }
+                    CCPClient.updateDisplayNameOnServer(displayName: username) { (user, error) in
+                        if error == nil {
+                            UserDefaults.standard.setUsername(username: username)
                         }
                     }
                     WindowManager.shared.showHomeWithAnimation()
