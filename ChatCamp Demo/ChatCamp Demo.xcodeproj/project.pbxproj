@@ -55,17 +55,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		09925AE820E656F700D3DEB8 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				09925AE920E6571D00D3DEB8 /* LoginViewController.swift */,
-				09A94AB4210F3B3400148074 /* HomeTabBarController.swift */,
-				09F14398210F516600FC3574 /* SettingsViewController.swift */,
-			);
-			name = ViewControllers;
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		09925AED20E6593300D3DEB8 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +75,26 @@
 				C03F741F202EFEBA00423969 /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		09BCB58F211B0B4E00D2D7B4 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				09925AE920E6571D00D3DEB8 /* LoginViewController.swift */,
+				09A94AB4210F3B3400148074 /* HomeTabBarController.swift */,
+				09F14398210F516600FC3574 /* SettingsViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		09BCB590211B0B7B00D2D7B4 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				09925AE620E6561C00D3DEB8 /* Login.storyboard */,
+				09A94AB2210F3A0200148074 /* Home.storyboard */,
+				C03F741C202EFEBA00423969 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		757446D3A48E53BEACAF870E /* Pods */ = {
@@ -118,23 +127,13 @@
 		C03F7412202EFEBA00423969 /* ChatCamp Demo */ = {
 			isa = PBXGroup;
 			children = (
+				09BCB590211B0B7B00D2D7B4 /* Storyboards */,
+				09BCB58F211B0B4E00D2D7B4 /* ViewControllers */,
 				09925AED20E6593300D3DEB8 /* Extension */,
-				09925AE820E656F700D3DEB8 /* ViewControllers */,
-				C03F7426202F00D900423969 /* Storyboards */,
 				3FCB7B5A206813F50017A36C /* ChatCamp Demo.entitlements */,
 				09BCB58E211B0A8600D2D7B4 /* Supporting Files */,
 			);
 			path = "ChatCamp Demo";
-			sourceTree = "<group>";
-		};
-		C03F7426202F00D900423969 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				09925AE620E6561C00D3DEB8 /* Login.storyboard */,
-				09A94AB2210F3A0200148074 /* Home.storyboard */,
-				C03F741C202EFEBA00423969 /* LaunchScreen.storyboard */,
-			);
-			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		C176E04E4E6E5AD69F28AF2C /* Frameworks */ = {
