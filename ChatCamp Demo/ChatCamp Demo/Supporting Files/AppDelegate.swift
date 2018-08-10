@@ -32,12 +32,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        CCPClient.disconnect { error in
+            //do nothing here
+        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        if let userID = UserDefaults.standard.userID() {
+            CCPClient.connect(uid: userID) { (user, error) in
+                //do nothing here
+            }
+        }
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -153,15 +158,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         let username = CCPClient.getCurrentUser().getDisplayName()
         
         let sender = Sender(id: userID, displayName: username!)
-        if let userInfo = response.notification.request.content.userInfo as? [String: Any], let channelId = userInfo["channelId"] as? String{                DispatchQueue.main.async {
-            CCPGroupChannel.get(groupChannelId: channelId) {(groupChannel, error) in
-                if let channel = groupChannel {
-                    let chatViewController = ChatViewController(channel: channel, sender: sender)
-                    let homeTabBarController = UIViewController.homeTabBarNavigationController()
-                    WindowManager.shared.window.rootViewController = homeTabBarController
-                    homeTabBarController.pushViewController(chatViewController, animated: true)
+        if let userInfo = response.notification.request.content.userInfo as? [String: Any], let channelId = userInfo["channelId"] as? String{
+            DispatchQueue.main.async {
+                CCPGroupChannel.get(groupChannelId: channelId) {(groupChannel, error) in
+                    if let channel = groupChannel {
+                        let chatViewController = ChatViewController(channel: channel, sender: sender)
+                        let homeTabBarController = UIViewController.homeTabBarNavigationController()
+                        WindowManager.shared.window.rootViewController = homeTabBarController
+                        homeTabBarController.pushViewController(chatViewController, animated: true)
+                    }
                 }
-            }
             }
         }
         
