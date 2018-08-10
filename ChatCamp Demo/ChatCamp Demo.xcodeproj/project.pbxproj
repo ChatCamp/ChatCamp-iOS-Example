@@ -568,6 +568,7 @@
 				C03F740D202EFEBA00423969 /* Frameworks */,
 				C03F740E202EFEBA00423969 /* Resources */,
 				6F2F5F282FD0C2AB866028C3 /* [CP] Embed Pods Frameworks */,
+				0933F39C211C71310047E6D0 /* Remove Unused Architectures Script */,
 			);
 			buildRules = (
 			);
@@ -647,6 +648,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0933F39C211C71310047E6D0 /* Remove Unused Architectures Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Remove Unused Architectures Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "FRAMEWORK=\"ChatCamp\"\nFRAMEWORK_EXECUTABLE_PATH=\"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/$FRAMEWORK.framework/$FRAMEWORK\"\nEXTRACTED_ARCHS=()\nfor ARCH in $ARCHS\ndo\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"";
+		};
 		6F2F5F282FD0C2AB866028C3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
