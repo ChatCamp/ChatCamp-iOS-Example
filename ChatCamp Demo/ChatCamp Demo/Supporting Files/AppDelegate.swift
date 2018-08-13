@@ -26,11 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    }
-
     func applicationDidEnterBackground(_ application: UIApplication) {
         CCPClient.disconnect { error in
             //do nothing here
@@ -44,14 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
     
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -62,11 +49,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let token = tokenParts.joined()
         UserDefaults.standard.setDeviceToken(deviceToken: token)
         print("Device Token: \(token)")
-        
-        // ...register device token with our Time Entry API server via REST
     }
     
-        func application(_ application: UIApplication,
+    func application(_ application: UIApplication,
                          didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Device token for push notifications: FAIL -- ")
         print(error)
@@ -98,7 +83,7 @@ extension AppDelegate {
     
     fileprivate func routeUser() {
         if let userID = UserDefaults.standard.userID() {
-            CCPClient.connect(uid: userID) { [unowned self] (user, error) in
+            CCPClient.connect(uid: userID) { (user, error) in
                 DispatchQueue.main.async {
                     if error == nil {
                         if let deviceToken = UserDefaults.standard.deviceToken() {
