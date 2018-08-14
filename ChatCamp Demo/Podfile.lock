@@ -1,9 +1,9 @@
 PODS:
   - Alamofire (4.7.3)
-  - ChatCamp (0.1.17)
+  - ChatCamp (0.1.18)
   - ChatCampUIKit (0.1.1):
     - Alamofire
-    - ChatCamp (= 0.1.17)
+    - ChatCamp (= 0.1.18)
     - DKImagePickerController (~> 4.0.0-beta)
     - MBProgressHUD (~> 1.1.0)
     - SwiftyCam
@@ -84,8 +84,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
-  ChatCamp: d466a4ceeb224716e97080bb7e63a721a730b032
-  ChatCampUIKit: 34d51dc1b0d6b3275ea25bc41ce10899ecb6e0ac
+  ChatCamp: 5f1724b6775d6aa0cd35593a903862cd5a4c6b79
+  ChatCampUIKit: 5787bb01a02e8f6aa59c2675eca14e4208330a87
   CLImageEditor: ec5ae50b3a54c9818c0bdb243b20665a1c6718e3
   DKCamera: 6077537273ffac6288071fbbbbf57d57c62e6803
   DKImagePickerController: 43789fb00974b13f26263cc1ee0de5c2e6c6390d
