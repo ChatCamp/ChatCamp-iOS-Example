@@ -14,6 +14,8 @@ import ChatCampUIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    var groupChannelId = ""
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         setupChatCampSDK()
@@ -27,16 +29,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        CCPClient.disconnect { error in
-            //do nothing here
+        CCPClient.disconnect { _ in
+            CCPClient.addConnectionDelegate(connectionDelegate: self, identifier: AppDelegate.string())
         }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         if let userID = UserDefaults.standard.userID() {
-            CCPClient.connect(uid: userID) { (user, error) in
-                //do nothing here
-            }
+            CCPClient.connect(uid: userID) { (_, _) in }
         }
     }
     
@@ -113,9 +113,14 @@ extension AppDelegate: CCPChannelDelegate {
             
             let content = UNMutableNotificationContent()
             content.title = message.getUser().getDisplayName() ?? ""
-            content.body = message.getText()
             content.sound = UNNotificationSound.default()
             content.userInfo = ["channelId": channel.getId()]
+            let messageType = message.getType()
+            if messageType == "attachment" {
+                content.body = "Attachment Received"
+            } else {
+                content.body = message.getText()
+            }
             
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.01, repeats: false)
             let request = UNNotificationRequest(identifier: message.getId(), content: content, trigger: trigger)
@@ -139,13 +144,14 @@ extension AppDelegate: CCPChannelDelegate {
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
     public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userID = CCPClient.getCurrentUser().getId()
-        let username = CCPClient.getCurrentUser().getDisplayName()
-        
-        let sender = Sender(id: userID, displayName: username!)
-        if let userInfo = response.notification.request.content.userInfo as? [String: Any], let channelId = userInfo["channelId"] as? String{
-            DispatchQueue.main.async {
-                CCPGroupChannel.get(groupChannelId: channelId) {(groupChannel, error) in
+        if let userInfo = response.notification.request.content.userInfo as? [String: Any], let channelId = userInfo["channelId"] as? String {
+            groupChannelId = channelId
+            if !(response.notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self) ?? true) {
+                let userID = CCPClient.getCurrentUser().getId()
+                let username = CCPClient.getCurrentUser().getDisplayName()
+                
+                let sender = Sender(id: userID, displayName: username!)
+                CCPGroupChannel.get(groupChannelId: self.groupChannelId) {(groupChannel, error) in
                     if let channel = groupChannel {
                         let chatViewController = ChatViewController(channel: channel, sender: sender)
                         let homeTabBarController = UIViewController.homeTabBarNavigationController()
@@ -164,3 +170,24 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 }
 
+extension AppDelegate: CCPConnectionDelegate {
+    func connectionDidChange(isConnected: Bool) {
+        CCPClient.removeConnectionDelegate(identifier: AppDelegate.string())
+        if isConnected && !groupChannelId.isEmpty {
+            DispatchQueue.main.async {
+                let userID = CCPClient.getCurrentUser().getId()
+                let username = CCPClient.getCurrentUser().getDisplayName()
+                
+                let sender = Sender(id: userID, displayName: username!)
+                CCPGroupChannel.get(groupChannelId: self.groupChannelId) {(groupChannel, error) in
+                    if let channel = groupChannel {
+                        let chatViewController = ChatViewController(channel: channel, sender: sender)
+                        let homeTabBarController = UIViewController.homeTabBarNavigationController()
+                        WindowManager.shared.window.rootViewController = homeTabBarController
+                        homeTabBarController.pushViewController(chatViewController, animated: true)
+                    }
+                }
+            }
+        }
+    }
+}
