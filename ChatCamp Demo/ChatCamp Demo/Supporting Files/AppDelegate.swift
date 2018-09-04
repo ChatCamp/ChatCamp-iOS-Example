@@ -133,13 +133,17 @@ extension AppDelegate: CCPChannelDelegate {
         }
     }
     
-    func channelDidChangeTypingStatus(channel: CCPBaseChannel) {
-        // Not applicable
-    }
+    func channelDidChangeTypingStatus(channel: CCPBaseChannel) { }
     
-    func channelDidUpdateReadStatus(channel: CCPBaseChannel) {
-        // Not applicable
-    }
+    func channelDidUpdateReadStatus(channel: CCPBaseChannel) { }
+    
+    func channelDidUpdated(channel: CCPBaseChannel) { }
+    
+    func onTotalGroupChannelCount(count: Int, totalCountFilterParams: TotalCountFilterParams) { }
+    
+    func onGroupChannelParticipantJoined(groupChannel: CCPGroupChannel, participant: CCPUser) { }
+    
+    func onGroupChannelParticipantLeft(groupChannel: CCPGroupChannel, participant: CCPUser) { }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
