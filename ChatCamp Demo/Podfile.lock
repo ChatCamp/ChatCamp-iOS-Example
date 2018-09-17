@@ -63,13 +63,12 @@ PODS:
   - SwiftyCam (2.6.0)
 
 DEPENDENCIES:
-  - ChatCampUIKit
+  - ChatCampUIKit (from `https://github.com/ChatCamp/ChatCamp-iOS-UI-Kit`, branch `swift3`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - ChatCamp
-    - ChatCampUIKit
     - CLImageEditor
     - DKCamera
     - DKImagePickerController
@@ -78,6 +77,16 @@ SPEC REPOS:
     - MBProgressHUD
     - SDWebImage
     - SwiftyCam
+
+EXTERNAL SOURCES:
+  ChatCampUIKit:
+    :branch: swift3
+    :git: https://github.com/ChatCamp/ChatCamp-iOS-UI-Kit
+
+CHECKOUT OPTIONS:
+  ChatCampUIKit:
+    :commit: 59ea04c06a570bd3196626fcf8efe772e484191a
+    :git: https://github.com/ChatCamp/ChatCamp-iOS-UI-Kit
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
@@ -92,6 +101,6 @@ SPEC CHECKSUMS:
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SwiftyCam: 86c114177a1b1f5dc2c82384577d0c20b922a31b
 
-PODFILE CHECKSUM: 41afe310e3cbaca915cbb0b8c0572bb169028d1d
+PODFILE CHECKSUM: a7f108c92a684a069166e94cea6aaac5fbca7e70
 
 COCOAPODS: 1.5.3

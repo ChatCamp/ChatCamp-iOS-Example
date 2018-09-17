@@ -3,15 +3,7 @@ platform :ios, '10.0'
 use_frameworks!
 
 target 'ChatCamp Demo' do
-    pod 'ChatCampUIKit'
-end
 
-post_install do |installer|
-    installer.pods_project.targets.each do |target|
-        if target.name == "SwiftyCam"
-            target.build_configurations.each do |config|
-                config.build_settings['SWIFT_VERSION'] = '3.3'
-            end
-        end
-    end
+    pod 'ChatCampUIKit', :git => 'https://github.com/ChatCamp/ChatCamp-iOS-UI-Kit', :branch => 'swift3'
+
 end
