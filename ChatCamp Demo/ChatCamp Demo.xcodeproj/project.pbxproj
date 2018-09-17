@@ -15,7 +15,6 @@
 		09A94AB3210F3A0200148074 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09A94AB2210F3A0200148074 /* Home.storyboard */; };
 		09A94AB5210F3B3500148074 /* HomeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A94AB4210F3B3400148074 /* HomeTabBarController.swift */; };
 		09A94AB7210F3B6400148074 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A94AB6210F3B6400148074 /* Constants.swift */; };
-		09B9633D214BC54D00E37ACE /* ChatViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B9633C214BC54D00E37ACE /* ChatViewController+Extension.swift */; };
 		09F14399210F516600FC3574 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F14398210F516600FC3574 /* SettingsViewController.swift */; };
 		18AF1CD715B39873D579BB06 /* Pods_ChatCamp_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 391ADF7DF98B999871C9C265 /* Pods_ChatCamp_Demo.framework */; };
 		C03F7414202EFEBA00423969 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F7413202EFEBA00423969 /* AppDelegate.swift */; };
@@ -32,7 +31,6 @@
 		09A94AB2210F3A0200148074 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		09A94AB4210F3B3400148074 /* HomeTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabBarController.swift; sourceTree = "<group>"; };
 		09A94AB6210F3B6400148074 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		09B9633C214BC54D00E37ACE /* ChatViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Extension.swift"; sourceTree = "<group>"; };
 		09F14398210F516600FC3574 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2F5E078CA6C3C8A48362976F /* Pods-ChatCamp Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatCamp Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		391ADF7DF98B999871C9C265 /* Pods_ChatCamp_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatCamp_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,7 +83,6 @@
 				09925AE920E6571D00D3DEB8 /* LoginViewController.swift */,
 				09A94AB4210F3B3400148074 /* HomeTabBarController.swift */,
 				09F14398210F516600FC3574 /* SettingsViewController.swift */,
-				09B9633C214BC54D00E37ACE /* ChatViewController+Extension.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -266,7 +263,6 @@
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -281,7 +277,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -302,7 +297,6 @@
 				09A94AB7210F3B6400148074 /* Constants.swift in Sources */,
 				C03F7414202EFEBA00423969 /* AppDelegate.swift in Sources */,
 				09925AFF20E65D5C00D3DEB8 /* WindowManager.swift in Sources */,
-				09B9633D214BC54D00E37ACE /* ChatViewController+Extension.swift in Sources */,
 				09F14399210F516600FC3574 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
