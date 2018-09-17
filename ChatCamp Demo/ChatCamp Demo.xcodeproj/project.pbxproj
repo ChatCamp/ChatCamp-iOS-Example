@@ -15,11 +15,12 @@
 		09A94AB3210F3A0200148074 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09A94AB2210F3A0200148074 /* Home.storyboard */; };
 		09A94AB5210F3B3500148074 /* HomeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A94AB4210F3B3400148074 /* HomeTabBarController.swift */; };
 		09A94AB7210F3B6400148074 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A94AB6210F3B6400148074 /* Constants.swift */; };
+		09B9633D214BC54D00E37ACE /* ChatViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B9633C214BC54D00E37ACE /* ChatViewController+Extension.swift */; };
 		09F14399210F516600FC3574 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F14398210F516600FC3574 /* SettingsViewController.swift */; };
+		18AF1CD715B39873D579BB06 /* Pods_ChatCamp_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 391ADF7DF98B999871C9C265 /* Pods_ChatCamp_Demo.framework */; };
 		C03F7414202EFEBA00423969 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F7413202EFEBA00423969 /* AppDelegate.swift */; };
 		C03F741B202EFEBA00423969 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C03F741A202EFEBA00423969 /* Assets.xcassets */; };
 		C03F741E202EFEBA00423969 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C03F741C202EFEBA00423969 /* LaunchScreen.storyboard */; };
-		E3894A0B9D23C53B0AFFD7E3 /* Pods_ChatCamp_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8134B9A624875FCCFDC141D8 /* Pods_ChatCamp_Demo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,11 +32,12 @@
 		09A94AB2210F3A0200148074 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		09A94AB4210F3B3400148074 /* HomeTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabBarController.swift; sourceTree = "<group>"; };
 		09A94AB6210F3B6400148074 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		09B9633C214BC54D00E37ACE /* ChatViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Extension.swift"; sourceTree = "<group>"; };
 		09F14398210F516600FC3574 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		2F5E078CA6C3C8A48362976F /* Pods-ChatCamp Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatCamp Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo.debug.xcconfig"; sourceTree = "<group>"; };
+		391ADF7DF98B999871C9C265 /* Pods_ChatCamp_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatCamp_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FCB7B5A206813F50017A36C /* ChatCamp Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ChatCamp Demo.entitlements"; sourceTree = "<group>"; };
-		5A5D19DCEB74224FC9173BE3 /* Pods-ChatCamp Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatCamp Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo.release.xcconfig"; sourceTree = "<group>"; };
-		8134B9A624875FCCFDC141D8 /* Pods_ChatCamp_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatCamp_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9342A35CFC8C38D2A18B8375 /* Pods-ChatCamp Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatCamp Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo.debug.xcconfig"; sourceTree = "<group>"; };
+		B6208756D7E6017E99A7F90D /* Pods-ChatCamp Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatCamp Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo.release.xcconfig"; sourceTree = "<group>"; };
 		C03F7410202EFEBA00423969 /* ChatCamp Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChatCamp Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C03F7413202EFEBA00423969 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C03F741A202EFEBA00423969 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -48,7 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3894A0B9D23C53B0AFFD7E3 /* Pods_ChatCamp_Demo.framework in Frameworks */,
+				18AF1CD715B39873D579BB06 /* Pods_ChatCamp_Demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +85,7 @@
 				09925AE920E6571D00D3DEB8 /* LoginViewController.swift */,
 				09A94AB4210F3B3400148074 /* HomeTabBarController.swift */,
 				09F14398210F516600FC3574 /* SettingsViewController.swift */,
+				09B9633C214BC54D00E37ACE /* ChatViewController+Extension.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -97,22 +100,13 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
-		757446D3A48E53BEACAF870E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9342A35CFC8C38D2A18B8375 /* Pods-ChatCamp Demo.debug.xcconfig */,
-				5A5D19DCEB74224FC9173BE3 /* Pods-ChatCamp Demo.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		C03F7407202EFEBA00423969 = {
 			isa = PBXGroup;
 			children = (
 				C03F7412202EFEBA00423969 /* ChatCamp Demo */,
 				C03F7411202EFEBA00423969 /* Products */,
-				757446D3A48E53BEACAF870E /* Pods */,
-				C176E04E4E6E5AD69F28AF2C /* Frameworks */,
+				C5C5048F6A8AAAE5C5B635C7 /* Pods */,
+				DFB4E0182A667528B357FDA3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -136,10 +130,19 @@
 			path = "ChatCamp Demo";
 			sourceTree = "<group>";
 		};
-		C176E04E4E6E5AD69F28AF2C /* Frameworks */ = {
+		C5C5048F6A8AAAE5C5B635C7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8134B9A624875FCCFDC141D8 /* Pods_ChatCamp_Demo.framework */,
+				2F5E078CA6C3C8A48362976F /* Pods-ChatCamp Demo.debug.xcconfig */,
+				B6208756D7E6017E99A7F90D /* Pods-ChatCamp Demo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		DFB4E0182A667528B357FDA3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				391ADF7DF98B999871C9C265 /* Pods_ChatCamp_Demo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -151,11 +154,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C03F7422202EFEBA00423969 /* Build configuration list for PBXNativeTarget "ChatCamp Demo" */;
 			buildPhases = (
-				4D4B1D21DE3531FE86758162 /* [CP] Check Pods Manifest.lock */,
+				D09FA924DD9D889DE440B075 /* [CP] Check Pods Manifest.lock */,
 				C03F740C202EFEBA00423969 /* Sources */,
 				C03F740D202EFEBA00423969 /* Frameworks */,
 				C03F740E202EFEBA00423969 /* Resources */,
-				288F333EE36AEDAB02AA02B9 /* [CP] Embed Pods Frameworks */,
+				F01EA0D93527A774BF6E3A73 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -178,6 +181,7 @@
 				TargetAttributes = {
 					C03F740F202EFEBA00423969 = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -226,7 +230,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		288F333EE36AEDAB02AA02B9 /* [CP] Embed Pods Frameworks */ = {
+		D09FA924DD9D889DE440B075 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ChatCamp Demo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F01EA0D93527A774BF6E3A73 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -266,24 +288,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4D4B1D21DE3531FE86758162 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ChatCamp Demo-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -298,6 +302,7 @@
 				09A94AB7210F3B6400148074 /* Constants.swift in Sources */,
 				C03F7414202EFEBA00423969 /* AppDelegate.swift in Sources */,
 				09925AFF20E65D5C00D3DEB8 /* WindowManager.swift in Sources */,
+				09B9633D214BC54D00E37ACE /* ChatViewController+Extension.swift in Sources */,
 				09F14399210F516600FC3574 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,7 +431,7 @@
 		};
 		C03F7423202EFEBA00423969 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9342A35CFC8C38D2A18B8375 /* Pods-ChatCamp Demo.debug.xcconfig */;
+			baseConfigurationReference = 2F5E078CA6C3C8A48362976F /* Pods-ChatCamp Demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "ChatCamp Demo/ChatCamp Demo.entitlements";
@@ -441,14 +446,15 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.chatcamp.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		C03F7424202EFEBA00423969 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5A5D19DCEB74224FC9173BE3 /* Pods-ChatCamp Demo.release.xcconfig */;
+			baseConfigurationReference = B6208756D7E6017E99A7F90D /* Pods-ChatCamp Demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "ChatCamp Demo/ChatCamp Demo.entitlements";
@@ -462,7 +468,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.chatcamp.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
