@@ -16,7 +16,7 @@
 		09A94AB5210F3B3500148074 /* HomeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A94AB4210F3B3400148074 /* HomeTabBarController.swift */; };
 		09A94AB7210F3B6400148074 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A94AB6210F3B6400148074 /* Constants.swift */; };
 		09F14399210F516600FC3574 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F14398210F516600FC3574 /* SettingsViewController.swift */; };
-		18AF1CD715B39873D579BB06 /* Pods_ChatCamp_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 391ADF7DF98B999871C9C265 /* Pods_ChatCamp_Demo.framework */; };
+		441EDA55F804D60358B712FE /* Pods_ChatCamp_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB4BB3F3302265F3CD2C14A /* Pods_ChatCamp_Demo.framework */; };
 		C03F7414202EFEBA00423969 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F7413202EFEBA00423969 /* AppDelegate.swift */; };
 		C03F741B202EFEBA00423969 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C03F741A202EFEBA00423969 /* Assets.xcassets */; };
 		C03F741E202EFEBA00423969 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C03F741C202EFEBA00423969 /* LaunchScreen.storyboard */; };
@@ -32,15 +32,15 @@
 		09A94AB4210F3B3400148074 /* HomeTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabBarController.swift; sourceTree = "<group>"; };
 		09A94AB6210F3B6400148074 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		09F14398210F516600FC3574 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		2F5E078CA6C3C8A48362976F /* Pods-ChatCamp Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatCamp Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo.debug.xcconfig"; sourceTree = "<group>"; };
-		391ADF7DF98B999871C9C265 /* Pods_ChatCamp_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatCamp_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3200A2D70585FF9CD4B4F185 /* Pods-ChatCamp Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatCamp Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		3FCB7B5A206813F50017A36C /* ChatCamp Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ChatCamp Demo.entitlements"; sourceTree = "<group>"; };
-		B6208756D7E6017E99A7F90D /* Pods-ChatCamp Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatCamp Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo.release.xcconfig"; sourceTree = "<group>"; };
+		BCB4BB3F3302265F3CD2C14A /* Pods_ChatCamp_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatCamp_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C03F7410202EFEBA00423969 /* ChatCamp Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChatCamp Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C03F7413202EFEBA00423969 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C03F741A202EFEBA00423969 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C03F741D202EFEBA00423969 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C03F741F202EFEBA00423969 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F6F0CA5C8975962A7B5C9C84 /* Pods-ChatCamp Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatCamp Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18AF1CD715B39873D579BB06 /* Pods_ChatCamp_Demo.framework in Frameworks */,
+				441EDA55F804D60358B712FE /* Pods_ChatCamp_Demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,13 +97,21 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
+		4141ED806E9591740743E8B8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BCB4BB3F3302265F3CD2C14A /* Pods_ChatCamp_Demo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C03F7407202EFEBA00423969 = {
 			isa = PBXGroup;
 			children = (
 				C03F7412202EFEBA00423969 /* ChatCamp Demo */,
 				C03F7411202EFEBA00423969 /* Products */,
-				C5C5048F6A8AAAE5C5B635C7 /* Pods */,
-				DFB4E0182A667528B357FDA3 /* Frameworks */,
+				DB49DC9E395A6B849020AA14 /* Pods */,
+				4141ED806E9591740743E8B8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,21 +135,13 @@
 			path = "ChatCamp Demo";
 			sourceTree = "<group>";
 		};
-		C5C5048F6A8AAAE5C5B635C7 /* Pods */ = {
+		DB49DC9E395A6B849020AA14 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2F5E078CA6C3C8A48362976F /* Pods-ChatCamp Demo.debug.xcconfig */,
-				B6208756D7E6017E99A7F90D /* Pods-ChatCamp Demo.release.xcconfig */,
+				3200A2D70585FF9CD4B4F185 /* Pods-ChatCamp Demo.debug.xcconfig */,
+				F6F0CA5C8975962A7B5C9C84 /* Pods-ChatCamp Demo.release.xcconfig */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		DFB4E0182A667528B357FDA3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				391ADF7DF98B999871C9C265 /* Pods_ChatCamp_Demo.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,11 +151,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C03F7422202EFEBA00423969 /* Build configuration list for PBXNativeTarget "ChatCamp Demo" */;
 			buildPhases = (
-				D09FA924DD9D889DE440B075 /* [CP] Check Pods Manifest.lock */,
+				B1EFB2FE1BCBF88DC1BA93F4 /* [CP] Check Pods Manifest.lock */,
 				C03F740C202EFEBA00423969 /* Sources */,
 				C03F740D202EFEBA00423969 /* Frameworks */,
 				C03F740E202EFEBA00423969 /* Resources */,
-				F01EA0D93527A774BF6E3A73 /* [CP] Embed Pods Frameworks */,
+				958CB9B7A289303D4B641E16 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -227,25 +227,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		D09FA924DD9D889DE440B075 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ChatCamp Demo-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F01EA0D93527A774BF6E3A73 /* [CP] Embed Pods Frameworks */ = {
+		958CB9B7A289303D4B641E16 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -281,6 +263,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ChatCamp Demo/Pods-ChatCamp Demo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B1EFB2FE1BCBF88DC1BA93F4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ChatCamp Demo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -425,7 +425,7 @@
 		};
 		C03F7423202EFEBA00423969 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2F5E078CA6C3C8A48362976F /* Pods-ChatCamp Demo.debug.xcconfig */;
+			baseConfigurationReference = 3200A2D70585FF9CD4B4F185 /* Pods-ChatCamp Demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "ChatCamp Demo/ChatCamp Demo.entitlements";
@@ -448,7 +448,7 @@
 		};
 		C03F7424202EFEBA00423969 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B6208756D7E6017E99A7F90D /* Pods-ChatCamp Demo.release.xcconfig */;
+			baseConfigurationReference = F6F0CA5C8975962A7B5C9C84 /* Pods-ChatCamp Demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "ChatCamp Demo/ChatCamp Demo.entitlements";
