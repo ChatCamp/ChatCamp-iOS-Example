@@ -7,5 +7,7 @@ target 'ChatCamp Demo' do
     
     #pod 'ChatCampUIKit', '~> 0.1.10'
     pod 'ChatCampUIKit', :path => '/Users/saurabh/Desktop/Developer/chatcamp/ChatCampUIKit'
-
+    pod 'Fabric'
+    pod 'Crashlytics'
+    
 end
