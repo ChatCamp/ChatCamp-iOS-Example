@@ -5,5 +5,7 @@ use_frameworks!
 target 'ChatCamp Demo' do
 
     pod 'ChatCampUIKit', :git => 'https://github.com/ChatCamp/ChatCamp-iOS-UI-Kit', :branch => 'swift3'
-
+    pod 'Fabric'
+    pod 'Crashlytics'
+    
 end

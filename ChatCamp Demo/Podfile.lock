@@ -10,6 +10,8 @@ PODS:
   - CLImageEditor (0.2.0):
     - CLImageEditor/Core (= 0.2.0)
   - CLImageEditor/Core (0.2.0)
+  - Crashlytics (3.10.7):
+    - Fabric (~> 1.7.11)
   - DKCamera (1.5.3)
   - DKImagePickerController (4.0.0-beta2):
     - DKImagePickerController/Camera (= 4.0.0-beta2)
@@ -54,6 +56,7 @@ PODS:
     - SDWebImage/GIF
   - DKPhotoGallery/Resource (0.0.7):
     - SDWebImage/GIF
+  - Fabric (1.7.11)
   - FLAnimatedImage (1.0.12)
   - MBProgressHUD (1.1.0)
   - SDWebImage/Core (4.4.2)
@@ -64,15 +67,19 @@ PODS:
 
 DEPENDENCIES:
   - ChatCampUIKit (from `https://github.com/ChatCamp/ChatCamp-iOS-UI-Kit`, branch `swift3`)
+  - Crashlytics
+  - Fabric
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - ChatCamp
     - CLImageEditor
+    - Crashlytics
     - DKCamera
     - DKImagePickerController
     - DKPhotoGallery
+    - Fabric
     - FLAnimatedImage
     - MBProgressHUD
     - SDWebImage
@@ -93,14 +100,16 @@ SPEC CHECKSUMS:
   ChatCamp: ac3822f0ebea37bec7016a07589faec2cbfc594f
   ChatCampUIKit: 7c5cf72c4a4cd894be5ebb45dd669aecc38d697e
   CLImageEditor: ec5ae50b3a54c9818c0bdb243b20665a1c6718e3
+  Crashlytics: ccaac42660eb9351b9960c0d66106b0bcf99f4fa
   DKCamera: 6077537273ffac6288071fbbbbf57d57c62e6803
   DKImagePickerController: 43789fb00974b13f26263cc1ee0de5c2e6c6390d
   DKPhotoGallery: 7f07b6d8a47733fdd76856113c474456b92fc769
+  Fabric: f233c9492b3bbc1f04e3882986740f7988a58edb
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SwiftyCam: 86c114177a1b1f5dc2c82384577d0c20b922a31b
 
-PODFILE CHECKSUM: a7f108c92a684a069166e94cea6aaac5fbca7e70
+PODFILE CHECKSUM: c34d5b8bb542682f55a86031a7902a93cf2b2a1e
 
 COCOAPODS: 1.5.3
