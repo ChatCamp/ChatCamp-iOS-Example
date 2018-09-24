@@ -1,10 +1,12 @@
 PODS:
   - Alamofire (4.7.3)
   - ChatCamp (0.1.22)
-  - ChatCampUIKit (0.1.10):
+  - ChatCampUIKit (0.1.13):
     - Alamofire
-    - ChatCamp (~> 0.1.21)
-    - DKImagePickerController (~> 4.0.0-beta)
+    - ChatCamp (~> 0.1.22)
+    - DKCamera (= 1.5.3)
+    - DKImagePickerController (= 4.0.0-beta2)
+    - DKPhotoGallery (= 0.0.7)
     - MBProgressHUD (~> 1.1.0)
     - SwiftyCam
   - CLImageEditor (0.2.0):
@@ -92,13 +94,13 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   ChatCampUIKit:
-    :commit: 80acbedcaf904c56d1294f54341afa94ffc0907e
+    :commit: 61ae71ebe6f724c8561fba806be05c5ec094450e
     :git: https://github.com/ChatCamp/ChatCamp-iOS-UI-Kit
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   ChatCamp: 6a5c1f3674a5064542b76d5948346a42ee08efb3
-  ChatCampUIKit: 7c5cf72c4a4cd894be5ebb45dd669aecc38d697e
+  ChatCampUIKit: 01805030ba671bf1b07fe5700c600e589df6f0de
   CLImageEditor: ec5ae50b3a54c9818c0bdb243b20665a1c6718e3
   Crashlytics: ccaac42660eb9351b9960c0d66106b0bcf99f4fa
   DKCamera: 6077537273ffac6288071fbbbbf57d57c62e6803
