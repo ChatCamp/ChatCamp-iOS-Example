@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.7.3)
-  - ChatCamp (0.1.21)
+  - ChatCamp (0.1.22)
   - ChatCampUIKit (0.1.10):
     - Alamofire
     - ChatCamp (~> 0.1.21)
@@ -97,7 +97,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
-  ChatCamp: ac3822f0ebea37bec7016a07589faec2cbfc594f
+  ChatCamp: 6a5c1f3674a5064542b76d5948346a42ee08efb3
   ChatCampUIKit: 7c5cf72c4a4cd894be5ebb45dd669aecc38d697e
   CLImageEditor: ec5ae50b3a54c9818c0bdb243b20665a1c6718e3
   Crashlytics: ccaac42660eb9351b9960c0d66106b0bcf99f4fa
