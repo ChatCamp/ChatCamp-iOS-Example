@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var groupChannelId = ""
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         Fabric.with([Crashlytics.self])
         setupChatCampSDK()
@@ -116,7 +116,7 @@ extension AppDelegate: CCPChannelDelegate {
             
             let content = UNMutableNotificationContent()
             content.title = message.getUser().getDisplayName() ?? ""
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             content.userInfo = ["channelId": channel.getId()]
             let messageType = message.getType()
             if messageType == "attachment" {
