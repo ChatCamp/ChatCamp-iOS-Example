@@ -115,7 +115,12 @@ extension AppDelegate: CCPChannelDelegate {
             center.delegate = self
             
             let content = UNMutableNotificationContent()
-            content.title = message.getUser().getDisplayName() ?? ""
+            if (channel as? CCPGroupChannel)?.getParticipantsCount() ?? 0 > 2 {
+                content.title = channel.getName()
+                content.subtitle = message.getUser().getDisplayName() ?? ""
+            } else {
+                content.title = message.getUser().getDisplayName() ?? ""
+            }
             content.sound = UNNotificationSound.default
             content.userInfo = ["channelId": channel.getId()]
             let messageType = message.getType()
