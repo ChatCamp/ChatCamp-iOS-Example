@@ -152,6 +152,8 @@ extension AppDelegate: CCPChannelDelegate {
     func onGroupChannelParticipantJoined(groupChannel: CCPGroupChannel, participant: CCPUser) { }
     
     func onGroupChannelParticipantLeft(groupChannel: CCPGroupChannel, participant: CCPUser) { }
+    
+    func onGroupChannelParticipantDeclined(groupChannel: CCPGroupChannel, participant: CCPUser) { }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
