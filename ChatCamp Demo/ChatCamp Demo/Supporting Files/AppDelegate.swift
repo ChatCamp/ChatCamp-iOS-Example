@@ -108,6 +108,7 @@ extension AppDelegate {
 
 // MARK:- CCPChannelDelegate
 extension AppDelegate: CCPChannelDelegate {
+    
     func channelDidReceiveMessage(channel: CCPBaseChannel, message: CCPMessage) {
         if CCPClient.getCurrentUser().getId() != message.getUser().getId() && channel.getId() != currentChannelId && channel.isGroupChannel() {
             
@@ -154,6 +155,10 @@ extension AppDelegate: CCPChannelDelegate {
     func onGroupChannelParticipantLeft(groupChannel: CCPGroupChannel, participant: CCPUser) { }
     
     func onGroupChannelParticipantDeclined(groupChannel: CCPGroupChannel, participant: CCPUser) { }
+    
+    func onGroupChannelMessageUpdated(groupChannel: CCPGroupChannel, message: CCPMessage) { }
+    
+    func onOpenChannelMessageUpdated(openChannel: CCPOpenChannel, message: CCPMessage) { }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
