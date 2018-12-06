@@ -8,12 +8,28 @@
 
 import UIKit
 import ChatCamp
+import ChatCampUIKit
 
 open class SettingsViewController: UITableViewController {
     
+    fileprivate var db: SQLiteDatabase!
+
     override open func viewDidLoad() {
         super.viewDidLoad()
         
+        do {
+            let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                .appendingPathComponent("ChatDatabase.sqlite")
+            db = try! SQLiteDatabase.open(path: fileURL.path)
+            print("Successfully opened connection to database.")
+        } catch SQLiteError.OpenDatabase(let message) {
+            print("Unable to open database. Verify that you created the directory described in the Getting Started section.")
+        }
+        
+        setupTableView()
+    }
+    
+    private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 44
@@ -51,6 +67,13 @@ extension SettingsViewController {
                     CCPClient.disconnect() { (error) in
                         WindowManager.shared.showLoginWithAnimation()
                     }
+                }
+                
+                // clears group channel database cache
+                do {
+                    try self.db.deleteGroupChannelsLocalStorage()
+                } catch {
+                    print(self.db.errorMessage)
                 }
             }
             alertController.addAction(cancelAction)
