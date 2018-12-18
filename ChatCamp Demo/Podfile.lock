@@ -1,7 +1,7 @@
 PODS:
   - Alamofire (4.8.0)
   - ChatCamp (4.2.4)
-  - ChatCampUIKit (4.2.4):
+  - ChatCampUIKit (4.2.6):
     - Alamofire (~> 4.7)
     - ChatCamp (~> 4.2)
     - DKCamera
@@ -86,7 +86,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
   ChatCamp: bbacc2210c67d3c4dc556a1444491b088455a65c
-  ChatCampUIKit: 27c26557f7a80840245eb830ddd4de0c900e0a27
+  ChatCampUIKit: 11efa206d0b0604cbdd3c62eae0d0186d435b1ec
   Crashlytics: ca7ab4bc304aa216bdc2e4c1a96389ee77252203
   DKCamera: 61fa47629a39354e5111bca1fe96695de020dcb9
   DKImagePickerController: ab7185a76b75a6559db73c568c9791c87f915a41
