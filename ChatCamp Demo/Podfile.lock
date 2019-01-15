@@ -1,7 +1,7 @@
 PODS:
   - Alamofire (4.8.0)
   - ChatCamp (4.2.4)
-  - ChatCampUIKit (4.2.6):
+  - ChatCampUIKit (4.2.7):
     - Alamofire (~> 4.7)
     - ChatCamp (~> 4.2)
     - DKCamera
@@ -11,31 +11,31 @@ PODS:
   - Crashlytics (3.11.1):
     - Fabric (~> 1.8.1)
   - DKCamera (1.6.4)
-  - DKImagePickerController (4.1.0):
-    - DKImagePickerController/Camera (= 4.1.0)
-    - DKImagePickerController/Core (= 4.1.0)
-    - DKImagePickerController/ImageDataManager (= 4.1.0)
-    - DKImagePickerController/InlineCamera (= 4.1.0)
-    - DKImagePickerController/PhotoEditor (= 4.1.0)
-    - DKImagePickerController/PhotoGallery (= 4.1.0)
-    - DKImagePickerController/Resource (= 4.1.0)
-  - DKImagePickerController/Camera (4.1.0):
+  - DKImagePickerController (4.1.2):
+    - DKImagePickerController/Camera (= 4.1.2)
+    - DKImagePickerController/Core (= 4.1.2)
+    - DKImagePickerController/ImageDataManager (= 4.1.2)
+    - DKImagePickerController/InlineCamera (= 4.1.2)
+    - DKImagePickerController/PhotoEditor (= 4.1.2)
+    - DKImagePickerController/PhotoGallery (= 4.1.2)
+    - DKImagePickerController/Resource (= 4.1.2)
+  - DKImagePickerController/Camera (4.1.2):
     - DKCamera
     - DKImagePickerController/Core
-  - DKImagePickerController/Core (4.1.0):
+  - DKImagePickerController/Core (4.1.2):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
-  - DKImagePickerController/ImageDataManager (4.1.0)
-  - DKImagePickerController/InlineCamera (4.1.0):
+  - DKImagePickerController/ImageDataManager (4.1.2)
+  - DKImagePickerController/InlineCamera (4.1.2):
     - DKCamera
     - DKImagePickerController/Core
-  - DKImagePickerController/PhotoEditor (4.1.0):
+  - DKImagePickerController/PhotoEditor (4.1.2):
     - DKImagePickerController/Core
-    - TOCropViewController (~> 2.3)
-  - DKImagePickerController/PhotoGallery (4.1.0):
+    - TOCropViewController (~> 2.4)
+  - DKImagePickerController/PhotoGallery (4.1.2):
     - DKImagePickerController/Core
     - DKPhotoGallery
-  - DKImagePickerController/Resource (4.1.0)
+  - DKImagePickerController/Resource (4.1.2)
   - DKPhotoGallery (0.0.11):
     - DKPhotoGallery/Core (= 0.0.11)
     - DKPhotoGallery/Model (= 0.0.11)
@@ -86,10 +86,10 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
   ChatCamp: bbacc2210c67d3c4dc556a1444491b088455a65c
-  ChatCampUIKit: 11efa206d0b0604cbdd3c62eae0d0186d435b1ec
+  ChatCampUIKit: cade30369e6ceea13369f73ea99a1126f464b55f
   Crashlytics: ca7ab4bc304aa216bdc2e4c1a96389ee77252203
   DKCamera: 61fa47629a39354e5111bca1fe96695de020dcb9
-  DKImagePickerController: ab7185a76b75a6559db73c568c9791c87f915a41
+  DKImagePickerController: 358ebcd5ce87db8863ec4b8dea651c67baca36e0
   DKPhotoGallery: e5fc53899345c26af4374503dd249caabac7d26a
   Fabric: 43ed7bac010f588f63ee23ab1a0276b296db5e17
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31

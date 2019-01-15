@@ -6,57 +6,9 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Group Channels-->
-        <scene sceneID="rUC-hU-6bu">
-            <objects>
-                <viewController storyboardIdentifier="GroupChannelsViewController" title="Group Channels" useStoryboardIdentifierAsRestorationIdentifier="YES" id="RPn-FG-z2X" customClass="GroupChannelsViewController" customModule="ChatCampUIKit" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="kAa-6T-D5g">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="n2A-BJ-bBP">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aXR-Fj-iya">
-                                <rect key="frame" x="295" y="538" width="60" height="60"/>
-                                <color key="backgroundColor" red="0.18823529410000001" green="0.2274509804" blue="0.64705882349999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="Sge-AR-HMg"/>
-                                    <constraint firstAttribute="height" constant="60" id="Tm0-6C-TBf"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="36"/>
-                                <state key="normal" image="fab_add"/>
-                                <connections>
-                                    <action selector="didTapOnAddChannelFAB:" destination="RPn-FG-z2X" eventType="touchUpInside" id="OEF-oX-Ce9"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="n2A-BJ-bBP" firstAttribute="bottom" secondItem="FNv-a4-SMQ" secondAttribute="bottom" id="5K2-Hf-fGN"/>
-                            <constraint firstItem="n2A-BJ-bBP" firstAttribute="trailing" secondItem="FNv-a4-SMQ" secondAttribute="trailing" id="FdZ-27-Phw"/>
-                            <constraint firstItem="FNv-a4-SMQ" firstAttribute="trailing" secondItem="aXR-Fj-iya" secondAttribute="trailing" constant="20" id="U8s-zh-9hf"/>
-                            <constraint firstItem="n2A-BJ-bBP" firstAttribute="top" secondItem="FNv-a4-SMQ" secondAttribute="top" id="ihR-hD-kLW"/>
-                            <constraint firstItem="FNv-a4-SMQ" firstAttribute="bottom" secondItem="aXR-Fj-iya" secondAttribute="bottom" constant="20" id="ixU-tz-8Ms"/>
-                            <constraint firstItem="n2A-BJ-bBP" firstAttribute="leading" secondItem="FNv-a4-SMQ" secondAttribute="leading" id="s3B-ZM-wjX"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="FNv-a4-SMQ"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Group Channels" image="tab-group-selected" id="d7Z-TC-gOP"/>
-                    <connections>
-                        <outlet property="addChannelFAB" destination="aXR-Fj-iya" id="faz-D4-YZx"/>
-                        <outlet property="tableView" destination="n2A-BJ-bBP" id="O4l-MN-4dW"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="djQ-kc-K6M" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1597.5999999999999" y="174.96251874062969"/>
-        </scene>
         <!--Settings-->
         <scene sceneID="p5N-eq-dwI">
             <objects>
@@ -94,69 +46,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cLg-xU-YTT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1598" y="934"/>
-        </scene>
-        <!--Users-->
-        <scene sceneID="FSN-MV-8ok">
-            <objects>
-                <viewController storyboardIdentifier="UsersViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ImQ-3q-ilU" customClass="UsersViewController" customModule="ChatCampUIKit" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="we6-jb-YPK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2G9-y4-L60">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="5Gy-UP-OHu" firstAttribute="trailing" secondItem="2G9-y4-L60" secondAttribute="trailing" id="Qfr-3Q-SQ1"/>
-                            <constraint firstItem="2G9-y4-L60" firstAttribute="top" secondItem="5Gy-UP-OHu" secondAttribute="top" id="cBH-9Z-6zX"/>
-                            <constraint firstItem="5Gy-UP-OHu" firstAttribute="bottom" secondItem="2G9-y4-L60" secondAttribute="bottom" id="eee-BO-xmo"/>
-                            <constraint firstItem="2G9-y4-L60" firstAttribute="leading" secondItem="5Gy-UP-OHu" secondAttribute="leading" id="lfF-On-dY6"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="5Gy-UP-OHu"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Users" image="tab-users-selected" id="kWn-gL-Hlb"/>
-                    <connections>
-                        <outlet property="tableView" destination="2G9-y4-L60" id="VN5-JU-xIU"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RaP-z0-QBd" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1598" y="1724"/>
-        </scene>
-        <!--Open Channels-->
-        <scene sceneID="OOH-z1-VNG">
-            <objects>
-                <viewController storyboardIdentifier="OpenChannelsViewController" title="Open Channels" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7XQ-SG-wxW" customClass="OpenChannelsViewController" customModule="ChatCampUIKit" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="VUF-Vu-e7U">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8Qh-6p-QNw">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="8Qh-6p-QNw" firstAttribute="leading" secondItem="seA-m7-prN" secondAttribute="leading" id="5Fa-Se-AcD"/>
-                            <constraint firstItem="8Qh-6p-QNw" firstAttribute="top" secondItem="seA-m7-prN" secondAttribute="top" id="fMF-wx-ysL"/>
-                            <constraint firstItem="8Qh-6p-QNw" firstAttribute="bottom" secondItem="seA-m7-prN" secondAttribute="bottom" id="fQJ-G5-OG7"/>
-                            <constraint firstItem="8Qh-6p-QNw" firstAttribute="trailing" secondItem="seA-m7-prN" secondAttribute="trailing" id="nJ8-7r-dal"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="seA-m7-prN"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Open Channels" image="tab-open-channel-selected" id="X1V-ht-Hew"/>
-                    <connections>
-                        <outlet property="tableView" destination="8Qh-6p-QNw" id="xPU-we-APP"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1m2-e1-vVa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1597.5999999999999" y="-595.05247376311854"/>
+            <point key="canvasLocation" x="2242" y="948"/>
         </scene>
         <!--Home Tab Bar Controller-->
         <scene sceneID="ctD-l3-5aZ">
@@ -170,15 +60,102 @@
                         <color key="selectedImageTintColor" red="0.18823529410000001" green="0.2274509804" blue="0.64705882349999999" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
-                        <segue destination="7XQ-SG-wxW" kind="relationship" relationship="viewControllers" id="2wb-IO-jtu"/>
-                        <segue destination="RPn-FG-z2X" kind="relationship" relationship="viewControllers" id="57b-rD-kgo"/>
-                        <segue destination="ImQ-3q-ilU" kind="relationship" relationship="viewControllers" id="gV9-ia-2xW"/>
-                        <segue destination="RqO-Em-F6W" kind="relationship" relationship="viewControllers" id="0kU-Fh-dEy"/>
+                        <segue destination="gO7-ge-ld6" kind="relationship" relationship="viewControllers" id="pGt-lv-BTx"/>
+                        <segue destination="z7k-sY-LNb" kind="relationship" relationship="viewControllers" id="GIa-h6-SIe"/>
+                        <segue destination="5O8-wc-JwH" kind="relationship" relationship="viewControllers" id="h55-bN-2uR"/>
+                        <segue destination="RqO-Em-F6W" kind="relationship" relationship="viewControllers" id="sa2-q6-u6h"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wSs-wh-E1s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="858" y="175"/>
+        </scene>
+        <!--Group Channels-->
+        <scene sceneID="jQm-uP-JLe">
+            <objects>
+                <tableViewController storyboardIdentifier="GroupChannelsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="z7k-sY-LNb" customClass="GroupChannelsViewController" customModule="ChatCampUIKit" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bCn-uS-fQa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="N6x-dX-Cjz">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="N6x-dX-Cjz" id="CPM-An-aAh">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="z7k-sY-LNb" id="Hca-Dr-64A"/>
+                            <outlet property="delegate" destination="z7k-sY-LNb" id="qj8-ew-Mrr"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Group Channels" image="tab-group-selected" id="LCv-X5-mkL"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TAG-aD-fiL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="857" y="948"/>
+        </scene>
+        <!--Users-->
+        <scene sceneID="hT1-Ey-BZg">
+            <objects>
+                <tableViewController storyboardIdentifier="UsersViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5O8-wc-JwH" customClass="UsersViewController" customModule="ChatCampUIKit" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="b2x-c6-u5R">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="axI-0w-18K">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="axI-0w-18K" id="Btd-uS-yAJ">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="5O8-wc-JwH" id="Lpx-Ft-DYF"/>
+                            <outlet property="delegate" destination="5O8-wc-JwH" id="ezO-aa-XMQ"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Users" image="tab-users-selected" id="K5o-lC-C5r"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gsz-Sq-VJL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1548" y="948"/>
+        </scene>
+        <!--Open Channels-->
+        <scene sceneID="MPJ-7v-dOa">
+            <objects>
+                <tableViewController storyboardIdentifier="OpenChannelsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gO7-ge-ld6" customClass="OpenChannelsViewController" customModule="ChatCampUIKit" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Vh5-si-jrb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="f7n-9g-fGM">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="f7n-9g-fGM" id="IBa-ek-2Tq">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="gO7-ge-ld6" id="zc4-zR-pkg"/>
+                            <outlet property="delegate" destination="gO7-ge-ld6" id="gfY-zB-YvB"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Open Channels" image="tab-open-channel-selected" id="bwK-bN-rhL"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AgG-Ex-7pU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="180" y="948"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Uc2-hv-AWw">
@@ -198,7 +175,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="fab_add" width="48" height="48"/>
         <image name="tab-group-selected" width="45" height="45"/>
         <image name="tab-open-channel-selected" width="45" height="45"/>
         <image name="tab-settings-selected" width="48" height="48"/>
