@@ -1,7 +1,7 @@
 PODS:
-  - Alamofire (4.8.0)
+  - Alamofire (4.8.1)
   - ChatCamp (4.2.4)
-  - ChatCampUIKit (4.2.7):
+  - ChatCampUIKit (4.2.8):
     - Alamofire (~> 4.7)
     - ChatCamp (~> 4.2)
     - DKCamera
@@ -84,9 +84,9 @@ SPEC REPOS:
     - TOCropViewController
 
 SPEC CHECKSUMS:
-  Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   ChatCamp: bbacc2210c67d3c4dc556a1444491b088455a65c
-  ChatCampUIKit: cade30369e6ceea13369f73ea99a1126f464b55f
+  ChatCampUIKit: 6bc5b3a569c1d6a1294fc6eb58956eb75f84bc21
   Crashlytics: ca7ab4bc304aa216bdc2e4c1a96389ee77252203
   DKCamera: 61fa47629a39354e5111bca1fe96695de020dcb9
   DKImagePickerController: 358ebcd5ce87db8863ec4b8dea651c67baca36e0
