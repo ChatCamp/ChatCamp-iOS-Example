@@ -10,6 +10,7 @@ import UIKit
 import ChatCampUIKit
 
 public class WindowManager {
+    
     public class var shared: WindowManager {
         struct Singleton {
             static let instance = WindowManager()
@@ -28,10 +29,12 @@ public class WindowManager {
         window.rootViewController = initialRootViewController(isLoggedIn: isLoggedIn)
         window.makeKeyAndVisible()
     }
+    
 }
 
 // MARK:- API
 extension WindowManager {
+    
     public func showLoginWithAnimation() {
         makeRootViewController(viewController: UIViewController.loginViewController())
     }
@@ -39,10 +42,12 @@ extension WindowManager {
     public func showHomeWithAnimation() {
         makeRootViewController(viewController: UIViewController.homeTabBarNavigationController())
     }
+    
 }
 
 // MARK:- Helpers
 extension WindowManager {
+    
     public func initialRootViewController(isLoggedIn: Bool) -> UIViewController {
         if isLoggedIn {
             return UIViewController.homeTabBarNavigationController()
@@ -69,4 +74,5 @@ extension WindowManager {
                         })
         })
     }
+    
 }

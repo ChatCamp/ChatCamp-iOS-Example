@@ -11,13 +11,16 @@ import ChatCamp
 import ChatCampUIKit
 
 extension UIViewController {
+    
     static func loginViewController() -> LoginViewController {
         return UIStoryboard.login().instantiateViewController(withIdentifier: LoginViewController.string()) as! LoginViewController
     }
+    
 }
 
 // MARK:- Alerts
 extension UIViewController {
+    
     public func showAlert(title: String, message: String, actionText: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: actionText, style: .default) { (action) in
@@ -27,4 +30,5 @@ extension UIViewController {
         
         present(alertController, animated: true, completion: nil)
     }
+    
 }

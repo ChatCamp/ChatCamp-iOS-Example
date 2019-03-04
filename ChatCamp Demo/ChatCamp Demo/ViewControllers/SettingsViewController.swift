@@ -36,6 +36,7 @@ open class SettingsViewController: UITableViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = UIView()
     }
+    
 }
 
 extension SettingsViewController {
@@ -104,4 +105,5 @@ extension SettingsViewController {
         
         return cell
     }
+    
 }

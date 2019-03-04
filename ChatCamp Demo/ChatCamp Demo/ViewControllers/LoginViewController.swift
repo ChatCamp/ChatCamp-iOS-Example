@@ -11,6 +11,7 @@ import ChatCamp
 import ChatCampUIKit
 
 class LoginViewController: UIViewController {
+    
     @IBOutlet weak var userIDTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var connectButton: UIButton! {
@@ -20,10 +21,12 @@ class LoginViewController: UIViewController {
         }
     }
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
 }
 
 // MARK:- Actions
 extension LoginViewController {
+    
     @IBAction func didTapOnConnect(_ sender: UIButton) {
         guard let userID = userIDTextField.text, !userID.isEmpty else {
             showAlert(title: "No User ID", message: "Please enter a valid User ID.", actionText: "Ok")
@@ -66,4 +69,5 @@ extension LoginViewController {
             }
         }
     }
+    
 }

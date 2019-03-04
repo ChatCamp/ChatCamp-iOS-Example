@@ -76,6 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 // MARK - Setup
 extension AppDelegate {
+    
     fileprivate func setupChatCampSDK() {
         CCPClient.initApp(appId: "6346990561630613504")
     }
@@ -104,12 +105,13 @@ extension AppDelegate {
             WindowManager.shared.prepareWindow(isLoggedIn: false)
         }
     }
+    
 }
 
 // MARK:- CCPChannelDelegate
 extension AppDelegate: CCPChannelDelegate {
     
-    func channelDidReceiveMessage(channel: CCPBaseChannel, message: CCPMessage) {
+    func onMessageReceived(channel: CCPBaseChannel, message: CCPMessage) {
         if CCPClient.getCurrentUser().getId() != message.getUser().getId() && channel.getId() != currentChannelId && channel.isGroupChannel() {
             
             let center = UNUserNotificationCenter.current()
@@ -142,26 +144,10 @@ extension AppDelegate: CCPChannelDelegate {
         }
     }
     
-    func channelDidChangeTypingStatus(channel: CCPBaseChannel) { }
-    
-    func channelDidUpdateReadStatus(channel: CCPBaseChannel) { }
-    
-    func channelDidUpdated(channel: CCPBaseChannel) { }
-    
-    func onTotalGroupChannelCount(count: Int, totalCountFilterParams: TotalCountFilterParams) { }
-    
-    func onGroupChannelParticipantJoined(groupChannel: CCPGroupChannel, participant: CCPUser) { }
-    
-    func onGroupChannelParticipantLeft(groupChannel: CCPGroupChannel, participant: CCPUser) { }
-    
-    func onGroupChannelParticipantDeclined(groupChannel: CCPGroupChannel, participant: CCPUser) { }
-    
-    func onGroupChannelMessageUpdated(groupChannel: CCPGroupChannel, message: CCPMessage) { }
-    
-    func onOpenChannelMessageUpdated(openChannel: CCPOpenChannel, message: CCPMessage) { }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
+    
     public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         if let userInfo = response.notification.request.content.userInfo as? [String: Any], let channelId = userInfo["channelId"] as? String {
             groupChannelId = channelId
@@ -187,9 +173,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound, .badge]) //required to show notification when in foreground
     }
+    
 }
 
 extension AppDelegate: CCPConnectionDelegate {
+    
     func connectionDidChange(isConnected: Bool) {
         CCPClient.removeConnectionDelegate(identifier: AppDelegate.string())
         if isConnected && !groupChannelId.isEmpty {
@@ -209,4 +197,5 @@ extension AppDelegate: CCPConnectionDelegate {
             }
         }
     }
+    
 }

@@ -36,6 +36,7 @@ class HomeTabBarController: UITabBarController {
 }
 
 extension HomeTabBarController: UITabBarControllerDelegate {
+    
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         switch selectedIndex {
         case Tab.openChannels.rawValue:
@@ -50,4 +51,5 @@ extension HomeTabBarController: UITabBarControllerDelegate {
             break
         }
     }
+    
 }
