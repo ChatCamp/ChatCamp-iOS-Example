@@ -1,13 +1,12 @@
 PODS:
-  - Alamofire (4.8.1)
   - ChatCamp (4.2.4)
   - ChatCampUIKit (4.2.9):
-    - Alamofire (~> 4.7)
     - ChatCamp (~> 4.2)
     - DKCamera
     - DKImagePickerController
     - DKPhotoGallery
     - MBProgressHUD
+    - MessageKit
   - Crashlytics (3.11.1):
     - Fabric (~> 1.8.1)
   - DKCamera (1.6.4)
@@ -57,6 +56,9 @@ PODS:
   - Fabric (1.8.1)
   - FLAnimatedImage (1.0.12)
   - MBProgressHUD (1.1.0)
+  - MessageInputBar/Core (0.4.1)
+  - MessageKit (2.0.0):
+    - MessageInputBar/Core
   - SDWebImage/Core (4.4.4)
   - SDWebImage/GIF (4.4.4):
     - FLAnimatedImage (~> 1.0)
@@ -64,15 +66,13 @@ PODS:
   - TOCropViewController (2.4.0)
 
 DEPENDENCIES:
-  - ChatCampUIKit (~> 4.2)
+  - ChatCamp (from `/Users/saurabh/Desktop/Developer/chatcamp/iflychat-ios-sdk`)
+  - ChatCampUIKit (from `/Users/saurabh/Desktop/Developer/chatcamp/ChatCampUIKit`)
   - Crashlytics
   - Fabric
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - Alamofire
-    - ChatCamp
-    - ChatCampUIKit
     - Crashlytics
     - DKCamera
     - DKImagePickerController
@@ -80,13 +80,20 @@ SPEC REPOS:
     - Fabric
     - FLAnimatedImage
     - MBProgressHUD
+    - MessageInputBar
+    - MessageKit
     - SDWebImage
     - TOCropViewController
 
+EXTERNAL SOURCES:
+  ChatCamp:
+    :path: "/Users/saurabh/Desktop/Developer/chatcamp/iflychat-ios-sdk"
+  ChatCampUIKit:
+    :path: "/Users/saurabh/Desktop/Developer/chatcamp/ChatCampUIKit"
+
 SPEC CHECKSUMS:
-  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
-  ChatCamp: bbacc2210c67d3c4dc556a1444491b088455a65c
-  ChatCampUIKit: 270b36cb9917d5cebca2831727e318662e04fa68
+  ChatCamp: e658eb937ae3e7ccffdd19f7a36561571e289c55
+  ChatCampUIKit: 418b95f7a1826711c813584fe9886ac922f85ec8
   Crashlytics: ca7ab4bc304aa216bdc2e4c1a96389ee77252203
   DKCamera: 61fa47629a39354e5111bca1fe96695de020dcb9
   DKImagePickerController: 358ebcd5ce87db8863ec4b8dea651c67baca36e0
@@ -94,9 +101,11 @@ SPEC CHECKSUMS:
   Fabric: 43ed7bac010f588f63ee23ab1a0276b296db5e17
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
+  MessageInputBar: e81c7535347f1f7b923de7080409a535a004b6e4
+  MessageKit: 29c1c87e5a396d2ca7a3f712e5171dc9aba42a1e
   SDWebImage: c00ec18ab25d10e5ffac109b0f78d1b4341c9691
   TOCropViewController: 368d8df3ea43b62c3dc5a61f11b9048274d240bd
 
-PODFILE CHECKSUM: 5e4f22fa800ba74580f2fafeb2eb86c2264162d0
+PODFILE CHECKSUM: 482fee82163147d3875313a48849c9ae24a0cec7
 
 COCOAPODS: 1.5.3

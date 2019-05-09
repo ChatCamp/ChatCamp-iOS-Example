@@ -12,6 +12,7 @@ import UserNotifications
 import ChatCampUIKit
 import Fabric
 import Crashlytics
+import MessageKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -112,7 +113,7 @@ extension AppDelegate {
 extension AppDelegate: CCPChannelDelegate {
     
     func onMessageReceived(channel: CCPBaseChannel, message: CCPMessage) {
-        if CCPClient.getCurrentUser().getId() != message.getUser()?.getId() && channel.getId() != currentChannelId && channel.isGroupChannel() {
+        if CCPClient.getCurrentUser().getId() != message.getUser()?.getId() && channel.getId() != currentChannelId && channel.ifGroupChannel() {
             
             let center = UNUserNotificationCenter.current()
             center.delegate = self
