@@ -112,7 +112,7 @@ extension AppDelegate {
 extension AppDelegate: CCPChannelDelegate {
     
     func onMessageReceived(channel: CCPBaseChannel, message: CCPMessage) {
-        if CCPClient.getCurrentUser().getId() != message.getUser()?.getId() && channel.getId() != currentChannelId && channel.isGroupChannel() {
+        if CCPClient.getCurrentUser().getId() != message.getUser()?.getId() && channel.getId() != currentChannelId && channel.ifGroupChannel() {
             
             let center = UNUserNotificationCenter.current()
             center.delegate = self
